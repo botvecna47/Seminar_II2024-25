@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Study Portal</title>
+    <!-- Using Poppins font for clean, readable text -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for simple icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="https://th.bing.com/th/id/OIP.jOLSlI8WOXBNj-R6jkuX1AAAAA?cb=iwc1&rs=1&pid=ImgDetMain">
+    <style>
+        /* Light theme by default */
+        :root {
+            --primary-color: #9b4dca;    /* Bright purple */
+            --secondary-color: #f5f5f5;   /* Light gray background */
+            --text-color: #333;          /* Dark text */
+            --card-bg: #ffffff;          /* White cards */
+            --border-color: #e0e0e0;     /* Light border */
+            --hover-color: #b06ee6;      /* Lighter purple for hover */
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark theme */
+        [data-theme="dark"] {
+            --primary-color: #9b4dca;    /* Keep purple */
+            --secondary-color: #2d1b4d;   /* Dark purple background */
+            --text-color: #e0e0e0;        /* Light text */
+            --card-bg: #3a2a5a;          /* Dark purple cards */
+            --border-color: #4a3a6a;      /* Dark border */
+            --hover-color: #b06ee6;       /* Lighter purple for hover */
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Basic reset and body styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--secondary-color);
+            color: var(--text-color);
+            margin: 0;
+            min-height: 100vh;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Updated navbar styles */
+        .navbar {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px var(--shadow-color);
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 500;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        /* Updated theme toggle button */
+        .theme-toggle {
+            background: var(--card-bg);
+            color: var(--primary-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background: var(--hover-color);
+            color: white;
+            transform: translateY(-50%) scale(1.02);
+        }
+
+        .theme-toggle i {
+            font-size: 1.1rem;
+        }
+
+        /* Feedback Button */
+        .feedback-button {
+            background: var(--card-bg);
+            color: var(--primary-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+
+        .feedback-button:hover {
+            background: var(--hover-color);
+            color: white;
+            transform: translateY(-50%) scale(1.02);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1001; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.5); 
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            margin: 15% auto; 
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .close-button {
+            color: var(--text-color);
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .modal-content h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .modal-content label {
+            display: block;
+            margin-bottom: .5rem;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            width: 100%;
+            padding: .5rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+
+        .modal-content button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: .75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .modal-content button:hover {
+            background-color: var(--hover-color);
+        }
+
+        /* Main container with max-width for readability */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Welcome section with centered text */
+        .welcome {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .welcome h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Card grid layout */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding: 0 1rem;
+        }
+
+        /* Card design with theme-aware styles */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px var(--shadow-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Logo container */
+        .card .logo {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(155, 77, 202, 0.1);
+            border-radius: 50%;
+            padding: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .card .logo img {
+            max-width: 100%;
+            height: auto;
+            filter: brightness(0.9);
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            margin: 0 0 0.5rem 0;
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            color: var(--text-color);
+            margin: 0 0 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        /* Button style with theme-aware colors */
+        .card a {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .card a:hover {
+            background: var(--hover-color);
+            transform: translateY(-2px);
+        }
+
+        /* Section headings */
+        h2 {
+            color: var(--primary-color);
+            margin: 2rem 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        /* Updated mobile styles */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .navbar h1 {
+                font-size: 1.5rem;
+                order: 2;
+            }
+
+            .theme-toggle {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                order: 1;
+                margin: 0 auto;
+            }
+
+            .container {
+                margin: 1rem 0;
+                padding: 0;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .card-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0 1rem;
+                overflow: visible;
+                width: 100%;
+            }
+
+            .card {
+                width: 100%;
+                min-width: unset;
+                max-width: unset;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
+            .welcome {
+                padding: 0 1rem;
+            }
+
+            .welcome h2 {
+                font-size: 1.5rem;
+            }
+
+            .welcome p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Small mobile devices */
+        @media screen and (max-width: 480px) {
+            .navbar {
+                padding: 0.8rem;
+            }
+
+            .navbar h1 {
+                font-size: 1.3rem;
+            }
+
+            .theme-toggle {
+                min-width: 100px;
+                padding: 0.3rem 0.6rem;
+            }
+
+            .theme-toggle i {
+                font-size: 0.9rem;
+            }
+
+            .container {
+                margin: 1rem 0;
+                padding: 0;
+            }
+
+            .card-grid {
+                padding: 0 0.8rem;
+            }
+
+            .card {
+                width: 100%;
+                min-width: unset;
+                max-width: unset;
+                margin: 0;
+            }
+
+            .welcome {
+                padding: 0 0.8rem;
+            }
+
+            .welcome h2 {
+                font-size: 1.3rem;
+            }
+
+            .welcome p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <button class="feedback-button" id="feedbackBtn">
+            <i class="fas fa-comment-dots"></i> Feedback
+        </button>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <h1>Smart Study Portal</h1>
+    </nav>
+
+    <div class="container">
+        <div class="welcome">
+            <h2>Welcome to the Smart Study Portal</h2>
+            <p>Choose a subject or programming language to start your learning journey. Each card provides resources, roadmaps, and practice questions to help you master the topic.</p>
+        </div>
+        
+        <!-- Computer Science Subjects -->
+        <h2>Computer Science Subjects</h2>
+        <div class="card-grid" id="subjectGrid">
+            <div class="card" data-title="OS Practicals">
+                <div class="logo">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux">
+                </div>
+                <h3>OS Practicals</h3>
+                <p>Simulate and visualize OS algorithms: scheduling, memory, disk, and more. Interactive and exam-ready!</p>
+                <a href="languages/os.html">Open OS Practicals</a>
+            </div>
+        </div>
+
+        <!-- Programming Languages -->
+        <h2>Programming Languages</h2>
+        <div class="card-grid" id="languageGrid">
+            <div class="card" data-title="Java">
+                <div class="logo">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+                </div>
+                <h3>Java</h3>
+                <p>Popular for enterprise, Android, and backend development. Strong OOP foundation.</p>
+                <a href="languages/java.html">Start Learning</a>
+            </div>
+            <div class="card" data-title="Python">
+                <div class="logo">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                </div>
+                <h3>Python</h3>
+                <p >Beginner-friendly, versatile, and widely used for web,<br> data science, and automation.</p>
+                <a href="languages/python.html">Start Learning</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- The Modal -->
+    <div id="feedbackModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3>Submit Feedback</h3>
+            <form id="feedbackForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="feedback">Feedback:</label>
+                <textarea id="feedback" name="feedback" rows="4" required></textarea>
+                
+                <button type="submit">Submit</button>
+            </form>
+            <p id="form-status" style="margin-top: 1rem;"></p>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update theme toggle button icon
+            const themeIcon = document.querySelector('.theme-toggle i');
+            themeIcon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        
+        // Set initial theme icon
+        const themeIcon = document.querySelector('.theme-toggle i');
+        themeIcon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+
+        // Modal Logic
+        const modal = document.getElementById("feedbackModal");
+        const btn = document.getElementById("feedbackBtn");
+        const span = document.getElementsByClassName("close-button")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Handle Form Submission
+        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const statusP = document.getElementById('form-status');
+
+            statusP.textContent = 'Submitting...';
+
+            fetch('feedback.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    statusP.textContent = 'Thank you for your feedback!';
+                    form.reset();
+                    setTimeout(() => {
+                        modal.style.display = "none";
+                        statusP.textContent = '';
+                    }, 2000);
+                } else {
+                    statusP.textContent = 'Error: ' + data.message;
+                }
+            })
+            .catch(error => {
+                statusP.textContent = 'An error occurred. Please try again.';
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

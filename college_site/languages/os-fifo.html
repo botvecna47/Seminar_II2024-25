@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFO Page Replacement Simulation - OS Practicals</title>
+    <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg">
+    <link rel="stylesheet" href="../css/os.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sim-section { background: var(--os-card); border-radius: 10px; box-shadow: 0 2px 8px var(--os-shadow); padding: 2em; margin: 2em 0; }
+        .sim-title { color: var(--primary-color); font-size: 1.3em; margin-bottom: 0.7em; }
+        .sim-desc { color: var(--os-text); margin-bottom: 1.2em; }
+        .code-area { background: #23272e; color: #e0e0e0; border-radius: 6px; padding: 1.3em 1em; font-family: 'Fira Mono', 'Consolas', monospace; font-size: 1.13em; margin-bottom: 1em; min-height: 220px; width: 55vw; max-width: 1000px; }
+        .sim-btn { background: var(--primary-color); color: #fff; border: none; border-radius: 5px; padding: 0.7em 2em; font-size: 1.1em; font-weight: 600; cursor: pointer; margin-bottom: 1.2em; transition: background 0.2s; }
+        .sim-btn:hover { background: var(--secondary-color); }
+        .sim-btn.clear-btn { background: #888; }
+        .sim-btn.clear-btn:hover { background: #666; }
+        .sim-output { background: #181c1f; color: #00e676; border-radius: 6px; padding: 1em; font-family: 'Fira Mono', 'Consolas', monospace; font-size: 1em; min-height: 80px; margin-top: 1em; white-space: pre-line; }
+        .input-section { margin: 1.5em 0; }
+        .input-section label { color: var(--os-text); font-weight: 500; margin-bottom: 0.5em; display: block; }
+        .input-section input { width: 100px; padding: 0.5em; border: 1px solid var(--os-border); border-radius: 4px; background: var(--os-light); color: var(--os-text); text-align: center; margin-right: 1em; }
+        .input-section input:focus { outline: none; border-color: var(--secondary-color); }
+        .dark-theme .input-section input { background: var(--os-card); border-color: var(--os-border); }
+        .dark-theme .input-section input:focus { background: #333; }
+        .fifo-table { border-collapse: collapse; margin: 1.5em 0; width: 100%; }
+        .fifo-table th, .fifo-table td { border: 1px solid #bbb; padding: 0.5em 0.8em; text-align: center; }
+        .fifo-table th { background: var(--primary-color); color: #fff; }
+        .fifo-table td { background: var(--os-light); }
+        .fifo-fault { background: #e57373 !important; color: #fff; font-weight: bold; }
+        .fifo-hit { background: #81c784 !important; color: #fff; font-weight: bold; }
+        @media (max-width: 700px) { .sim-section { padding: 1em; } .code-area { width: 98vw; } .input-section input { width: 80px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="os.html" class="back-button" style="font-size:1.08em; padding:0.6em 1.3em; background:var(--primary-color); color:#fff; border-radius:6px; font-weight:600; margin-right:1.2em;">&larr; Back to OS Practicals</a>
+            <div class="logo" style="background: transparent; box-shadow: none; margin-right: 0.5rem;">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="OS" width="40" height="40">
+            </div>
+            <h1>FIFO Page Replacement Simulation</h1>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">
+                <i class="fas fa-moon" id="theme-icon"></i> <span id="theme-text">Toggle Theme</span>
+            </button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="sim-section">
+            <div class="sim-title">What is FIFO Page Replacement?</div>
+            <div class="sim-desc">
+                <b>First-In First-Out (FIFO)</b> is a page replacement algorithm that replaces the oldest page in memory when a new page needs to be loaded. It is simple but can suffer from Belady's anomaly.<br><br>
+                <b>Try the simulation below:</b> Enter a reference string and number of frames, then click <b>Run Simulation</b> to see the FIFO table and page faults!
+            </div>
+            <div style="margin-bottom:0.5em; color:var(--text-color); font-size:1.05em; font-weight:500;">Reference C Implementation: FIFO Page Replacement</div>
+            <textarea id="fifo-code" class="code-area" rows="15">#include &lt;stdio.h&gt;
+
+int main() {
+    int n, frames, faults = 0, front = 0;
+    printf("Enter number of pages: ");
+    scanf("%d", &n);
+    int pages[n];
+    printf("Enter reference string: ");
+    for(int i = 0; i < n; i++) scanf("%d", &pages[i]);
+    printf("Enter number of frames: ");
+    scanf("%d", &frames);
+    int frame[frames];
+    for(int i = 0; i < frames; i++) frame[i] = -1;
+    for(int i = 0; i < n; i++) {
+        int found = 0;
+        for(int j = 0; j < frames; j++) if(frame[j] == pages[i]) { found = 1; break; }
+        if(found) continue;
+        faults++;
+        frame[front] = pages[i];
+        front = (front + 1) % frames;
+    }
+    printf("Total Page Faults: %d\n", faults);
+    return 0;
+}</textarea>
+            <div class="input-section">
+                <label for="ref-string">Reference String (space/comma separated):</label>
+                <input type="text" id="ref-string" placeholder="e.g. 7 0 1 2 0 3 0 4 2 3 0 3 2">
+                <label for="num-frames">Number of Frames:</label>
+                <input type="number" id="num-frames" value="3" min="1" max="10">
+                <button class="sim-btn" onclick="runFIFOSim()">Run Simulation</button>
+                <button class="sim-btn clear-btn" onclick="clearAll()">Clear All</button>
+            </div>
+            <div id="fifo-output" class="sim-output"></div>
+            <button class="sim-btn" onclick="downloadCode()" style="margin-top: 1.5em; background: #1976d2;">Download C Code</button>
+        </div>
+    </div>
+    <script>
+        function updateThemeButton() {
+            const theme = document.body.getAttribute('data-theme');
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'dark') {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Light Mode';
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Dark Mode';
+            }
+        }
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton();
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeButton();
+        });
+        function runFIFOSim() {
+            const refStr = document.getElementById('ref-string').value.trim();
+            const numFrames = parseInt(document.getElementById('num-frames').value);
+            if (!refStr || isNaN(numFrames) || numFrames < 1) {
+                document.getElementById('fifo-output').innerHTML = 'Please enter a valid reference string and number of frames.';
+                return;
+            }
+            const refs = refStr.split(/\s|,/).map(x => parseInt(x)).filter(x => !isNaN(x));
+            const frames = Array(numFrames).fill(-1);
+            let faults = 0, hits = 0, output = '', table = '<table class="fifo-table"><thead><tr><th>Step</th>';
+            for (let i = 0; i < numFrames; i++) table += `<th>Frame ${i+1}</th>`;
+            table += '<th>Status</th></tr></thead><tbody>';
+            let front = 0;
+            refs.forEach((page, i) => {
+                let found = false;
+                for (let j = 0; j < numFrames; j++) {
+                    if (frames[j] === page) { found = true; break; }
+                }
+                let status = '';
+                if (found) {
+                    hits++;
+                    status = '<td class="fifo-hit">Hit</td>';
+                } else {
+                    faults++;
+                    status = '<td class="fifo-fault">Fault</td>';
+                    frames[front] = page;
+                    front = (front + 1) % numFrames;
+                }
+                table += `<tr><td>${i+1} (${page})</td>`;
+                for (let j = 0; j < numFrames; j++) table += `<td>${frames[j] === -1 ? '' : frames[j]}</td>`;
+                table += status + '</tr>';
+            });
+            table += '</tbody></table>';
+            output += table;
+            output += `<br><b>Total Page Faults:</b> ${faults}<br><b>Total Hits:</b> ${hits}`;
+            document.getElementById('fifo-output').innerHTML = output;
+        }
+        function clearAll() {
+            document.getElementById('ref-string').value = '';
+            document.getElementById('num-frames').value = 3;
+            document.getElementById('fifo-output').innerHTML = '';
+            document.getElementById('fifo-code').value = `#include <stdio.h>\n\nint main() {\n    int n, frames, faults = 0, front = 0;\n    printf("Enter number of pages: ");\n    scanf("%d", &n);\n    int pages[n];\n    printf("Enter reference string: ");\n    for(int i = 0; i < n; i++) scanf("%d", &pages[i]);\n    printf("Enter number of frames: ");\n    scanf("%d", &frames);\n    int frame[frames];\n    for(int i = 0; i < frames; i++) frame[i] = -1;\n    for(int i = 0; i < n; i++) {\n        int found = 0;\n        for(int j = 0; j < frames; j++) if(frame[j] == pages[i]) { found = 1; break; }\n        if(found) continue;\n        faults++;\n        frame[front] = pages[i];\n        front = (front + 1) % frames;\n    }\n    printf("Total Page Faults: %d\\n", faults);\n    return 0;\n}`;
+        }
+        function downloadCode() {
+            const code = document.getElementById('fifo-code').value;
+            const blob = new Blob([code], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'fifo_page_replacement.c';
+            a.click();
+        }
+    </script>
+</body>
+</html> 

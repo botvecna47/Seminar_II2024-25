@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Practice Tracker</title>
+    <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/java.css">
+    <style>
+        body { font-family: 'Poppins', Arial, sans-serif; background: #f8f9fa; margin: 0; }
+        .container { max-width: 900px; margin: 2em auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); padding: 2em; }
+        h1 { text-align: center; color: #b07219; }
+        .section-title { margin-top: 2em; color: #222; border-bottom: 2px solid #eee; padding-bottom: 0.3em; }
+        ul, ol { padding-left: 1.5em; }
+        li { margin-bottom: 0.7em; position: relative; padding-left: 2em; }
+        .completed { opacity: 0.5; text-decoration: line-through; }
+        .completed label:before { content: '\2714'; color: #388e3c; font-weight: bold; position: absolute; left: 0.2em; top: 0.1em; font-size: 1.2em; }
+        .checkbox-label { cursor: pointer; }
+        .back-link { display: inline-block; margin-bottom: 1.5em; color: #1976d2; text-decoration: none; font-weight: 500; }
+        .back-link:hover { text-decoration: underline; }
+        .instructions { background: #e3f2fd; color: #1565c0; border-left: 4px solid #1976d2; padding: 1em; border-radius: 6px; margin-bottom: 2em; }
+        .week-block { margin-bottom: 2.5em; }
+        .week-title { color: #b07219; font-size: 1.2em; margin-bottom: 0.5em; }
+        .topic-list { margin-bottom: 1em; }
+        .problem-list { margin-bottom: 0.5em; }
+        @media (max-width: 600px) { .container { padding: 1em; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link home-btn" style="display:inline-block; margin-bottom:1.5em; color:#fff; background:#e65100; border-radius:6px; padding:0.4em 1.2em; font-size:0.98em; font-weight:500; text-decoration:none; box-shadow:0 2px 8px rgba(0,0,0,0.08); border:none;">&larr; Home</a>
+        <h1>Java Practice Tracker</h1>
+        <div class="instructions">
+            <strong>Instructions:</strong> Tick the checkbox next to each topic or problem as you complete it. Your progress is saved automatically in your browser and will remain even if you refresh or close the page. No login required.
+        </div>
+        <div id="bookmarked-section" style="margin-bottom:2em;"></div>
+        <!-- 12-Week Plan Tracker -->
+        <div>
+            <!-- Week 1 -->
+            <div class="week-block">
+                <div class="week-title">Week 1: Introduction to Java & Setup</div>
+                <ul class="topic-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w1-topic1"><span class="bookmark-star" data-id="java-w1-topic1">&#9734;</span><label class="checkbox-label" for="java-w1-topic1">Java Overview</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w1-topic2"><span class="bookmark-star" data-id="java-w1-topic2">&#9734;</span><label class="checkbox-label" for="java-w1-topic2">Installation & Setup</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w1-topic3"><span class="bookmark-star" data-id="java-w1-topic3">&#9734;</span><label class="checkbox-label" for="java-w1-topic3">Java Syntax</label></li>
+                </ul>
+                <ol class="problem-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w1-q1"><span class="bookmark-star" data-id="java-w1-q1">&#9734;</span><label class="checkbox-label" for="java-w1-q1">Print "Hello, World!" in Java</label></li>
+                </ol>
+            </div>
+            <!-- Week 2 -->
+            <div class="week-block">
+                <div class="week-title">Week 2: Variables, Data Types, and Operators</div>
+                <ul class="topic-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w2-topic1"><span class="bookmark-star" data-id="java-w2-topic1">&#9734;</span><label class="checkbox-label" for="java-w2-topic1">Primitive & Non-primitive types</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w2-topic2"><span class="bookmark-star" data-id="java-w2-topic2">&#9734;</span><label class="checkbox-label" for="java-w2-topic2">Type casting, literals</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w2-topic3"><span class="bookmark-star" data-id="java-w2-topic3">&#9734;</span><label class="checkbox-label" for="java-w2-topic3">Arithmetic, relational, logical, bitwise operators</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w2-topic4"><span class="bookmark-star" data-id="java-w2-topic4">&#9734;</span><label class="checkbox-label" for="java-w2-topic4">Expressions & precedence</label></li>
+                </ul>
+                <ol class="problem-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w2-q1"><span class="bookmark-star" data-id="java-w2-q1">&#9734;</span><label class="checkbox-label" for="java-w2-q1">Print the product of two numbers</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w2-q2"><span class="bookmark-star" data-id="java-w2-q2">&#9734;</span><label class="checkbox-label" for="java-w2-q2">Print the sum, difference, product, and average of two numbers</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w2-q3"><span class="bookmark-star" data-id="java-w2-q3">&#9734;</span><label class="checkbox-label" for="java-w2-q3">Print the remainder of two numbers</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w2-q4"><span class="bookmark-star" data-id="java-w2-q4">&#9734;</span><label class="checkbox-label" for="java-w2-q4">Swap two variables</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w2-q5"><span class="bookmark-star" data-id="java-w2-q5">&#9734;</span><label class="checkbox-label" for="java-w2-q5">Multiply two binary numbers</label></li>
+                </ol>
+            </div>
+            <!-- Week 3 -->
+            <div class="week-block">
+                <div class="week-title">Week 3: Control Flow Statements</div>
+                <ul class="topic-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w3-topic1"><span class="bookmark-star" data-id="java-w3-topic1">&#9734;</span><label class="checkbox-label" for="java-w3-topic1">If-Else Statements</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w3-topic2"><span class="bookmark-star" data-id="java-w3-topic2">&#9734;</span><label class="checkbox-label" for="java-w3-topic2">Switch Statements</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w3-topic3"><span class="bookmark-star" data-id="java-w3-topic3">&#9734;</span><label class="checkbox-label" for="java-w3-topic3">While & Do-While Loops</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w3-topic4"><span class="bookmark-star" data-id="java-w3-topic4">&#9734;</span><label class="checkbox-label" for="java-w3-topic4">For Loops & Enhanced For</label></li>
+                </ul>
+                <ol class="problem-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w3-q1"><span class="bookmark-star" data-id="java-w3-q1">&#9734;</span><label class="checkbox-label" for="java-w3-q1">Check if a number is positive or negative</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w3-q2"><span class="bookmark-star" data-id="java-w3-q2">&#9734;</span><label class="checkbox-label" for="java-w3-q2">Find the largest of three numbers</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w3-q3"><span class="bookmark-star" data-id="java-w3-q3">&#9734;</span><label class="checkbox-label" for="java-w3-q3">Check if a year is a leap year</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w3-q4"><span class="bookmark-star" data-id="java-w3-q4">&#9734;</span><label class="checkbox-label" for="java-w3-q4">Calculate electricity bill</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w3-q5"><span class="bookmark-star" data-id="java-w3-q5">&#9734;</span><label class="checkbox-label" for="java-w3-q5">Create a grade calculator</label></li>
+                </ol>
+            </div>
+            <!-- Week 4 -->
+            <div class="week-block">
+                <div class="week-title">Week 4: Methods & Functions</div>
+                <ul class="topic-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w4-topic1"><span class="bookmark-star" data-id="java-w4-topic1">&#9734;</span><label class="checkbox-label" for="java-w4-topic1">Method Basics</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w4-topic2"><span class="bookmark-star" data-id="java-w4-topic2">&#9734;</span><label class="checkbox-label" for="java-w4-topic2">Method Parameters</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w4-topic3"><span class="bookmark-star" data-id="java-w4-topic3">&#9734;</span><label class="checkbox-label" for="java-w4-topic3">Method Overloading</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w4-topic4"><span class="bookmark-star" data-id="java-w4-topic4">&#9734;</span><label class="checkbox-label" for="java-w4-topic4">Recursion</label></li>
+                </ul>
+                <ol class="problem-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w4-q1"><span class="bookmark-star" data-id="java-w4-q1">&#9734;</span><label class="checkbox-label" for="java-w4-q1">Calculate factorial using recursion</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w4-q2"><span class="bookmark-star" data-id="java-w4-q2">&#9734;</span><label class="checkbox-label" for="java-w4-q2">Check if a number is prime</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w4-q3"><span class="bookmark-star" data-id="java-w4-q3">&#9734;</span><label class="checkbox-label" for="java-w4-q3">Generate Fibonacci sequence</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w4-q4"><span class="bookmark-star" data-id="java-w4-q4">&#9734;</span><label class="checkbox-label" for="java-w4-q4">Implement bubble sort</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w4-q5"><span class="bookmark-star" data-id="java-w4-q5">&#9734;</span><label class="checkbox-label" for="java-w4-q5">Solve Tower of Hanoi</label></li>
+                </ol>
+            </div>
+            <!-- Week 5 -->
+            <div class="week-block">
+                <div class="week-title">Week 5: Arrays & Collections</div>
+                <ul class="topic-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w5-topic1"><span class="bookmark-star" data-id="java-w5-topic1">&#9734;</span><label class="checkbox-label" for="java-w5-topic1">Single & Multi-dimensional Arrays</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w5-topic2"><span class="bookmark-star" data-id="java-w5-topic2">&#9734;</span><label class="checkbox-label" for="java-w5-topic2">ArrayList</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w5-topic3"><span class="bookmark-star" data-id="java-w5-topic3">&#9734;</span><label class="checkbox-label" for="java-w5-topic3">LinkedList</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w5-topic4"><span class="bookmark-star" data-id="java-w5-topic4">&#9734;</span><label class="checkbox-label" for="java-w5-topic4">HashMap</label></li>
+                </ul>
+                <ol class="problem-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w5-q1"><span class="bookmark-star" data-id="java-w5-q1">&#9734;</span><label class="checkbox-label" for="java-w5-q1">Find sum and average of array elements</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w5-q2"><span class="bookmark-star" data-id="java-w5-q2">&#9734;</span><label class="checkbox-label" for="java-w5-q2">Find maximum and minimum values</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w5-q3"><span class="bookmark-star" data-id="java-w5-q3">&#9734;</span><label class="checkbox-label" for="java-w5-q3">Remove duplicates from array</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w5-q4"><span class="bookmark-star" data-id="java-w5-q4">&#9734;</span><label class="checkbox-label" for="java-w5-q4">Merge two sorted arrays</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w5-q5"><span class="bookmark-star" data-id="java-w5-q5">&#9734;</span><label class="checkbox-label" for="java-w5-q5">Implement matrix operations</label></li>
+                </ol>
+            </div>
+            <!-- Week 6 -->
+            <div class="week-block">
+                <div class="week-title">Week 6: Object-Oriented Programming Basics</div>
+                <ul class="topic-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w6-topic1"><span class="bookmark-star" data-id="java-w6-topic1">&#9734;</span><label class="checkbox-label" for="java-w6-topic1">OOP Concepts</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w6-topic2"><span class="bookmark-star" data-id="java-w6-topic2">&#9734;</span><label class="checkbox-label" for="java-w6-topic2">Classes & Objects</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w6-topic3"><span class="bookmark-star" data-id="java-w6-topic3">&#9734;</span><label class="checkbox-label" for="java-w6-topic3">Constructors</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w6-topic4"><span class="bookmark-star" data-id="java-w6-topic4">&#9734;</span><label class="checkbox-label" for="java-w6-topic4">Encapsulation</label></li>
+                </ul>
+                <ol class="problem-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w6-q1"><span class="bookmark-star" data-id="java-w6-q1">&#9734;</span><label class="checkbox-label" for="java-w6-q1">Create a Student class</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w6-q2"><span class="bookmark-star" data-id="java-w6-q2">&#9734;</span><label class="checkbox-label" for="java-w6-q2">Implement a Rectangle class</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w6-q3"><span class="bookmark-star" data-id="java-w6-q3">&#9734;</span><label class="checkbox-label" for="java-w6-q3">Create a Bank Account system</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w6-q4"><span class="bookmark-star" data-id="java-w6-q4">&#9734;</span><label class="checkbox-label" for="java-w6-q4">Implement a Library management system</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w6-q5"><span class="bookmark-star" data-id="java-w6-q5">&#9734;</span><label class="checkbox-label" for="java-w6-q5">Create an Employee management system</label></li>
+                </ol>
+            </div>
+            <!-- Week 7 -->
+            <div class="week-block">
+                <div class="week-title">Week 7: Inheritance & Polymorphism</div>
+                <ul class="topic-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w7-topic1"><span class="bookmark-star" data-id="java-w7-topic1">&#9734;</span><label class="checkbox-label" for="java-w7-topic1">Inheritance</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w7-topic2"><span class="bookmark-star" data-id="java-w7-topic2">&#9734;</span><label class="checkbox-label" for="java-w7-topic2">Polymorphism</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w7-topic3"><span class="bookmark-star" data-id="java-w7-topic3">&#9734;</span><label class="checkbox-label" for="java-w7-topic3">Abstract Classes</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w7-topic4"><span class="bookmark-star" data-id="java-w7-topic4">&#9734;</span><label class="checkbox-label" for="java-w7-topic4">Interfaces</label></li>
+                </ul>
+                <ol class="problem-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w7-q1"><span class="bookmark-star" data-id="java-w7-q1">&#9734;</span><label class="checkbox-label" for="java-w7-q1">Create a Shape hierarchy</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w7-q2"><span class="bookmark-star" data-id="java-w7-q2">&#9734;</span><label class="checkbox-label" for="java-w7-q2">Implement an Animal class hierarchy</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w7-q3"><span class="bookmark-star" data-id="java-w7-q3">&#9734;</span><label class="checkbox-label" for="java-w7-q3">Create a Vehicle rental system</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w7-q4"><span class="bookmark-star" data-id="java-w7-q4">&#9734;</span><label class="checkbox-label" for="java-w7-q4">Implement a Media player system</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w7-q5"><span class="bookmark-star" data-id="java-w7-q5">&#9734;</span><label class="checkbox-label" for="java-w7-q5">Create a Payment processing system</label></li>
+                </ol>
+            </div>
+            <!-- Week 8 -->
+            <div class="week-block">
+                <div class="week-title">Week 8: Exception Handling & File I/O</div>
+                <ul class="topic-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w8-topic1"><span class="bookmark-star" data-id="java-w8-topic1">&#9734;</span><label class="checkbox-label" for="java-w8-topic1">Try-Catch Blocks</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w8-topic2"><span class="bookmark-star" data-id="java-w8-topic2">&#9734;</span><label class="checkbox-label" for="java-w8-topic2">Exception Types</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w8-topic3"><span class="bookmark-star" data-id="java-w8-topic3">&#9734;</span><label class="checkbox-label" for="java-w8-topic3">File Operations</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w8-topic4"><span class="bookmark-star" data-id="java-w8-topic4">&#9734;</span><label class="checkbox-label" for="java-w8-topic4">File Reading & Writing</label></li>
+                </ul>
+                <ol class="problem-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w8-q1"><span class="bookmark-star" data-id="java-w8-q1">&#9734;</span><label class="checkbox-label" for="java-w8-q1">Handle division by zero</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w8-q2"><span class="bookmark-star" data-id="java-w8-q2">&#9734;</span><label class="checkbox-label" for="java-w8-q2">Validate user input</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w8-q3"><span class="bookmark-star" data-id="java-w8-q3">&#9734;</span><label class="checkbox-label" for="java-w8-q3">Create a file logger</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w8-q4"><span class="bookmark-star" data-id="java-w8-q4">&#9734;</span><label class="checkbox-label" for="java-w8-q4">Implement a file backup system</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w8-q5"><span class="bookmark-star" data-id="java-w8-q5">&#9734;</span><label class="checkbox-label" for="java-w8-q5">Create a file encryption system</label></li>
+                </ol>
+            </div>
+            <!-- Week 9 -->
+            <div class="week-block">
+                <div class="week-title">Week 9: Collections Framework</div>
+                <ul class="topic-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w9-topic1"><span class="bookmark-star" data-id="java-w9-topic1">&#9734;</span><label class="checkbox-label" for="java-w9-topic1">List Interface & ArrayList</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w9-topic2"><span class="bookmark-star" data-id="java-w9-topic2">&#9734;</span><label class="checkbox-label" for="java-w9-topic2">Set Interface & HashSet</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w9-topic3"><span class="bookmark-star" data-id="java-w9-topic3">&#9734;</span><label class="checkbox-label" for="java-w9-topic3">Map Interface & HashMap</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w9-topic4"><span class="bookmark-star" data-id="java-w9-topic4">&#9734;</span><label class="checkbox-label" for="java-w9-topic4">Queue & Stack</label></li>
+                </ul>
+                <ol class="problem-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w9-q1"><span class="bookmark-star" data-id="java-w9-q1">&#9734;</span><label class="checkbox-label" for="java-w9-q1">Implement a shopping cart using ArrayList</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w9-q2"><span class="bookmark-star" data-id="java-w9-q2">&#9734;</span><label class="checkbox-label" for="java-w9-q2">Create a unique word counter using HashSet</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w9-q3"><span class="bookmark-star" data-id="java-w9-q3">&#9734;</span><label class="checkbox-label" for="java-w9-q3">Build a student grade tracker using HashMap</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w9-q4"><span class="bookmark-star" data-id="java-w9-q4">&#9734;</span><label class="checkbox-label" for="java-w9-q4">Implement a task scheduler using PriorityQueue</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w9-q5"><span class="bookmark-star" data-id="java-w9-q5">&#9734;</span><label class="checkbox-label" for="java-w9-q5">Create a social network friend system</label></li>
+                </ol>
+            </div>
+            <!-- Week 10 -->
+            <div class="week-block">
+                <div class="week-title">Week 10: Multithreading</div>
+                <ul class="topic-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w10-topic1"><span class="bookmark-star" data-id="java-w10-topic1">&#9734;</span><label class="checkbox-label" for="java-w10-topic1">Thread Basics</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w10-topic2"><span class="bookmark-star" data-id="java-w10-topic2">&#9734;</span><label class="checkbox-label" for="java-w10-topic2">Thread Synchronization</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w10-topic3"><span class="bookmark-star" data-id="java-w10-topic3">&#9734;</span><label class="checkbox-label" for="java-w10-topic3">Thread Pools</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w10-topic4"><span class="bookmark-star" data-id="java-w10-topic4">&#9734;</span><label class="checkbox-label" for="java-w10-topic4">Deadlock Prevention</label></li>
+                </ul>
+                <ol class="problem-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w10-q1"><span class="bookmark-star" data-id="java-w10-q1">&#9734;</span><label class="checkbox-label" for="java-w10-q1">Create a counter with threads</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w10-q2"><span class="bookmark-star" data-id="java-w10-q2">&#9734;</span><label class="checkbox-label" for="java-w10-q2">Implement a simple producer-consumer</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w10-q3"><span class="bookmark-star" data-id="java-w10-q3">&#9734;</span><label class="checkbox-label" for="java-w10-q3">Create a thread-safe queue</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w10-q4"><span class="bookmark-star" data-id="java-w10-q4">&#9734;</span><label class="checkbox-label" for="java-w10-q4">Implement a thread pool</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w10-q5"><span class="bookmark-star" data-id="java-w10-q5">&#9734;</span><label class="checkbox-label" for="java-w10-q5">Build a concurrent file processor</label></li>
+                </ol>
+            </div>
+            <!-- Week 11 -->
+            <div class="week-block">
+                <div class="week-title">Week 11: Advanced Java Features</div>
+                <ul class="topic-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w11-topic1"><span class="bookmark-star" data-id="java-w11-topic1">&#9734;</span><label class="checkbox-label" for="java-w11-topic1">Lambda Expressions</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w11-topic2"><span class="bookmark-star" data-id="java-w11-topic2">&#9734;</span><label class="checkbox-label" for="java-w11-topic2">Streams API</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w11-topic3"><span class="bookmark-star" data-id="java-w11-topic3">&#9734;</span><label class="checkbox-label" for="java-w11-topic3">Annotations</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w11-topic4"><span class="bookmark-star" data-id="java-w11-topic4">&#9734;</span><label class="checkbox-label" for="java-w11-topic4">Generics</label></li>
+                </ul>
+                <ol class="problem-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w11-q1"><span class="bookmark-star" data-id="java-w11-q1">&#9734;</span><label class="checkbox-label" for="java-w11-q1">Use lambda expressions</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w11-q2"><span class="bookmark-star" data-id="java-w11-q2">&#9734;</span><label class="checkbox-label" for="java-w11-q2">Process collections with streams</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w11-q3"><span class="bookmark-star" data-id="java-w11-q3">&#9734;</span><label class="checkbox-label" for="java-w11-q3">Create generic data structures</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w11-q4"><span class="bookmark-star" data-id="java-w11-q4">&#9734;</span><label class="checkbox-label" for="java-w11-q4">Implement custom annotations</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w11-q5"><span class="bookmark-star" data-id="java-w11-q5">&#9734;</span><label class="checkbox-label" for="java-w11-q5">Build a data processing pipeline</label></li>
+                </ol>
+            </div>
+            <!-- Week 12 -->
+            <div class="week-block">
+                <div class="week-title">Week 12: Project & Review</div>
+                <ul class="topic-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w12-topic1"><span class="bookmark-star" data-id="java-w12-topic1">&#9734;</span><label class="checkbox-label" for="java-w12-topic1">Project Structure</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w12-topic2"><span class="bookmark-star" data-id="java-w12-topic2">&#9734;</span><label class="checkbox-label" for="java-w12-topic2">Best Practices</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w12-topic3"><span class="bookmark-star" data-id="java-w12-topic3">&#9734;</span><label class="checkbox-label" for="java-w12-topic3">Code Review</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w12-topic4"><span class="bookmark-star" data-id="java-w12-topic4">&#9734;</span><label class="checkbox-label" for="java-w12-topic4">Testing & Debugging</label></li>
+                </ul>
+                <ol class="problem-list">
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w12-q1"><span class="bookmark-star" data-id="java-w12-q1">&#9734;</span><label class="checkbox-label" for="java-w12-q1">Create a simple calculator application</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w12-q2"><span class="bookmark-star" data-id="java-w12-q2">&#9734;</span><label class="checkbox-label" for="java-w12-q2">Build a todo list manager</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w12-q3"><span class="bookmark-star" data-id="java-w12-q3">&#9734;</span><label class="checkbox-label" for="java-w12-q3">Develop a student management system</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w12-q4"><span class="bookmark-star" data-id="java-w12-q4">&#9734;</span><label class="checkbox-label" for="java-w12-q4">Create a file management utility</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="java-w12-q5"><span class="bookmark-star" data-id="java-w12-q5">&#9734;</span><label class="checkbox-label" for="java-w12-q5">Build a multi-threaded chat application</label></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function() {
+        const pageKey = 'java-tracker';
+        const checkboxes = document.querySelectorAll('.completion-checkbox');
+        checkboxes.forEach(cb => {
+            const storageKey = `${pageKey}-completed-${cb.id}`;
+            // Restore state
+            if (localStorage.getItem(storageKey) === 'true') {
+                cb.checked = true;
+                cb.closest('li')?.classList.add('completed');
+            }
+            // Listen for changes
+            cb.addEventListener('change', function() {
+                localStorage.setItem(storageKey, cb.checked);
+                if (cb.checked) {
+                    cb.closest('li')?.classList.add('completed');
+                } else {
+                    cb.closest('li')?.classList.remove('completed');
+                }
+            });
+        });
+    })();
+    </script>
+</body>
+</html> 

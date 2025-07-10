@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Programming - Smart Study Portal</title>
+    <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg">
+    <link rel="stylesheet" href="../css/java.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="logo" style="background: transparent; box-shadow: none; margin-right: 0.5rem;">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"
+                    width="40" height="40">
+            </div>
+            <h1>Java Programming</h1>
+            <!-- Rating Widget Start -->
+            <div class="rating-section" style="margin-top: 1rem;">
+                <span id="rating-label">Rate this page:</span>
+                <span id="star-container">
+                    <i class="fa fa-star star" data-value="1"></i>
+                    <i class="fa fa-star star" data-value="2"></i>
+                    <i class="fa fa-star star" data-value="3"></i>
+                    <i class="fa fa-star star" data-value="4"></i>
+                    <i class="fa fa-star star" data-value="5"></i>
+                </span>
+                <span id="avg-rating" style="margin-left: 1rem; font-weight: 500;"></span>
+            </div>
+            <!-- Rating Widget End -->
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i> Toggle Theme
+            </button>
+        </div>
+    </nav>
+    <nav class="section-navbar">
+        <a data-section="courses">Courses</a>
+        <a data-section="resources">Resources</a>
+        <a data-section="practice-platforms">Practice Platforms</a>
+        <a data-section="roadmap">12-Week Roadmap</a>
+    </nav>
+
+    <!-- Practice Tracker and Take Quiz Buttons (side by side below navbars) -->
+    <div style="display:flex; justify-content:center; gap:1.5rem; margin-top: 2.5rem; margin-bottom: 1rem;">
+        <a href="java-tracker.html" style="display:inline-block; padding:0.75em 2em; background:#4CAF50; color:white; border-radius:8px; font-weight:600; text-decoration:none; font-size:1.1em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Practice Tracker</a>
+        <a href="java-quiz.html" style="display:inline-block; padding:0.75em 2em; background:#1976d2; color:white; border-radius:8px; font-weight:600; text-decoration:none; font-size:1.1em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Take Quiz</a>
+    </div>
+
+    <!-- Section contents -->
+    <div class="section-content" id="section-courses">
+        <!-- Course Cards Section -->
+        <div class="course-cards">
+            <div class="course-card">
+                <h3>Java for Beginners – Infosys Springboard</h3>
+                <div class="course-details">
+                    <span><i class="far fa-clock"></i> Duration: 8 weeks</span>
+                    <span><i class="fas fa-tag"></i> Price: Free</span>
+                    <span><i class="fas fa-star"></i> Rating: 4.6/5</span>
+                    <span><i class="fas fa-signal"></i> Level: Beginner to Intermediate</span>
+                    <span><i class="fas fa-list"></i> Features: Java basics, Arrays, Functions, OOP</span>
+                    <span><i class="fas fa-globe"></i> Platform: Infosys Springboard</span>
+                </div>
+                <a href="https://infyspringboard.onwingspan.com/web/en/app/toc/lex_auth_013104889312124928168_shared/overview" target="_blank" class="course-link">View Course</a>
+            </div>
+            <div class="course-card">
+                <h3>Object-Oriented Programming in Java – Coursera</h3>
+                <div class="course-details">
+                    <span><i class="far fa-clock"></i> Duration: 4 weeks</span>
+                    <span><i class="fas fa-tag"></i> Price: Free (Certificate: ₹3,999)</span>
+                    <span><i class="fas fa-star"></i> Rating: 4.8/5</span>
+                    <span><i class="fas fa-signal"></i> Level: Intermediate</span>
+                    <span><i class="fas fa-list"></i> Features: OOP, Classes, Inheritance, Projects</span>
+                    <span><i class="fas fa-globe"></i> Platform: Coursera</span>
+                </div>
+                <a href="https://www.coursera.org/learn/object-oriented-java" target="_blank" class="course-link">View Course</a>
+            </div>
+            <div class="course-card">
+                <h3>Java Programming Masterclass – Udemy</h3>
+                <div class="course-details">
+                    <span><i class="far fa-clock"></i> Duration: 80+ hours</span>
+                    <span><i class="fas fa-tag"></i> Price: ₹3,499</span>
+                    <span><i class="fas fa-star"></i> Rating: 4.7/5</span>
+                    <span><i class="fas fa-signal"></i> Level: Beginner to Advanced</span>
+                    <span><i class="fas fa-list"></i> Features: Complete Java, OOP, DSA, Projects</span>
+                    <span><i class="fas fa-globe"></i> Platform: Udemy</span>
+                </div>
+                <a href="https://www.udemy.com/course/java-the-complete-java-developer-course/" target="_blank" class="course-link">View Course</a>
+            </div>
+        </div>
+    </div>
+    <div class="section-content" id="section-resources" style="display:none;">
+        <!-- More Resources Section -->
+        <div class="card-section">
+            <h2>More Resources</h2>
+            <hr>
+        </div>
+        <div class="course-cards" style="margin-top: 2rem;">
+            <div class="course-card">
+                <h3>Java Developer (Hyperskill)</h3>
+                <div class="course-details">
+                    <span><i class="far fa-clock"></i> Duration: Self-paced</span>
+                    <span><i class="fas fa-tag"></i> Price: Free</span>
+                    <span><i class="fas fa-signal"></i> Level: Beginner to Advanced</span>
+                    <span><i class="fas fa-graduation-cap"></i> Format: Interactive</span>
+                    <span><i class="fas fa-certificate"></i> Certificate: Yes</span>
+                    <span><i class="fas fa-list"></i> Features: Learn essential Java development skills, from basic syntax to advanced features</span>
+                </div>
+                <a href="https://hyperskill.org/tracks/8" target="_blank" class="course-link">Start Learning</a>
+            </div>
+            <div class="course-card">
+                <h3>Java Backend Developer (Spring Boot)</h3>
+                <div class="course-details">
+                    <span><i class="far fa-clock"></i> Duration: Self-paced</span>
+                    <span><i class="fas fa-tag"></i> Price: Free</span>
+                    <span><i class="fas fa-signal"></i> Level: Intermediate to Advanced</span>
+                    <span><i class="fas fa-graduation-cap"></i> Format: Interactive</span>
+                    <span><i class="fas fa-certificate"></i> Certificate: Yes</span>
+                    <span><i class="fas fa-list"></i> Features: Master Java with Spring Boot to build strong web apps</span>
+                </div>
+                <a href="https://hyperskill.org/tracks/17" target="_blank" class="course-link">Start Learning</a>
+            </div>
+            <div class="course-card">
+                <h3>Introduction to IDE Code Refactoring in Java</h3>
+                <div class="course-details">
+                    <span><i class="far fa-clock"></i> Duration: Self-paced</span>
+                    <span><i class="fas fa-tag"></i> Price: Free</span>
+                    <span><i class="fas fa-signal"></i> Level: Beginner to Intermediate</span>
+                    <span><i class="fas fa-graduation-cap"></i> Format: Video + Interactive</span>
+                    <span><i class="fas fa-certificate"></i> Certificate: Yes</span>
+                    <span><i class="fas fa-list"></i> Features: Learn to recognize and perform code refactorings using IDE features</span>
+                </div>
+                <a href="https://academy.jetbrains.com/courses/introduction-to-ide-code-refactoring-in-java" target="_blank" class="course-link">Start Learning</a>
+            </div>
+        </div>
+    </div>
+    <div class="section-content" id="section-practice-platforms" style="display:none;">
+        <!-- Practice Platforms Section -->
+        <div class="card-section">
+            <h2>Practice Platforms</h2>
+            <hr>
+            <div class="platform-cards">
+                <div class="platform-card">
+                    <h3><i class="fas fa-code"></i> CodingBat</h3>
+                    <div class="platform-details">
+                        <span><i class="fas fa-list"></i> Practice Java basics and OOP with interactive problems.</span>
+                        <span><i class="fas fa-signal"></i> Level: Beginner to Intermediate</span>
+                        <span><i class="fas fa-certificate"></i> Certificate: No</span>
+                    </div>
+                    <a href="https://codingbat.com/java" target="_blank" class="platform-link">Start Practicing</a>
+                </div>
+                <div class="platform-card">
+                    <h3><i class="fas fa-laptop-code"></i> HackerRank</h3>
+                    <div class="platform-details">
+                        <span><i class="fas fa-list"></i> Learn Java and DSA through challenges and earn certificates.</span>
+                        <span><i class="fas fa-signal"></i> Level: Beginner to Advanced</span>
+                        <span><i class="fas fa-certificate"></i> Certificate: Yes</span>
+                    </div>
+                    <a href="https://www.hackerrank.com/domains/java" target="_blank" class="platform-link">Start Practicing</a>
+                </div>
+                <div class="platform-card">
+                    <h3><i class="fas fa-trophy"></i> GeeksforGeeks</h3>
+                    <div class="platform-details">
+                        <span><i class="fas fa-list"></i> Practice Java and DSA problems, participate in contests.</span>
+                        <span><i class="fas fa-signal"></i> Level: Beginner to Advanced</span>
+                        <span><i class="fas fa-certificate"></i> Certificate: Yes</span>
+                    </div>
+                    <a href="https://practice.geeksforgeeks.org/explore?page=1&category[]=Java" target="_blank" class="platform-link">Start Practicing</a>
+                </div>
+                <div class="platform-card">
+                    <h3><i class="fas fa-brain"></i> LeetCode</h3>
+                    <div class="platform-details">
+                        <span><i class="fas fa-list"></i> Practice Java DSA and prepare for interviews.</span>
+                        <span><i class="fas fa-signal"></i> Level: Intermediate to Advanced</span>
+                        <span><i class="fas fa-certificate"></i> Certificate: Yes</span>
+                    </div>
+                    <a href="https://leetcode.com/tag/java/" target="_blank" class="platform-link">Start Practicing</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section-content" id="section-roadmap" style="display:none;">
+        <div class="roadmap-section">
+            <div class="roadmap-flex">
+                <nav class="week-navbar">
+                    <a data-week="1">Week 1</a>
+                    <a data-week="2">Week 2</a>
+                    <a data-week="3">Week 3</a>
+                    <a data-week="4">Week 4</a>
+                    <a data-week="5">Week 5</a>
+                    <a data-week="6">Week 6</a>
+                    <a data-week="7">Week 7</a>
+                    <a data-week="8">Week 8</a>
+                    <a data-week="9">Week 9</a>
+                    <a data-week="10">Week 10</a>
+                    <a data-week="11">Week 11</a>
+                    <a data-week="12">Week 12</a>
+                </nav>
+                <div class="week-content-area">
+                    <div class="week-section" data-week="1" style="display:block;">
+                        <h5>Week 1: Introduction to Java & Setup</h5>
+                        <div class="roadmap-content">
+                            <div class="topic-card">
+                                <h6><i class="fas fa-list-check"></i> Topics Covered</h6>
+                                <ul>
+                                    <li><a href="https://www.w3schools.com/java/java_intro.asp" target="_blank"><i class="fas fa-code"></i> Java Overview</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_getstarted.asp" target="_blank"><i class="fas fa-laptop"></i> Installation & Setup</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_syntax.asp" target="_blank"><i class="fas fa-code"></i> Java Syntax</a></li>
+                                </ul>
+                            </div>
+                            <div class="practice-questions">
+                                <h5>Easy</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w1-q1')">
+                                            <span><i class="fas fa-star"></i> Print "Hello, World!" in Java</span>
+                                        </div>
+                                        <div id="java-w1-q1" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to print 'Hello' on screen and your name on a separate line.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Hello
+Alexandra Abramov</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="week-section" data-week="2" style="display:none;">
+                        <h5>Week 2: Variables, Data Types, and Operators</h5>
+                        <div class="roadmap-content">
+                            <div class="topic-card">
+                                <h6><i class="fas fa-list-check"></i> Topics Covered</h6>
+                                <ul>
+                                    <li><a href="https://www.w3schools.com/java/java_variables.asp" target="_blank"><i class="fas fa-code"></i> Primitive & Non-primitive types</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_type_casting.asp" target="_blank"><i class="fas fa-exchange-alt"></i> Type casting, literals</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_operators.asp" target="_blank"><i class="fas fa-calculator"></i> Arithmetic, relational, logical, bitwise operators</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_operators.asp" target="_blank"><i class="fas fa-sort-numeric-down"></i> Expressions & precedence</a></li>
+                                </ul>
+                            </div>
+                            <div class="practice-questions">
+                                <h5>Easy</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w2-q1')">
+                                            <span><i class="fas fa-star"></i> Print the product of two numbers</span>
+                                        </div>
+                                        <div id="java-w2-q1" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program that takes two numbers as input and displays the product of two numbers.</p>
+                                            <ul>
+                                                <li>Input first number: 25</li>
+                                                <li>Input second number: 5</li>
+                                            </ul>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>25 x 5 = 125</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w2-q2')">
+                                            <span><i class="fas fa-star"></i> Print the sum, difference, product, and average of two numbers</span>
+                                        </div>
+                                        <div id="java-w2-q2" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to print the sum (addition), multiply, subtract, divide and remainder of two numbers.</p>
+                                            <ul>
+                                                <li>Input first number: 125</li>
+                                                <li>Input second number: 24</li>
+                                            </ul>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>125 + 24 = 149
+125 - 24 = 101
+125 x 24 = 3000
+125 / 24 = 5
+125 mod 24 = 5</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Medium</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w2-q3')">
+                                            <span><i class="fas fa-star"></i> Print the remainder of two numbers</span>
+                                        </div>
+                                        <div id="java-w2-q3" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to print the remainder of two numbers.</p>
+                                            <ul>
+                                                <li>Input first number: 27</li>
+                                                <li>Input second number: 4</li>
+                                            </ul>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>27 mod 4 = 3</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w2-q4')">
+                                            <span><i class="fas fa-star"></i> Swap two variables</span>
+                                        </div>
+                                        <div id="java-w2-q4" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to swap two variables.</p>
+                                            <ul>
+                                                <li>Input first variable: 5</li>
+                                                <li>Input second variable: 10</li>
+                                            </ul>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Before swapping: a = 5, b = 10
+After swapping: a = 10, b = 5</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Hard</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w2-q5')">
+                                            <span><i class="fas fa-star"></i> Multiply two binary numbers</span>
+                                        </div>
+                                        <div id="java-w2-q5" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to multiply two binary numbers.</p>
+                                            <ul>
+                                                <li>Input first binary number: 10</li>
+                                                <li>Input second binary number: 11</li>
+                                            </ul>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Product of two binary numbers: 110</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="week-section" data-week="3" style="display:none;">
+                        <h5>Week 3: Control Flow Statements</h5>
+                        <div class="roadmap-content">
+                            <div class="topic-card">
+                                <h6><i class="fas fa-list-check"></i> Topics Covered</h6>
+                                <ul>
+                                    <li><a href="https://www.w3schools.com/java/java_conditions.asp" target="_blank"><i class="fas fa-code"></i> If-Else Statements</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_switch.asp" target="_blank"><i class="fas fa-code"></i> Switch Statements</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_while_loop.asp" target="_blank"><i class="fas fa-code"></i> While & Do-While Loops</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_for_loop.asp" target="_blank"><i class="fas fa-code"></i> For Loops & Enhanced For</a></li>
+                                </ul>
+                            </div>
+                            <div class="practice-questions">
+                                <h5>Easy</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w3-q1')">
+                                            <span><i class="fas fa-star"></i> Check if a number is positive or negative</span>
+                                        </div>
+                                        <div id="java-w3-q1" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to check if a number is positive or negative.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter a number: 
+The number is positive.</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w3-q2')">
+                                            <span><i class="fas fa-star"></i> Find the largest of three numbers</span>
+                                        </div>
+                                        <div id="java-w3-q2" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to find the largest of three numbers.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter three numbers: 
+The largest number is: 25</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Medium</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w3-q3')">
+                                            <span><i class="fas fa-star"></i> Check if a year is a leap year</span>
+                                        </div>
+                                        <div id="java-w3-q3" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to check if a year is a leap year.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter a year: 
+The year is a leap year.</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w3-q4')">
+                                            <span><i class="fas fa-star"></i> Calculate electricity bill</span>
+                                        </div>
+                                        <div id="java-w3-q4" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to calculate electricity bill based on the units consumed.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter units consumed: 
+The electricity bill is: ₹150</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Hard</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w3-q5')">
+                                            <span><i class="fas fa-star"></i> Create a grade calculator</span>
+                                        </div>
+                                        <div id="java-w3-q5" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to calculate the grade based on the marks obtained.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter marks obtained: 
+The grade is: B</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="week-section" data-week="4" style="display:none;">
+                        <h5>Week 4: Methods & Functions</h5>
+                        <div class="roadmap-content">
+                            <div class="topic-card">
+                                <h6><i class="fas fa-list-check"></i> Topics Covered</h6>
+                                <ul>
+                                    <li><a href="https://www.w3schools.com/java/java_methods.asp" target="_blank"><i class="fas fa-code"></i> Method Basics</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_methods_param.asp" target="_blank"><i class="fas fa-code"></i> Method Parameters</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_methods_overloading.asp" target="_blank"><i class="fas fa-code"></i> Method Overloading</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_recursion.asp" target="_blank"><i class="fas fa-code"></i> Recursion</a></li>
+                                </ul>
+                            </div>
+                            <div class="practice-questions">
+                                <h5>Easy</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w4-q1')">
+                                            <span><i class="fas fa-star"></i> Calculate factorial using recursion</span>
+                                        </div>
+                                        <div id="java-w4-q1" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to calculate the factorial of a number using recursion.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter a number: 
+Factorial of 5 is: 120</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w4-q2')">
+                                            <span><i class="fas fa-star"></i> Check if a number is prime</span>
+                                        </div>
+                                        <div id="java-w4-q2" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to check if a number is prime.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter a number: 
+The number is prime.</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Medium</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w4-q3')">
+                                            <span><i class="fas fa-star"></i> Generate Fibonacci sequence</span>
+                                        </div>
+                                        <div id="java-w4-q3" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to generate the Fibonacci sequence up to a given number.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter a number: 
+Fibonacci sequence: 0 1 1 2 3 5 8 13 21 34</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w4-q4')">
+                                            <span><i class="fas fa-star"></i> Implement bubble sort</span>
+                                        </div>
+                                        <div id="java-w4-q4" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to implement the bubble sort algorithm.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter the number of elements: 
+Enter the elements: 
+Sorted array: 11 12 22 25 64</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Hard</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w4-q5')">
+                                            <span><i class="fas fa-star"></i> Solve Tower of Hanoi</span>
+                                        </div>
+                                        <div id="java-w4-q5" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to solve the Tower of Hanoi problem.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter the number of disks: 
+Move disk 1 from A to C
+Move disk 2 from A to B
+Move disk 1 from C to B
+Move disk 3 from A to C
+Move disk 1 from B to A
+Move disk 2 from B to C
+Move disk 1 from A to C</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="week-section" data-week="5" style="display:none;">
+                        <h5>Week 5: Arrays & Collections</h5>
+                        <div class="roadmap-content">
+                            <div class="topic-card">
+                                <h6><i class="fas fa-list-check"></i> Topics Covered</h6>
+                                <ul>
+                                    <li><a href="https://www.w3schools.com/java/java_arrays.asp" target="_blank"><i class="fas fa-code"></i> Single & Multi-dimensional Arrays</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_arraylist.asp" target="_blank"><i class="fas fa-code"></i> ArrayList</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_linkedlist.asp" target="_blank"><i class="fas fa-code"></i> LinkedList</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_hashmap.asp" target="_blank"><i class="fas fa-code"></i> HashMap</a></li>
+                                </ul>
+                            </div>
+                            <div class="practice-questions">
+                                <h5>Easy</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w5-q1')">
+                                            <span><i class="fas fa-star"></i> Find sum and average of array elements</span>
+                                        </div>
+                                        <div id="java-w5-q1" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to find the sum and average of array elements.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter the number of elements: 
+Enter the elements: 
+Sum of array elements: 150
+Average of array elements: 30.0</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w5-q2')">
+                                            <span><i class="fas fa-star"></i> Find maximum and minimum values</span>
+                                        </div>
+                                        <div id="java-w5-q2" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to find the maximum and minimum values in an array.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter the number of elements: 
+Enter the elements: 
+Maximum value: 50
+Minimum value: 10</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Medium</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w5-q3')">
+                                            <span><i class="fas fa-star"></i> Remove duplicates from array</span>
+                                        </div>
+                                        <div id="java-w5-q3" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to remove duplicates from an array.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter the number of elements: 
+Enter the elements: 
+Array after removing duplicates: 10 20 30 40 50</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w5-q4')">
+                                            <span><i class="fas fa-star"></i> Merge two sorted arrays</span>
+                                        </div>
+                                        <div id="java-w5-q4" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to merge two sorted arrays.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter the number of elements in the first array: 
+Enter the elements of the first array: 
+Enter the number of elements in the second array: 
+Enter the elements of the second array: 
+Merged array: 10 20 30 40 50 60 70 80 90 100</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Hard</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w5-q5')">
+                                            <span><i class="fas fa-star"></i> Implement matrix operations</span>
+                                        </div>
+                                        <div id="java-w5-q5" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to implement matrix operations.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Enter the number of rows and columns in the first matrix: 
+Enter the elements of the first matrix: 
+Enter the number of rows and columns in the second matrix: 
+Enter the elements of the second matrix: 
+Sum of matrices: 
+10 20 30 40 
+50 60 70 80 
+90 100 110 120</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="week-section" data-week="6" style="display:none;">
+                        <h5>Week 6: Object-Oriented Programming Basics</h5>
+                        <div class="roadmap-content">
+                            <div class="topic-card">
+                                <h6><i class="fas fa-list-check"></i> Topics Covered</h6>
+                                <ul>
+                                    <li><a href="https://www.w3schools.com/java/java_oop.asp" target="_blank"><i class="fas fa-code"></i> OOP Concepts</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_classes.asp" target="_blank"><i class="fas fa-code"></i> Classes & Objects</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_constructors.asp" target="_blank"><i class="fas fa-code"></i> Constructors</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_encapsulation.asp" target="_blank"><i class="fas fa-code"></i> Encapsulation</a></li>
+                                </ul>
+                            </div>
+                            <div class="practice-questions">
+                                <h5>Easy</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w6-q1')">
+                                            <span><i class="fas fa-star"></i> Create a Student class</span>
+                                        </div>
+                                        <div id="java-w6-q1" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to create a Student class with attributes and methods.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Student details:
+Name: John Doe
+Age: 20
+Grade: A</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w6-q2')">
+                                            <span><i class="fas fa-star"></i> Implement a Rectangle class</span>
+                                        </div>
+                                        <div id="java-w6-q2" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to implement a Rectangle class with methods to calculate area and perimeter.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Area of the rectangle: 120
+Perimeter of the rectangle: 44</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Medium</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w6-q3')">
+                                            <span><i class="fas fa-star"></i> Create a Bank Account system</span>
+                                        </div>
+                                        <div id="java-w6-q3" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to create a Bank Account system with methods to deposit, withdraw, and check balance.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Account details:
+Account Number: 123456
+Balance: ₹10,000</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w6-q4')">
+                                            <span><i class="fas fa-star"></i> Implement a Library management system</span>
+                                        </div>
+                                        <div id="java-w6-q4" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to implement a Library management system with methods to add, remove, and search books.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Book added successfully!
+Book removed successfully!
+Book found: The Great Gatsby</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Hard</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w6-q5')">
+                                            <span><i class="fas fa-star"></i> Create an Employee management system</span>
+                                        </div>
+                                        <div id="java-w6-q5" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to create an Employee management system with methods to add, remove, and search employees.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Employee added successfully!
+Employee removed successfully!
+Employee found: John Doe</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="week-section" data-week="7" style="display:none;">
+                        <h5>Week 7: Inheritance & Polymorphism</h5>
+                        <div class="roadmap-content">
+                            <div class="topic-card">
+                                <h6><i class="fas fa-list-check"></i> Topics Covered</h6>
+                                <ul>
+                                    <li><a href="https://www.w3schools.com/java/java_inheritance.asp" target="_blank"><i class="fas fa-code"></i> Inheritance</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_polymorphism.asp" target="_blank"><i class="fas fa-code"></i> Polymorphism</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_abstract.asp" target="_blank"><i class="fas fa-code"></i> Abstract Classes</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_interface.asp" target="_blank"><i class="fas fa-code"></i> Interfaces</a></li>
+                                </ul>
+                            </div>
+                            <div class="practice-questions">
+                                <h5>Easy</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w7-q1')">
+                                            <span><i class="fas fa-star"></i> Create a Shape hierarchy</span>
+                                        </div>
+                                        <div id="java-w7-q1" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to create a class hierarchy for different shapes (e.g., Circle, Rectangle, Triangle) using inheritance. Each shape should have a method to calculate area.</p>
+                                            <div class="sample-output">
+                                                <strong>Sample Output:</strong>
+                                                <pre>Area of Circle: 78.54
+                            Area of Rectangle: 20.0
+                            Area of Triangle: 12.0</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w7-q2')">
+                                            <span><i class="fas fa-star"></i> Implement an Animal class hierarchy</span>
+                                        </div>
+                                        <div id="java-w7-q2" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to create an Animal class and derive subclasses like Dog, Cat, and Cow. Each subclass should override a method to make a sound.</p>
+                                            <div class="sample-output">
+                                                <strong>Sample Output:</strong>
+                                                <pre>Dog says: Woof!
+                            Cat says: Meow!
+                            Cow says: Moo!</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Medium</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w7-q3')">
+                                            <span><i class="fas fa-star"></i> Create a Vehicle rental system</span>
+                                        </div>
+                                        <div id="java-w7-q3" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to create a Vehicle class and derive subclasses like Car, Bike, and Truck. Implement a rental system that calculates rental cost based on vehicle type and duration.</p>
+                                            <div class="sample-output">
+                                                <strong>Sample Output:</strong>
+                                                <pre>Car rental for 3 days: $150
+                            Bike rental for 3 days: $60
+                            Truck rental for 3 days: $300</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w7-q4')">
+                                            <span><i class="fas fa-star"></i> Implement a Media player system</span>
+                                        </div>
+                                        <div id="java-w7-q4" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to create a MediaPlayer interface and implement classes like AudioPlayer and VideoPlayer. Each should have play and stop methods.</p>
+                                            <div class="sample-output">
+                                                <strong>Sample Output:</strong>
+                                                <pre>Playing audio...
+                            Stopping audio.
+                            Playing video...
+                            Stopping video.</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Hard</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w7-q5')">
+                                            <span><i class="fas fa-star"></i> Create a Payment processing system</span>
+                                        </div>
+                                        <div id="java-w7-q5" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to create a Payment class and derive subclasses like CreditCardPayment, PayPalPayment, and BankTransfer. Use polymorphism to process different payment types.</p>
+                                            <div class="sample-output">
+                                                <strong>Sample Output:</strong>
+                                                <pre>Processing credit card payment of $100
+                            Processing PayPal payment of $100
+                            Processing bank transfer of $100</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="week-section" data-week="8" style="display:none;">
+                        <h5>Week 8: Exception Handling & File I/O</h5>
+                        <div class="roadmap-content">
+                            <div class="topic-card">
+                                <h6><i class="fas fa-list-check"></i> Topics Covered</h6>
+                                <ul>
+                                    <li><a href="https://www.w3schools.com/java/java_try_catch.asp" target="_blank"><i class="fas fa-code"></i> Try-Catch Blocks</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_exceptions.asp" target="_blank"><i class="fas fa-code"></i> Exception Types</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_files.asp" target="_blank"><i class="fas fa-code"></i> File Operations</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_files_create.asp" target="_blank"><i class="fas fa-code"></i> File Reading & Writing</a></li>
+                                </ul>
+                            </div>
+                            <div class="practice-questions">
+                                <h5>Easy</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w8-q1')">
+                                            <span><i class="fas fa-star"></i> Handle division by zero</span>
+                                        </div>
+                                        <div id="java-w8-q1" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to handle division by zero using try-catch blocks.</p>
+                                            <div class="sample-output">
+                                                <strong>Sample Input:</strong>
+                                                <pre>Enter numerator: 10
+                            Enter denominator: 0</pre>
+                                                <strong>Expected Output:</strong>
+                                                <pre>Cannot divide by zero!</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w8-q2')">
+                                            <span><i class="fas fa-star"></i> Validate user input</span>
+                                        </div>
+                                        <div id="java-w8-q2" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to validate user input and handle invalid input using exception handling.</p>
+                                            <div class="sample-output">
+                                                <strong>Sample Input:</strong>
+                                                <pre>Enter an integer: abc</pre>
+                                                <strong>Expected Output:</strong>
+                                                <pre>Invalid input! Please enter an integer.</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Medium</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w8-q3')">
+                                            <span><i class="fas fa-star"></i> Create a file logger</span>
+                                        </div>
+                                        <div id="java-w8-q3" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to create a logger that writes messages to a file. Handle file I/O exceptions appropriately.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Log written to file successfully.</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w8-q4')">
+                                            <span><i class="fas fa-star"></i> Implement a file backup system</span>
+                                        </div>
+                                        <div id="java-w8-q4" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to copy the contents of one file to another (file backup). Handle exceptions for file not found and I/O errors.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>Backup completed successfully.</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                                <h5>Hard</h5>
+                                <ol>
+                                    <li>
+                                        <div class="question-header" onclick="toggleQuestion('java-w8-q5')">
+                                            <span><i class="fas fa-star"></i> Create a file encryption system</span>
+                                        </div>
+                                        <div id="java-w8-q5" class="question-content">
+                                            <h6>Problem Statement:</h6>
+                                            <p>Write a Java program to encrypt and decrypt a file using a simple algorithm. Handle all file I/O and exception cases.</p>
+                                            <div class="sample-output">
+                                                <strong>Expected Output:</strong>
+                                                <pre>File encrypted successfully.
+                            File decrypted successfully.</pre>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="week-section" data-week="9" style="display:none;">
+                        <h5>Week 9: Collections Framework</h5>
+                        <div class="roadmap-content">
+                            <div class="topic-card">
+                                <h6><i class="fas fa-list-check"></i> Topics Covered</h6>
+                                <ul>
+                                    <li><a href="https://www.w3schools.com/java/java_arraylist.asp" target="_blank"><i class="fas fa-code"></i> List Interface & ArrayList</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_hashset.asp" target="_blank"><i class="fas fa-code"></i> Set Interface & HashSet</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_hashmap.asp" target="_blank"><i class="fas fa-code"></i> Map Interface & HashMap</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_queue.asp" target="_blank"><i class="fas fa-code"></i> Queue & Stack</a></li>
+                                </ul>
+                            </div>
+                            <div class="practice-questions">
+                                <h5>Easy</h5>
+                                <ol>
+                                    <li><a href="https://www.w3resource.com/java-exercises/collection/java-collection-exercise-1.php" target="_blank"><i class="fas fa-star"></i> Implement a shopping cart using ArrayList</a></li>
+                                    <li><a href="https://www.w3resource.com/java-exercises/collection/java-collection-exercise-2.php" target="_blank"><i class="fas fa-star"></i> Create a unique word counter using HashSet</a></li>
+                                </ol>
+                                <h5>Medium</h5>
+                                <ol>
+                                    <li><a href="https://www.w3resource.com/java-exercises/collection/java-collection-exercise-3.php" target="_blank"><i class="fas fa-star"></i> Build a student grade tracker using HashMap</a></li>
+                                    <li><a href="https://www.w3resource.com/java-exercises/collection/java-collection-exercise-4.php" target="_blank"><i class="fas fa-star"></i> Implement a task scheduler using PriorityQueue</a></li>
+                                </ol>
+                                <h5>Hard</h5>
+                                <ol>
+                                    <li><a href="https://www.w3resource.com/java-exercises/collection/java-collection-exercise-5.php" target="_blank"><i class="fas fa-star"></i> Create a social network friend system</a></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="week-section" data-week="10" style="display:none;">
+                        <h5>Week 10: Multithreading</h5>
+                        <div class="roadmap-content">
+                            <div class="topic-card">
+                                <h6><i class="fas fa-list-check"></i> Topics Covered</h6>
+                                <ul>
+                                    <li><a href="https://www.w3schools.com/java/java_threads.asp" target="_blank"><i class="fas fa-code"></i> Thread Basics</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_threads_synchronized.asp" target="_blank"><i class="fas fa-code"></i> Thread Synchronization</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_threads_pool.asp" target="_blank"><i class="fas fa-code"></i> Thread Pools</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_threads_deadlock.asp" target="_blank"><i class="fas fa-code"></i> Deadlock Prevention</a></li>
+                                </ul>
+                            </div>
+                            <div class="practice-questions">
+                                <h5>Easy</h5>
+                                <ol>
+                                    <li><a href="https://www.w3resource.com/java-exercises/thread/java-thread-exercise-1.php" target="_blank"><i class="fas fa-star"></i> Create a counter with threads</a></li>
+                                    <li><a href="https://www.w3resource.com/java-exercises/thread/java-thread-exercise-2.php" target="_blank"><i class="fas fa-star"></i> Implement a simple producer-consumer</a></li>
+                                </ol>
+                                <h5>Medium</h5>
+                                <ol>
+                                    <li><a href="https://www.w3resource.com/java-exercises/thread/java-thread-exercise-3.php" target="_blank"><i class="fas fa-star"></i> Create a thread-safe queue</a></li>
+                                    <li><a href="https://www.w3resource.com/java-exercises/thread/java-thread-exercise-4.php" target="_blank"><i class="fas fa-star"></i> Implement a thread pool</a></li>
+                                </ol>
+                                <h5>Hard</h5>
+                                <ol>
+                                    <li><a href="https://www.w3resource.com/java-exercises/thread/java-thread-exercise-5.php" target="_blank"><i class="fas fa-star"></i> Build a concurrent file processor</a></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="week-section" data-week="11" style="display:none;">
+                        <h5>Week 11: Advanced Java Features</h5>
+                        <div class="roadmap-content">
+                            <div class="topic-card">
+                                <h6><i class="fas fa-list-check"></i> Topics Covered</h6>
+                                <ul>
+                                    <li><a href="https://www.w3schools.com/java/java_lambda.asp" target="_blank"><i class="fas fa-code"></i> Lambda Expressions</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_streams.asp" target="_blank"><i class="fas fa-code"></i> Streams API</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_annotations.asp" target="_blank"><i class="fas fa-code"></i> Annotations</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_generics.asp" target="_blank"><i class="fas fa-code"></i> Generics</a></li>
+                                </ul>
+                            </div>
+                            <div class="practice-questions">
+                                <h5>Easy</h5>
+                                <ol>
+                                    <li><a href="https://www.w3resource.com/java-exercises/lambda/java-lambda-exercise-1.php" target="_blank"><i class="fas fa-star"></i> Use lambda expressions</a></li>
+                                    <li><a href="https://www.w3resource.com/java-exercises/stream/java-stream-exercise-1.php" target="_blank"><i class="fas fa-star"></i> Process collections with streams</a></li>
+                                </ol>
+                                <h5>Medium</h5>
+                                <ol>
+                                    <li><a href="https://www.w3resource.com/java-exercises/generics/java-generics-exercise-1.php" target="_blank"><i class="fas fa-star"></i> Create generic data structures</a></li>
+                                    <li><a href="https://www.w3resource.com/java-exercises/annotation/java-annotation-exercise-1.php" target="_blank"><i class="fas fa-star"></i> Implement custom annotations</a></li>
+                                </ol>
+                                <h5>Hard</h5>
+                                <ol>
+                                    <li><a href="https://www.w3resource.com/java-exercises/advanced/java-advanced-exercise-1.php" target="_blank"><i class="fas fa-star"></i> Build a data processing pipeline</a></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="week-section" data-week="12" style="display:none;">
+                        <h5>Week 12: Project & Review</h5>
+                        <div class="roadmap-content">
+                            <div class="topic-card">
+                                <h6><i class="fas fa-list-check"></i> Topics Covered</h6>
+                                <ul>
+                                    <li><a href="https://www.w3schools.com/java/java_project_structure.asp" target="_blank"><i class="fas fa-code"></i> Project Structure</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_best_practices.asp" target="_blank"><i class="fas fa-code"></i> Best Practices</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_code_review.asp" target="_blank"><i class="fas fa-code"></i> Code Review</a></li>
+                                    <li><a href="https://www.w3schools.com/java/java_testing.asp" target="_blank"><i class="fas fa-code"></i> Testing & Debugging</a></li>
+                                </ul>
+                            </div>
+                            <div class="practice-questions">
+                                <h5>Easy</h5>
+                                <ol>
+                                    <li><a href="https://www.w3resource.com/java-exercises/project/java-project-exercise-1.php" target="_blank"><i class="fas fa-star"></i> Create a simple calculator application</a></li>
+                                    <li><a href="https://www.w3resource.com/java-exercises/project/java-project-exercise-2.php" target="_blank"><i class="fas fa-star"></i> Build a todo list manager</a></li>
+                                </ol>
+                                <h5>Medium</h5>
+                                <ol>
+                                    <li><a href="https://www.w3resource.com/java-exercises/project/java-project-exercise-3.php" target="_blank"><i class="fas fa-star"></i> Develop a student management system</a></li>
+                                    <li><a href="https://www.w3resource.com/java-exercises/project/java-project-exercise-4.php" target="_blank"><i class="fas fa-star"></i> Create a file management utility</a></li>
+                                </ol>
+                                <h5>Hard</h5>
+                                <ol>
+                                    <li><a href="https://www.w3resource.com/java-exercises/project/java-project-exercise-5.php" target="_blank"><i class="fas fa-star"></i> Build a multi-threaded chat application</a></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/java.js"></script>
+    <script>
+    // Rating system implementation
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star');
+        const avgRatingSpan = document.getElementById('avg-rating');
+        const page = 'java'; // Current page identifier
+        
+        let currentRating = 0;
+        let userHasRated = false;
+
+        // Load existing ratings on page load
+        loadRatings();
+
+        // Star hover effects
+        stars.forEach(star => {
+            star.addEventListener('mouseenter', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                highlightStars(value);
+            });
+
+            star.addEventListener('mouseleave', function() {
+                if (!userHasRated) {
+                    highlightStars(0);
+                } else {
+                    highlightStars(currentRating);
+                }
+            });
+
+            star.addEventListener('click', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                submitRating(value);
+            });
+        });
+
+        function highlightStars(value) {
+            stars.forEach(star => {
+                const starValue = parseInt(star.getAttribute('data-value'));
+                if (starValue <= value) {
+                    star.style.color = '#ffd700'; // Gold color for filled stars
+                } else {
+                    star.style.color = '#ccc'; // Gray color for empty stars
+                }
+            });
+        }
+
+        function loadRatings() {
+            console.log('Loading ratings for page:', page);
+            fetch(`../rating.php?page=${page}`)
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Rating data received:', data);
+                    if (data.success) {
+                        const avgRating = data.data.average_rating;
+                        const totalRatings = data.data.total_ratings;
+                        
+                        if (totalRatings > 0) {
+                            avgRatingSpan.innerHTML = `★ ${avgRating}/5 (${totalRatings} ratings)`;
+                        } else {
+                            avgRatingSpan.innerHTML = '★ No ratings yet';
+                        }
+                    } else {
+                        console.error('Rating load failed:', data.message);
+                        avgRatingSpan.innerHTML = '★ Unable to load ratings';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading ratings:', error);
+                    avgRatingSpan.innerHTML = '★ Unable to load ratings';
+                });
+        }
+
+        function submitRating(rating) {
+            console.log('Submitting rating:', rating, 'for page:', page);
+            if (userHasRated) {
+                alert('You have already rated this page!');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('rating', rating);
+            formData.append('page', page);
+
+            fetch('../rating.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log('Submit response status:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Submit response data:', data);
+                if (data.success) {
+                    currentRating = rating;
+                    userHasRated = true;
+                    highlightStars(rating);
+                    
+                    // Update the average rating display
+                    const avgRating = data.data.average_rating;
+                    const totalRatings = data.data.total_ratings;
+                    avgRatingSpan.innerHTML = `★ ${avgRating}/5 (${totalRatings} ratings)`;
+                    
+                    // Show success message
+                    showRatingMessage('Thank you for your rating!', 'success');
+                } else {
+                    showRatingMessage(data.message || 'Error submitting rating', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting rating:', error);
+                showRatingMessage('Error submitting rating. Please try again.', 'error');
+            });
+        }
+
+        function showRatingMessage(message, type) {
+            // Create or update message element
+            let messageElement = document.getElementById('rating-message');
+            if (!messageElement) {
+                messageElement = document.createElement('div');
+                messageElement.id = 'rating-message';
+                messageElement.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 10px 15px;
+                    border-radius: 5px;
+                    color: white;
+                    font-weight: 500;
+                    z-index: 1000;
+                    transition: opacity 0.3s ease;
+                `;
+                document.body.appendChild(messageElement);
+            }
+
+            messageElement.textContent = message;
+            messageElement.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
+            messageElement.style.opacity = '1';
+
+            // Hide message after 3 seconds
+            setTimeout(() => {
+                messageElement.style.opacity = '0';
+                setTimeout(() => {
+                    if (messageElement.parentNode) {
+                        messageElement.parentNode.removeChild(messageElement);
+                    }
+                }, 300);
+            }, 3000);
+        }
+    });
+    </script>
+</body>
+</html> 

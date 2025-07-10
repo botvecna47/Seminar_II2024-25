@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Practice Tracker</title>
+    <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/python.css">
+    <style>
+        body { font-family: 'Poppins', Arial, sans-serif; background: #f8f9fa; margin: 0; }
+        .container { max-width: 900px; margin: 2em auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); padding: 2em; }
+        h1 { text-align: center; color: #306998; }
+        .section-title { margin-top: 2em; color: #222; border-bottom: 2px solid #eee; padding-bottom: 0.3em; }
+        ul, ol { padding-left: 1.5em; }
+        li { margin-bottom: 0.7em; position: relative; padding-left: 2em; }
+        .completed { opacity: 0.5; text-decoration: line-through; }
+        .completed label:before { content: '\2714'; color: green; font-weight: bold; position: absolute; left: 0.2em; top: 0.1em; font-size: 1.2em; }
+        .checkbox-label { cursor: pointer; }
+        .back-link { display: inline-block; margin-bottom: 1.5em; color: #4CAF50; text-decoration: none; font-weight: 500; }
+        .back-link:hover { text-decoration: underline; }
+        .instructions { background: #e8f5e9; color: #256029; border-left: 4px solid #4CAF50; padding: 1em; border-radius: 6px; margin-bottom: 2em; }
+        @media (max-width: 600px) { .container { padding: 1em; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link home-btn" style="display:inline-block; margin-bottom:1.5em; color:#fff; background:#1976d2; border-radius:6px; padding:0.4em 1.2em; font-size:0.98em; font-weight:500; text-decoration:none; box-shadow:0 2px 8px rgba(0,0,0,0.08); border:none;">&larr; Home</a>
+        <h1>Python Practice Tracker</h1>
+        <div class="instructions">
+            <strong>Instructions:</strong> Tick the checkbox next to each topic or problem as you complete it. Your progress is saved automatically in your browser and will remain even if you refresh or close the page. No login required.
+        </div>
+        <div>
+            <h2 class="section-title">12-Week Python Roadmap Tracker</h2>
+            <div>
+                <!-- Week 1-2 -->
+                <h3>Week 1-2: Python Fundamentals</h3>
+                <ul>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w1-topic-intro"><label class="checkbox-label" for="py-w1-topic-intro"> Python Introduction & Setup</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w1-topic-syntax"><label class="checkbox-label" for="py-w1-topic-syntax"> Syntax & Comments</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w1-topic-variables"><label class="checkbox-label" for="py-w1-topic-variables"> Variables & Data Types</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w1-topic-operators"><label class="checkbox-label" for="py-w1-topic-operators"> Operators</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w1-topic-strings"><label class="checkbox-label" for="py-w1-topic-strings"> Strings & Formatting</label></li>
+                </ul>
+                <ol>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w1-prob-circle-area"><label class="checkbox-label" for="py-w1-prob-circle-area"> Circle Area Calculator</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w1-prob-temp-conv"><label class="checkbox-label" for="py-w1-prob-temp-conv"> Temperature Converter</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w1-prob-char-freq"><label class="checkbox-label" for="py-w1-prob-char-freq"> Character Frequency Counter</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w1-prob-calculator"><label class="checkbox-label" for="py-w1-prob-calculator"> Simple Calculator</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w1-prob-password-gen"><label class="checkbox-label" for="py-w1-prob-password-gen"> Password Generator</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w1-prob-text-analysis"><label class="checkbox-label" for="py-w1-prob-text-analysis"> Text Analysis Tool</label></li>
+                </ol>
+                <!-- Week 3 -->
+                <h3>Week 3: Control Structures</h3>
+                <ul>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w3-topic-ifelse"><label class="checkbox-label" for="py-w3-topic-ifelse"> If-Else Statements</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w3-topic-for"><label class="checkbox-label" for="py-w3-topic-for"> For Loops</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w3-topic-while"><label class="checkbox-label" for="py-w3-topic-while"> While Loops</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w3-topic-break"><label class="checkbox-label" for="py-w3-topic-break"> Break & Continue</label></li>
+                </ul>
+                <ol>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w3-prob-mult-table"><label class="checkbox-label" for="py-w3-prob-mult-table"> Multiplication Table Generator</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w3-prob-prime-check"><label class="checkbox-label" for="py-w3-prob-prime-check"> Prime Number Checker</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w3-prob-guessing"><label class="checkbox-label" for="py-w3-prob-guessing"> Number Guessing Game</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w3-prob-pattern"><label class="checkbox-label" for="py-w3-prob-pattern"> Pattern Generator</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w3-prob-atm"><label class="checkbox-label" for="py-w3-prob-atm"> ATM Simulator</label></li>
+                </ol>
+                <!-- Week 4 -->
+                <h3>Week 4: Functions & Modules</h3>
+                <ul>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w4-topic-functions"><label class="checkbox-label" for="py-w4-topic-functions"> Functions</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w4-topic-modules"><label class="checkbox-label" for="py-w4-topic-modules"> Modules</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w4-topic-import"><label class="checkbox-label" for="py-w4-topic-import"> Importing Modules</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w4-topic-create-mod"><label class="checkbox-label" for="py-w4-topic-create-mod"> Creating Modules</label></li>
+                </ul>
+                <ol>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w4-prob-factorial"><label class="checkbox-label" for="py-w4-prob-factorial"> Factorial Calculator</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w4-prob-palindrome"><label class="checkbox-label" for="py-w4-prob-palindrome"> Palindrome Checker</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w4-prob-fibonacci"><label class="checkbox-label" for="py-w4-prob-fibonacci"> Fibonacci Sequence Generator</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w4-prob-bubble-sort"><label class="checkbox-label" for="py-w4-prob-bubble-sort"> Bubble Sort Implementation</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w4-prob-hanoi"><label class="checkbox-label" for="py-w4-prob-hanoi"> Tower of Hanoi Solver</label></li>
+                </ol>
+                <!-- Week 5-6 -->
+                <h3>Week 5-6: Data Structures</h3>
+                <ul>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w5-topic-lists"><label class="checkbox-label" for="py-w5-topic-lists"> Lists</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w5-topic-tuples"><label class="checkbox-label" for="py-w5-topic-tuples"> Tuples</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w5-topic-sets"><label class="checkbox-label" for="py-w5-topic-sets"> Sets</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w5-topic-dicts"><label class="checkbox-label" for="py-w5-topic-dicts"> Dictionaries</label></li>
+                </ul>
+                <ol>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w5-prob-list-stats"><label class="checkbox-label" for="py-w5-prob-list-stats"> List Statistics Calculator</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w5-prob-word-freq"><label class="checkbox-label" for="py-w5-prob-word-freq"> Word Frequency Counter</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w5-prob-merge-list"><label class="checkbox-label" for="py-w5-prob-merge-list"> Sorted List Merger</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w5-prob-set-ops"><label class="checkbox-label" for="py-w5-prob-set-ops"> Set Operations Calculator</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w5-prob-db"><label class="checkbox-label" for="py-w5-prob-db"> Simple Database System</label></li>
+                </ol>
+                <!-- Week 6 -->
+                <h3>Week 6: File Handling & Regular Expressions</h3>
+                <ul>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-topic-file"><label class="checkbox-label" for="py-w6-topic-file"> Basic File Operations</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-topic-modes"><label class="checkbox-label" for="py-w6-topic-modes"> File Modes & Access</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-topic-write"><label class="checkbox-label" for="py-w6-topic-write"> File Writing & Reading</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-topic-append"><label class="checkbox-label" for="py-w6-topic-append"> File Appending</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-topic-manage"><label class="checkbox-label" for="py-w6-topic-manage"> File Management</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-topic-search"><label class="checkbox-label" for="py-w6-topic-search"> File Searching</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-topic-fs"><label class="checkbox-label" for="py-w6-topic-fs"> File System Operations</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-topic-dir"><label class="checkbox-label" for="py-w6-topic-dir"> Directory Operations</label></li>
+                </ul>
+                <ol>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-prob-file-copy"><label class="checkbox-label" for="py-w6-prob-file-copy"> File Copy Program</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-prob-file-analyze"><label class="checkbox-label" for="py-w6-prob-file-analyze"> Text File Analyzer</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-prob-backup"><label class="checkbox-label" for="py-w6-prob-backup"> File Backup System</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-prob-log-parser"><label class="checkbox-label" for="py-w6-prob-log-parser"> Log File Parser</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w6-prob-file-mgmt"><label class="checkbox-label" for="py-w6-prob-file-mgmt"> File Management System</label></li>
+                </ol>
+                <!-- Week 7 -->
+                <h3>Week 7: Exception Handling</h3>
+                <ul>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w7-topic-try"><label class="checkbox-label" for="py-w7-topic-try"> Try-Except Blocks</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w7-topic-finally"><label class="checkbox-label" for="py-w7-topic-finally"> Finally Block</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w7-topic-raise"><label class="checkbox-label" for="py-w7-topic-raise"> Raising Exceptions</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w7-topic-custom"><label class="checkbox-label" for="py-w7-topic-custom"> Custom Exceptions</label></li>
+                </ul>
+                <ol>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w7-prob-geo-calc"><label class="checkbox-label" for="py-w7-prob-geo-calc"> Geometric Calculator</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w7-prob-date-format"><label class="checkbox-label" for="py-w7-prob-date-format"> Date and Time Formatter</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w7-prob-enhanced-calc"><label class="checkbox-label" for="py-w7-prob-enhanced-calc"> Enhanced Calculator with Error Handling</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w7-prob-secure-pass"><label class="checkbox-label" for="py-w7-prob-secure-pass"> Secure Password Generator</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w7-prob-scheduler"><label class="checkbox-label" for="py-w7-prob-scheduler"> Task Scheduler</label></li>
+                </ol>
+                <!-- Week 8 -->
+                <h3>Week 8: Object-Oriented Programming</h3>
+                <ul>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w8-topic-classes"><label class="checkbox-label" for="py-w8-topic-classes"> Classes & Objects</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w8-topic-inheritance"><label class="checkbox-label" for="py-w8-topic-inheritance"> Inheritance</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w8-topic-polymorphism"><label class="checkbox-label" for="py-w8-topic-polymorphism"> Polymorphism</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w8-topic-encapsulation"><label class="checkbox-label" for="py-w8-topic-encapsulation"> Encapsulation</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w8-topic-abstract"><label class="checkbox-label" for="py-w8-topic-abstract"> Abstract Classes</label></li>
+                </ul>
+                <ol>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w8-prob-student-class"><label class="checkbox-label" for="py-w8-prob-student-class"> Student Management System (OOP)</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w8-prob-rectangle"><label class="checkbox-label" for="py-w8-prob-rectangle"> Rectangle Class</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w8-prob-bank"><label class="checkbox-label" for="py-w8-prob-bank"> Bank Account System</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w8-prob-library"><label class="checkbox-label" for="py-w8-prob-library"> Library Management System</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w8-prob-ecommerce"><label class="checkbox-label" for="py-w8-prob-ecommerce"> E-commerce System</label></li>
+                </ol>
+                <!-- Week 9-10 -->
+                <h3>Week 9-10: File Handling & Regular Expressions (Advanced)</h3>
+                <ul>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-topic-file"><label class="checkbox-label" for="py-w9-topic-file"> Basic File Operations</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-topic-modes"><label class="checkbox-label" for="py-w9-topic-modes"> File Modes & Access</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-topic-write"><label class="checkbox-label" for="py-w9-topic-write"> File Writing & Reading</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-topic-append"><label class="checkbox-label" for="py-w9-topic-append"> File Appending</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-topic-manage"><label class="checkbox-label" for="py-w9-topic-manage"> File Management</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-topic-search"><label class="checkbox-label" for="py-w9-topic-search"> File Searching</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-topic-fs"><label class="checkbox-label" for="py-w9-topic-fs"> File System Operations</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-topic-dir"><label class="checkbox-label" for="py-w9-topic-dir"> Directory Operations</label></li>
+                </ul>
+                <ol>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-prob-file-copy"><label class="checkbox-label" for="py-w9-prob-file-copy"> File Copy Program</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-prob-file-analyze"><label class="checkbox-label" for="py-w9-prob-file-analyze"> Text File Analyzer</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-prob-backup"><label class="checkbox-label" for="py-w9-prob-backup"> File Backup System</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-prob-log-parser"><label class="checkbox-label" for="py-w9-prob-log-parser"> Log File Parser</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w9-prob-file-mgmt"><label class="checkbox-label" for="py-w9-prob-file-mgmt"> File Management System</label></li>
+                </ol>
+                <!-- Week 11 -->
+                <h3>Week 11: Advanced Topics</h3>
+                <ul>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w11-topic-decorators"><label class="checkbox-label" for="py-w11-topic-decorators"> Decorators</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w11-topic-generators"><label class="checkbox-label" for="py-w11-topic-generators"> Generators</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w11-topic-iterators"><label class="checkbox-label" for="py-w11-topic-iterators"> Iterators</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w11-topic-scope"><label class="checkbox-label" for="py-w11-topic-scope"> Scope</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w11-topic-lambda"><label class="checkbox-label" for="py-w11-topic-lambda"> Lambda Functions</label></li>
+                </ul>
+                <ol>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w11-prob-calc-decorator"><label class="checkbox-label" for="py-w11-prob-calc-decorator"> Simple Calculator with Decorators</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w11-prob-temp-decorator"><label class="checkbox-label" for="py-w11-prob-temp-decorator"> Temperature Converter with Decorators</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w11-prob-factorial-decorator"><label class="checkbox-label" for="py-w11-prob-factorial-decorator"> Factorial Calculator with Decorators</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w11-prob-prime-decorator"><label class="checkbox-label" for="py-w11-prob-prime-decorator"> Prime Number Checker with Decorators</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w11-prob-guessing"><label class="checkbox-label" for="py-w11-prob-guessing"> Number Guessing Game</label></li>
+                </ol>
+                <!-- Week 12 -->
+                <h3>Week 12: Final Project & Review</h3>
+                <ul>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w12-topic-capstone"><label class="checkbox-label" for="py-w12-topic-capstone"> Capstone Project</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w12-topic-review"><label class="checkbox-label" for="py-w12-topic-review"> Review & Submission Checklist</label></li>
+                </ul>
+                <ol>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w12-prob-todo"><label class="checkbox-label" for="py-w12-prob-todo"> To-Do List CLI App</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w12-prob-expense"><label class="checkbox-label" for="py-w12-prob-expense"> Personal Expense Tracker</label></li>
+                    <li><input type="checkbox" class="completion-checkbox" id="py-w12-prob-student-mgmt"><label class="checkbox-label" for="py-w12-prob-student-mgmt"> Student Management System (Mini Project)</label></li>
+                </ol>
+            </div>
+        </div>
+        <div id="quiz-section" style="margin-top:2em;"></div>
+    </div>
+    <script>
+    (function() {
+        const pageKey = 'python-tracker';
+        const checkboxes = document.querySelectorAll('.completion-checkbox');
+        checkboxes.forEach(cb => {
+            const storageKey = `${pageKey}-completed-${cb.id}`;
+            // Restore state
+            if (localStorage.getItem(storageKey) === 'true') {
+                cb.checked = true;
+                cb.closest('li')?.classList.add('completed');
+            }
+            // Listen for changes
+            cb.addEventListener('change', function() {
+                localStorage.setItem(storageKey, cb.checked);
+                if (cb.checked) {
+                    cb.closest('li')?.classList.add('completed');
+                } else {
+                    cb.closest('li')?.classList.remove('completed');
+                }
+            });
+        });
+
+        // Quiz logic
+        const quizQuestions = [
+            {
+                q: 'What is the output of print(2 ** 3)?',
+                options: ['5', '6', '8', '9'],
+                answer: '8'
+            },
+            {
+                q: 'Which of these is a valid variable name in Python?',
+                options: ['2var', 'var_2', 'var-2', 'var 2'],
+                answer: 'var_2'
+            },
+            {
+                q: 'What does the len() function do?',
+                options: ['Returns the length of an object', 'Returns the type', 'Returns the value', 'Returns the index'],
+                answer: 'Returns the length of an object'
+            },
+            {
+                q: 'Which keyword is used to define a function in Python?',
+                options: ['func', 'define', 'def', 'function'],
+                answer: 'def'
+            },
+            {
+                q: 'What is the output of print("Hello"[1])?',
+                options: ['H', 'e', 'l', 'o'],
+                answer: 'e'
+            },
+            {
+                q: 'Which data structure does not allow duplicate elements?',
+                options: ['List', 'Tuple', 'Set', 'Dictionary'],
+                answer: 'Set'
+            },
+            {
+                q: 'How do you start a comment in Python?',
+                options: ['//', '#', '--', '/*'],
+                answer: '#'
+            },
+            {
+                q: 'What is the correct file extension for Python files?',
+                options: ['.pyth', '.pt', '.py', '.p'],
+                answer: '.py'
+            },
+            {
+                q: 'Which of the following is used to handle exceptions?',
+                options: ['try-except', 'catch', 'error', 'handle'],
+                answer: 'try-except'
+            },
+            {
+                q: 'What is the output of print(type([]))?',
+                options: ['<class "list">', '<type "list">', '<list>', 'list'],
+                answer: '<class "list">'
+            },
+            {
+                q: 'Which function is used to get input from the user?',
+                options: ['scan()', 'input()', 'get()', 'read()'],
+                answer: 'input()'
+            },
+            {
+                q: 'What is the result of 10 // 3 in Python?',
+                options: ['3.33', '3', '4', '3.0'],
+                answer: '3'
+            },
+            {
+                q: 'Which of these is a mutable data type?',
+                options: ['tuple', 'string', 'list', 'int'],
+                answer: 'list'
+            },
+            {
+                q: 'How do you create a dictionary in Python?',
+                options: ['()', '[]', '{}', '<>'],
+                answer: '{}'
+            },
+            {
+                q: 'What does the break statement do?',
+                options: ['Exits the loop', 'Skips to next iteration', 'Ends the function', 'Pauses the program'],
+                answer: 'Exits the loop'
+            }
+        ];
+
+        function shuffle(array) {
+            let arr = array.slice();
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function renderQuiz() {
+            const quizSection = document.getElementById('quiz-section');
+            const selected = shuffle(quizQuestions).slice(0, 10);
+            let html = '<form id="quiz-form"><h2 style="text-align:center; color:#1976d2;">Python Quiz</h2>';
+            selected.forEach((q, idx) => {
+                html += `<div style="margin-bottom:1.5em;">
+                    <div style="font-weight:500; margin-bottom:0.5em;">${idx+1}. ${q.q}</div>`;
+                q.options.forEach(opt => {
+                    html += `<label style="display:block; margin-bottom:0.2em;">
+                        <input type="radio" name="q${idx}" value="${opt}"> ${opt}
+                    </label>`;
+                });
+                html += '</div>';
+            });
+            html += '<div style="text-align:center;"><button type="submit" style="padding:0.6em 2em; background:#43a047; color:white; border:none; border-radius:6px; font-weight:600; font-size:1em; cursor:pointer;">Submit Quiz</button></div></form>';
+            quizSection.innerHTML = html;
+
+            document.getElementById('quiz-form').onsubmit = function(e) {
+                e.preventDefault();
+                let score = 0;
+                selected.forEach((q, idx) => {
+                    const chosen = (quizSection.querySelector(`input[name='q${idx}']:checked`)||{}).value;
+                    if (chosen === q.answer) score++;
+                });
+                quizSection.innerHTML = `<div style='text-align:center;'><h2>Your Score: ${score} / 10</h2><button id='retake-quiz' style='margin-top:1em; padding:0.6em 2em; background:#1976d2; color:white; border:none; border-radius:6px; font-weight:600; font-size:1em; cursor:pointer;'>Retake Quiz</button></div>`;
+                document.getElementById('retake-quiz').onclick = renderQuiz;
+            };
+        }
+
+        document.getElementById('take-quiz-btn').onclick = function() {
+            renderQuiz();
+            window.scrollTo({ top: document.getElementById('quiz-section').offsetTop - 40, behavior: 'smooth' });
+        };
+    })();
+    </script>
+</body>
+</html> 

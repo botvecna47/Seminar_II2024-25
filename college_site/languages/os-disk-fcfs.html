@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCFS Disk Scheduling Simulation - OS Practicals</title>
+    <link rel="icon" type="image/svg+xml"
+        href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg">
+    <link rel="stylesheet" href="../css/os.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sim-section {
+            background: var(--os-card);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px var(--os-shadow);
+            padding: 2em;
+            margin: 2em 0;
+        }
+
+        .sim-title {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-bottom: 0.7em;
+        }
+
+        .sim-desc {
+            color: var(--os-text);
+            margin-bottom: 1.2em;
+        }
+
+        .code-area {
+            background: #23272e;
+            color: #e0e0e0;
+            border-radius: 6px;
+            padding: 1.3em 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1.13em;
+            margin-bottom: 1em;
+            min-height: 220px;
+            width: 55vw;
+            max-width: 1000px;
+        }
+
+        .sim-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7em 2em;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1.2em;
+            transition: background 0.2s;
+        }
+
+        .sim-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .sim-btn.clear-btn {
+            background: #888;
+        }
+
+        .sim-btn.clear-btn:hover {
+            background: #666;
+        }
+
+        .sim-output {
+            background: #181c1f;
+            color: #00e676;
+            border-radius: 6px;
+            padding: 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1em;
+            min-height: 80px;
+            margin-top: 1em;
+            white-space: pre-line;
+        }
+
+        .input-section {
+            margin: 1.5em 0;
+        }
+
+        .input-section label {
+            color: var(--os-text);
+            font-weight: 500;
+            margin-bottom: 0.5em;
+            display: block;
+        }
+
+        .input-section input {
+            width: 100px;
+            padding: 0.5em;
+            border: 1px solid var(--os-border);
+            border-radius: 4px;
+            background: var(--os-light);
+            color: var(--os-text);
+            text-align: center;
+            margin-right: 1em;
+        }
+
+        .input-section input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .dark-theme .input-section input {
+            background: var(--os-card);
+            border-color: var(--os-border);
+        }
+
+        .dark-theme .input-section input:focus {
+            background: #333;
+        }
+
+        .request-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            margin: 1em 0;
+        }
+
+        .request-item {
+            background: var(--secondary-color);
+            color: #fff;
+            padding: 0.3em 0.8em;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .request-item:hover {
+            background: var(--primary-color);
+        }
+
+        .request-item.selected {
+            background: var(--primary-color);
+        }
+
+        .disk-visualization {
+            margin: 2em 0;
+            padding: 1em;
+            background: var(--os-light);
+            border-radius: 8px;
+            border: 2px solid var(--os-border);
+        }
+
+        .disk-track {
+            display: flex;
+            align-items: center;
+            margin: 0.5em 0;
+            padding: 0.5em;
+            background: var(--os-card);
+            border-radius: 4px;
+        }
+
+        .disk-track.current {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .disk-track.completed {
+            background: var(--success-color);
+            color: #fff;
+        }
+
+        .track-number {
+            font-weight: 600;
+            margin-right: 1em;
+            min-width: 60px;
+        }
+
+        .seek-arrow {
+            color: var(--secondary-color);
+            margin: 0 0.5em;
+        }
+
+        .dark-theme .disk-visualization {
+            background: var(--os-card);
+            border-color: var(--os-border);
+        }
+
+        @media (max-width: 700px) {
+            .sim-section {
+                padding: 1em;
+            }
+
+            .code-area {
+                width: 98vw;
+            }
+
+            .input-section input {
+                width: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="os.html" class="back-button"
+                style="font-size:1.08em; padding:0.6em 1.3em; background:var(--primary-color); color:#fff; border-radius:6px; font-weight:600; margin-right:1.2em;">&larr;
+                Back to OS Practicals</a>
+            <div class="logo" style="background: transparent; box-shadow: none; margin-right: 0.5rem;">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="OS"
+                    width="40" height="40">
+            </div>
+            <h1>FCFS Disk Scheduling Simulation</h1>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">
+                <i class="fas fa-moon" id="theme-icon"></i> <span id="theme-text">Toggle Theme</span>
+            </button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="sim-section">
+            <div class="sim-title">What is FCFS Disk Scheduling?</div>
+            <div class="sim-desc">
+                <b>First Come First Serve (FCFS)</b> disk scheduling algorithm serves requests in the order they arrive. 
+                It's the simplest disk scheduling algorithm but can lead to high seek times as the disk head may move 
+                back and forth across the disk surface.<br><br>
+                <b>Try the simulation below:</b> Set the initial head position and add track requests, then click 
+                <b>Run Simulation</b> to see the seek sequence and total seek time!
+            </div>
+            <div style="margin-bottom:0.5em; color:var(--text-color); font-size:1.05em; font-weight:500;">Reference C Implementation: FCFS Disk Scheduling</div>
+            <textarea id="fcfs-disk-code" class="code-area" rows="15">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int n, head, total_seek = 0;
+    
+    printf("Enter number of requests: ");
+    scanf("%d", &n);
+    
+    int requests[n];
+    printf("Enter the requests: ");
+    for(int i = 0; i < n; i++) {
+        scanf("%d", &requests[i]);
+    }
+    
+    printf("Enter initial head position: ");
+    scanf("%d", &head);
+    
+    printf("\nFCFS Disk Scheduling:\n");
+    printf("Head movement: %d", head);
+    
+    for(int i = 0; i < n; i++) {
+        int seek = abs(requests[i] - head);
+        total_seek += seek;
+        printf(" -> %d", requests[i]);
+        head = requests[i];
+    }
+    
+    printf("\nTotal seek time: %d\n", total_seek);
+    printf("Average seek time: %.2f\n", (float)total_seek / n);
+    
+    return 0;
+}</textarea>
+            
+            <div class="input-section">
+                <label for="initial-head">Initial Head Position:</label>
+                <input type="number" id="initial-head" value="50" min="0" max="199">
+                <button class="sim-btn" onclick="addRequest()">Add Request</button>
+                <button class="sim-btn" onclick="runFCFSDiskSim()">Run Simulation</button>
+                <button class="sim-btn clear-btn" onclick="clearAll()">Clear All</button>
+            </div>
+
+            <div class="input-section">
+                <label for="new-request">Add Track Request:</label>
+                <input type="number" id="new-request" placeholder="0-199" min="0" max="199">
+            </div>
+
+            <div id="requests-display" class="request-list">
+                <!-- Request items will be added here -->
+            </div>
+
+            <div id="disk-visualization" class="disk-visualization" style="display: none;">
+                <h4>Disk Head Movement:</h4>
+                <div id="disk-tracks"></div>
+            </div>
+
+            <div id="fcfs-disk-output" class="sim-output"></div>
+        </div>
+    </div>
+    <script>
+        let requests = [];
+        let currentHead = 50;
+
+        function updateThemeButton() {
+            const theme = document.body.getAttribute('data-theme');
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'dark') {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Light Mode';
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Dark Mode';
+            }
+        }
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton();
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeButton();
+            // Add some example requests
+            addRequest(98);
+            addRequest(183);
+            addRequest(37);
+            addRequest(122);
+            addRequest(14);
+            addRequest(124);
+            addRequest(65);
+            addRequest(67);
+        });
+
+        function addRequest(track = null) {
+            if (track === null) {
+                track = parseInt(document.getElementById('new-request').value);
+                if (isNaN(track) || track < 0 || track > 199) {
+                    alert('Please enter a valid track number (0-199)');
+                    return;
+                }
+                document.getElementById('new-request').value = '';
+            }
+            
+            if (!requests.includes(track)) {
+                requests.push(track);
+                updateRequestsDisplay();
+            }
+        }
+
+        function removeRequest(track) {
+            const index = requests.indexOf(track);
+            if (index > -1) {
+                requests.splice(index, 1);
+                updateRequestsDisplay();
+            }
+        }
+
+        function updateRequestsDisplay() {
+            const display = document.getElementById('requests-display');
+            display.innerHTML = '';
+            
+            requests.forEach(track => {
+                const item = document.createElement('div');
+                item.className = 'request-item';
+                item.textContent = track;
+                item.onclick = () => removeRequest(track);
+                display.appendChild(item);
+            });
+        }
+
+        function runFCFSDiskSim() {
+            if (requests.length === 0) {
+                alert('Please add some track requests first');
+                return;
+            }
+
+            currentHead = parseInt(document.getElementById('initial-head').value);
+            let totalSeek = 0;
+            let seekSequence = [currentHead];
+            let head = currentHead;
+
+            // FCFS: serve requests in order
+            for (let i = 0; i < requests.length; i++) {
+                const seek = Math.abs(requests[i] - head);
+                totalSeek += seek;
+                head = requests[i];
+                seekSequence.push(head);
+            }
+
+            // Display results
+            displayResults(seekSequence, totalSeek);
+            displayDiskVisualization(seekSequence);
+        }
+
+        function displayResults(seekSequence, totalSeek) {
+            const output = document.getElementById('fcfs-disk-output');
+            const avgSeek = totalSeek / requests.length;
+            
+            let result = `FCFS Disk Scheduling Results:\n\n`;
+            result += `Initial Head Position: ${currentHead}\n`;
+            result += `Total Requests: ${requests.length}\n\n`;
+            result += `Seek Sequence: ${seekSequence.join(' → ')}\n\n`;
+            result += `Total Seek Time: ${totalSeek} units\n`;
+            result += `Average Seek Time: ${avgSeek.toFixed(2)} units\n`;
+            
+            output.innerHTML = result;
+        }
+
+        function displayDiskVisualization(seekSequence) {
+            const visualization = document.getElementById('disk-visualization');
+            const tracksDiv = document.getElementById('disk-tracks');
+            
+            visualization.style.display = 'block';
+            tracksDiv.innerHTML = '';
+            
+            for (let i = 0; i < seekSequence.length; i++) {
+                const trackDiv = document.createElement('div');
+                trackDiv.className = 'disk-track';
+                
+                if (i === 0) {
+                    trackDiv.classList.add('current');
+                    trackDiv.innerHTML = `<span class="track-number">${seekSequence[i]}</span> ← Initial Position`;
+                } else {
+                    trackDiv.classList.add('completed');
+                    const seek = Math.abs(seekSequence[i] - seekSequence[i-1]);
+                    trackDiv.innerHTML = `<span class="track-number">${seekSequence[i]}</span> <i class="fas fa-arrow-right seek-arrow"></i> Seek: ${seek} units`;
+                }
+                
+                tracksDiv.appendChild(trackDiv);
+            }
+        }
+
+        function clearAll() {
+            requests = [];
+            updateRequestsDisplay();
+            document.getElementById('fcfs-disk-output').innerHTML = '';
+            document.getElementById('disk-visualization').style.display = 'none';
+            document.getElementById('initial-head').value = '50';
+            document.getElementById('new-request').value = '';
+            document.getElementById('fcfs-disk-code').value = `#include <stdio.h>\n#include <stdlib.h>\n\nint main() {\n    int n, head, total_seek = 0;\n    printf("Enter number of requests: ");\n    scanf("%d", &n);\n    int requests[n];\n    printf("Enter the requests: ");\n    for(int i = 0; i < n; i++) {\n        scanf("%d", &requests[i]);\n    }\n    printf("Enter initial head position: ");\n    scanf("%d", &head);\n    printf("\\nFCFS Disk Scheduling:\\n");\n    printf("Head movement: %d", head);\n    for(int i = 0; i < n; i++) {\n        int seek = abs(requests[i] - head);\n        total_seek += seek;\n        printf(" -> %d", requests[i]);\n        head = requests[i];\n    }\n    printf("\\nTotal seek time: %d\\n", total_seek);\n    printf("Average seek time: %.2f\\n", (float)total_seek / n);\n    return 0;\n}`;
+        }
+
+        // Handle Enter key in input
+        document.getElementById('new-request').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addRequest();
+            }
+        });
+    </script>
+</body>
+
+</html> 

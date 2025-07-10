@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producer-Consumer Simulation - OS Practicals</title>
+    <link rel="icon" type="image/svg+xml"
+        href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg">
+    <link rel="stylesheet" href="../css/os.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sim-section {
+            background: var(--os-card);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px var(--os-shadow);
+            padding: 2em;
+            margin: 2em 0;
+        }
+
+        .sim-title {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-bottom: 0.7em;
+        }
+
+        .sim-desc {
+            color: var(--os-text);
+            margin-bottom: 1.2em;
+        }
+
+        .code-area {
+            background: #23272e;
+            color: #e0e0e0;
+            border-radius: 6px;
+            padding: 1.3em 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1.13em;
+            margin-bottom: 1em;
+            min-height: 220px;
+            width: 55vw;
+            max-width: 1000px;
+        }
+
+        .sim-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7em 2em;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1.2em;
+            transition: background 0.2s;
+        }
+
+        .sim-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .sim-output {
+            background: #181c1f;
+            color: #00e676;
+            border-radius: 6px;
+            padding: 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1em;
+            min-height: 80px;
+            margin-top: 1em;
+            white-space: pre-line;
+        }
+
+        .buffer-vis {
+            display: flex;
+            gap: 5px;
+            margin: 1em 0;
+        }
+
+        .buffer-slot {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--primary-color);
+            background: var(--os-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            border-radius: 4px;
+        }
+
+        .buffer-slot.full {
+            background: var(--secondary-color);
+            color: #fff;
+        }
+
+        @media (max-width: 700px) {
+            .sim-section {
+                padding: 1em;
+            }
+
+            .code-area {
+                width: 98vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="os.html" class="back-button"
+                style="font-size:1.08em; padding:0.6em 1.3em; background:var(--primary-color); color:#fff; border-radius:6px; font-weight:600; margin-right:1.2em;">&larr;
+                Back to OS Practicals</a>
+            <div class="logo" style="background: transparent; box-shadow: none; margin-right: 0.5rem;">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="OS"
+                    width="40" height="40">
+            </div>
+            <h1>Producer-Consumer Simulation</h1>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">
+                <i class="fas fa-moon" id="theme-icon"></i> <span id="theme-text">Toggle Theme</span>
+            </button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="sim-section">
+            <div class="sim-title">Producer-Consumer Problem</div>
+            <div class="sim-desc">
+                The classic synchronization problem. Producers generate data and place it in a shared buffer. Consumers take data from the buffer. The challenge is to prevent race conditions when the buffer is full or empty.<br><br>
+                Set the parameters and hit <b>Start Simulation</b> to see it in action.
+            </div>
+            <div class="sim-controls">
+                <label for="buffer-size">Buffer Size:</label>
+                <input type="number" id="buffer-size" value="5" min="1">
+                <label for="producer-speed">Producer Speed (ms):</label>
+                <input type="number" id="producer-speed" value="1500" min="200" step="100">
+                <label for="consumer-speed">Consumer Speed (ms):</label>
+                <input type="number" id="consumer-speed" value="2000" min="200" step="100">
+            </div>
+            <button class="sim-btn" onclick="runSimulation()">Start Simulation</button>
+            <button class="sim-btn" id="stop-sim" disabled>Stop Simulation</button>
+            <button class="sim-btn" onclick="clearAll()" style="margin-left: 10px; background: #888;">Clear All</button>
+
+            <div id="buffer-display" class="buffer-container"></div>
+            <div class="logs-container">
+                <h4>Logs</h4>
+                <div id="logs"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const bufferSizeInput = document.getElementById('buffer-size');
+        const producerSpeedInput = document.getElementById('producer-speed');
+        const consumerSpeedInput = document.getElementById('consumer-speed');
+        const startBtn = document.querySelector('.sim-btn[onclick="runSimulation()"]');
+        const stopBtn = document.getElementById('stop-sim');
+        const logsDiv = document.getElementById('logs');
+        const bufferContainer = document.getElementById('buffer-display');
+
+        let buffer = [];
+        let itemCount = 0;
+        let producerInterval;
+        let consumerInterval;
+        let isRunning = false;
+        
+        function updateThemeButton() {
+            const theme = document.body.getAttribute('data-theme');
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'dark') {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Light Mode';
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Dark Mode';
+            }
+        }
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton();
+        }
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeButton();
+            updateBufferDisplay();
+            log('System ready. Set parameters and start simulation.', 'system');
+        });
+
+        function log(message, type) {
+            const logEntry = document.createElement('div');
+            logEntry.classList.add('log-entry', type);
+            logEntry.innerHTML = `<span class="log-timestamp">${new Date().toLocaleTimeString()}:</span> ${message}`;
+            logsDiv.appendChild(logEntry);
+            logsDiv.scrollTop = logsDiv.scrollHeight; 
+        }
+
+        function updateBufferDisplay() {
+            const bufferSize = parseInt(bufferSizeInput.value);
+            bufferContainer.innerHTML = '<b>Buffer:</b><div class="buffer-vis"></div>';
+            const vis = bufferContainer.querySelector('.buffer-vis');
+            for (let i = 0; i < bufferSize; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'buffer-slot';
+                if (buffer[i]) {
+                    slot.classList.add('full');
+                    slot.textContent = buffer[i];
+                }
+                vis.appendChild(slot);
+            }
+        }
+
+        function produce() {
+            const bufferSize = parseInt(bufferSizeInput.value);
+            if (buffer.length >= bufferSize) {
+                log('Buffer full, Producer waits.', 'producer-wait');
+                return;
+            }
+            itemCount++;
+            const item = `Item ${itemCount}`;
+            buffer.push(item);
+            log(`Producer created ${item}`, 'producer');
+            updateBufferDisplay();
+        }
+
+        function consume() {
+            if (buffer.length === 0) {
+                log('Buffer empty, Consumer waits.', 'consumer-wait');
+                return;
+            }
+            const item = buffer.shift();
+            log(`Consumer took ${item}`, 'consumer');
+            updateBufferDisplay();
+        }
+
+        function runSimulation() {
+            if (isRunning) return;
+            isRunning = true;
+            
+            clearAll(); 
+
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            
+            const producerSpeed = parseInt(producerSpeedInput.value);
+            const consumerSpeed = parseInt(consumerSpeedInput.value);
+
+            producerInterval = setInterval(produce, producerSpeed);
+            consumerInterval = setInterval(consume, consumerSpeed);
+
+            log('Simulation started.', 'system');
+        }
+
+        function stopSimulation() {
+            if (!isRunning) return;
+            isRunning = false;
+
+            clearInterval(producerInterval);
+            clearInterval(consumerInterval);
+
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            log('Simulation stopped.', 'system');
+        }
+        
+        function clearAll() {
+            stopSimulation();
+            buffer = [];
+            itemCount = 0;
+            logsDiv.innerHTML = '';
+            // Reset input fields to default values
+            bufferSizeInput.value = 5;
+            producerSpeedInput.value = 1500;
+            consumerSpeedInput.value = 2000;
+            updateBufferDisplay();
+            log('Logs and buffer cleared.', 'system');
+        }
+
+        stopBtn.addEventListener('click', stopSimulation);
+        
+    </script>
+</body>
+
+</html>

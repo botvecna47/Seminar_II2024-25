@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Quiz</title>
+    <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/python.css">
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(120deg, #306998 0%, #ffd43b 100%);
+        }
+        .container {
+            width: 100vw;
+            max-width: 100vw;
+            margin: 0;
+            background: rgba(255,255,255,0.97);
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 2px 16px rgba(48,105,152,0.10);
+            padding: 2.5em 0 3em 0;
+        }
+        h1 {
+            text-align: center;
+            color: #306998;
+            font-size: 2.7em;
+            letter-spacing: 1px;
+            margin-bottom: 0.2em;
+        }
+        .home-btn {
+            display: block;
+            margin: 1.5em auto 2em auto;
+            padding: 0.9em 2.5em;
+            background: #ffd43b;
+            color: #222;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.25em;
+            box-shadow: 0 2px 8px rgba(48,105,152,0.10);
+            text-decoration: none;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        .home-btn:hover {
+            background: #ffe066;
+        }
+        .instructions {
+            background: #e3f2fd;
+            color: #1565c0;
+            border-left: 6px solid #306998;
+            padding: 1.2em 2em;
+            border-radius: 10px;
+            margin: 0 auto 2.5em auto;
+            max-width: 700px;
+            font-size: 1.25em;
+        }
+        .quiz-question {
+            margin-bottom: 2.2em;
+            font-size: 1.25em;
+        }
+        .quiz-question .qtext {
+            font-weight: 600;
+            margin-bottom: 0.7em;
+            color: #306998;
+            font-size: 1.18em;
+        }
+        .quiz-option {
+            display: block;
+            margin-bottom: 0.35em;
+            font-size: 1.08em;
+            padding-left: 0.5em;
+        }
+        .quiz-option.correct {
+            color: #388e3c;
+            font-weight: 700;
+        }
+        .quiz-option.incorrect {
+            color: #d32f2f;
+        }
+        .score-box {
+            text-align: center;
+            margin-top: 2.5em;
+        }
+        .score-box h2 {
+            color: #1976d2;
+            font-size: 2.2em;
+        }
+        .quiz-btn {
+            padding:1em 2.5em;
+            background:#306998;
+            color:white;
+            border:none;
+            border-radius:10px;
+            font-weight:700;
+            font-size:1.15em;
+            cursor:pointer;
+            margin-top:1.5em;
+            box-shadow: 0 2px 8px rgba(48,105,152,0.10);
+            transition: background 0.2s;
+        }
+        .quiz-btn.secondary {
+            background: #ffd43b;
+            color: #222;
+        }
+        .quiz-btn:hover {
+            background: #25527a;
+        }
+        .quiz-btn.secondary:hover {
+            background: #ffe066;
+        }
+        @media (max-width: 700px) {
+            .container { padding: 1em 0 2em 0; }
+            .instructions { padding: 1em 1em; font-size: 1.08em; }
+            h1 { font-size: 2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="home-btn" style="position:absolute; left:1.5em; top:1.5em; padding:0.4em 1.2em; font-size:1em; border-radius:6px; margin:0; min-width:unset; max-width:unset; box-shadow:none; background:#306998; color:#fff; font-weight:600;">&larr; Home</a>
+        <h1>Python Quiz</h1>
+        <div class="instructions">
+            Answer the following 10 random Python questions. Your score and correct answers will be shown after you submit. Good luck!
+        </div>
+        <div id="quiz-section" style="max-width: 700px; margin: 0 auto;"></div>
+    </div>
+    <script>
+    const quizQuestions = [
+        { q: 'What is the output of print(2 ** 3)?', options: ['5', '6', '8', '9'], answer: '8' },
+        { q: 'Which of these is a valid variable name in Python?', options: ['2var', 'var_2', 'var-2', 'var 2'], answer: 'var_2' },
+        { q: 'What does the len() function do?', options: ['Returns the length of an object', 'Returns the type', 'Returns the value', 'Returns the index'], answer: 'Returns the length of an object' },
+        { q: 'Which keyword is used to define a function in Python?', options: ['func', 'define', 'def', 'function'], answer: 'def' },
+        { q: 'What is the output of print("Hello"[1])?', options: ['H', 'e', 'l', 'o'], answer: 'e' },
+        { q: 'Which data structure does not allow duplicate elements?', options: ['List', 'Tuple', 'Set', 'Dictionary'], answer: 'Set' },
+        { q: 'How do you start a comment in Python?', options: ['//', '#', '--', '/*'], answer: '#' },
+        { q: 'What is the correct file extension for Python files?', options: ['.pyth', '.pt', '.py', '.p'], answer: '.py' },
+        { q: 'Which of the following is used to handle exceptions?', options: ['try-except', 'catch', 'error', 'handle'], answer: 'try-except' },
+        { q: 'What is the output of print(type([]))?', options: ['<class "list">', '<type "list">', '<list>', 'list'], answer: '<class "list">' },
+        { q: 'Which function is used to get input from the user?', options: ['scan()', 'input()', 'get()', 'read()'], answer: 'input()' },
+        { q: 'What is the result of 10 // 3 in Python?', options: ['3.33', '3', '4', '3.0'], answer: '3' },
+        { q: 'Which of these is a mutable data type?', options: ['tuple', 'string', 'list', 'int'], answer: 'list' },
+        { q: 'How do you create a dictionary in Python?', options: ['()', '[]', '{}', '<>'], answer: '{}' },
+        { q: 'What does the break statement do?', options: ['Exits the loop', 'Skips to next iteration', 'Ends the function', 'Pauses the program'], answer: 'Exits the loop' },
+        { q: 'Which of the following is NOT a valid Python data type?', options: ['set', 'array', 'tuple', 'dict'], answer: 'array' },
+        { q: 'What is the output of print(3 * "ab")?', options: ['ab', 'abab', 'ababab', 'Error'], answer: 'ababab' },
+        { q: 'Which method adds an item to the end of a list?', options: ['add()', 'append()', 'insert()', 'push()'], answer: 'append()' },
+        { q: 'How do you import the math module?', options: ['import math', 'include math', 'using math', 'require math'], answer: 'import math' },
+        { q: 'What is the output of print(bool(""))?', options: ['True', 'False', 'None', 'Error'], answer: 'False' },
+        { q: 'Which operator is used for string concatenation?', options: ['*', '+', '&', '%'], answer: '+' },
+        { q: 'What is the output of print(list(range(2, 8, 2)))?', options: ['[2, 4, 6, 8]', '[2, 4, 6]', '[2, 3, 4, 5, 6, 7, 8]', '[2, 4, 6]'], answer: '[2, 4, 6]' },
+        { q: 'Which statement is used to skip the rest of the code inside a loop for the current iteration?', options: ['break', 'pass', 'continue', 'skip'], answer: 'continue' },
+        { q: 'What is the output of print(5 == 5.0)?', options: ['True', 'False', 'Error', 'None'], answer: 'True' },
+        { q: 'Which function returns the largest item in an iterable?', options: ['max()', 'largest()', 'biggest()', 'top()'], answer: 'max()' },
+        { q: 'How do you open a file for reading in Python?', options: ['open(filename, "w")', 'open(filename, "r")', 'open(filename, "a")', 'open(filename, "x")'], answer: 'open(filename, "r")' },
+        { q: 'What is the output of print({1,2,3} & {2,3,4})?', options: ['{1,2,3,4}', '{2, 3}', '{1, 4}', '{1,2,3}'], answer: '{2, 3}' },
+        { q: 'Which keyword is used to create a class in Python?', options: ['object', 'class', 'define', 'struct'], answer: 'class' },
+        { q: 'What is the output of print("python".capitalize())?', options: ['Python', 'PYTHON', 'python', 'Python '], answer: 'Python' },
+        { q: 'Which of the following is a Python tuple?', options: ['[1,2,3]', '{1,2,3}', '(1,2,3)', '<1,2,3>'], answer: '(1,2,3)' },
+        { q: 'How do you handle exceptions in Python?', options: ['try-catch', 'try-except', 'catch-try', 'except-try'], answer: 'try-except' },
+        { q: 'What is the output of print(10 % 3)?', options: ['1', '3', '0', '10'], answer: '1' },
+        { q: 'Which method removes and returns the last item from a list?', options: ['remove()', 'pop()', 'delete()', 'cut()'], answer: 'pop()' },
+        { q: 'What is the output of print(type(lambda x: x))?', options: ['<class "function">', '<class "lambda">', '<function>', '<lambda>'], answer: '<class "function">' },
+        { q: 'Which of these is used to define a block of code in Python?', options: ['Braces {}', 'Parentheses ()', 'Indentation', 'Quotation marks'], answer: 'Indentation' },
+        { q: 'What is the output of print("a" in "apple")?', options: ['True', 'False', 'None', 'Error'], answer: 'True' },
+        { q: 'Which built-in function returns the number of items in an object?', options: ['count()', 'size()', 'len()', 'items()'], answer: 'len()' },
+        { q: 'How do you start a multiline comment in Python?', options: ['//', '/*', '"""', '#'], answer: '"""' },
+        { q: 'Which of the following is NOT a valid way to create a set?', options: ['set([1,2,3])', '{1,2,3}', 'set()', '[1,2,3]'], answer: '[1,2,3]' },
+        { q: 'What is the output of print(0 or 5)?', options: ['0', '5', 'True', 'False'], answer: '5' },
+        { q: 'Which method returns a copy of a list?', options: ['copy()', 'clone()', 'duplicate()', 'replicate()'], answer: 'copy()' },
+        { q: 'What is the output of print("Hello"[::-1])?', options: ['Hello', 'olleH', 'Error', 'None'], answer: 'olleH' },
+        { q: 'Which function converts a string to an integer?', options: ['str()', 'int()', 'float()', 'chr()'], answer: 'int()' },
+        { q: 'What is the output of print(2 < 3 and 3 < 4)?', options: ['True', 'False', 'None', 'Error'], answer: 'True' }
+    ];
+
+    function shuffle(array) {
+        let arr = array.slice();
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function renderQuiz() {
+        const quizSection = document.getElementById('quiz-section');
+        const selected = shuffle(quizQuestions).slice(0, 10);
+        let html = '<form id="quiz-form">';
+        selected.forEach((q, idx) => {
+            html += `<div class="quiz-question">
+                <div class="qtext">${idx+1}. ${q.q}</div>`;
+            q.options.forEach(opt => {
+                html += `<label class="quiz-option">
+                    <input type="radio" name="q${idx}" value="${opt}"> ${opt}
+                </label>`;
+            });
+            html += '</div>';
+        });
+        html += '<div style="text-align:center;"><button type="submit" class="quiz-btn">Submit Quiz</button></div></form>';
+        quizSection.innerHTML = html;
+
+        document.getElementById('quiz-form').onsubmit = function(e) {
+            e.preventDefault();
+            let score = 0;
+            let results = [];
+            selected.forEach((q, idx) => {
+                const chosen = (quizSection.querySelector(`input[name='q${idx}']:checked`)||{}).value;
+                const correct = chosen === q.answer;
+                if (correct) score++;
+                results.push({
+                    question: q.q,
+                    chosen,
+                    answer: q.answer,
+                    options: q.options
+                });
+            });
+            let resultHtml = `<div class='score-box'><h2>Your Score: ${score} / 10</h2></div>`;
+            resultHtml += '<div>';
+            results.forEach((res, idx) => {
+                resultHtml += `<div class="quiz-question">
+                    <div class="qtext">${idx+1}. ${res.question}</div>`;
+                res.options.forEach(opt => {
+                    let cls = '';
+                    if (opt === res.answer) cls = 'correct';
+                    else if (opt === res.chosen && opt !== res.answer) cls = 'incorrect';
+                    resultHtml += `<span class="quiz-option ${cls}">${opt}`;
+                    if (opt === res.answer) resultHtml += ' &#10003;';
+                    if (opt === res.chosen && opt !== res.answer) resultHtml += ' &#10007;';
+                    resultHtml += '</span>';
+                });
+                resultHtml += '</div>';
+            });
+            resultHtml += '</div>';
+            resultHtml += `<div style='text-align:center;'><button id='retake-quiz' class='quiz-btn secondary'>Retake Quiz</button></div>`;
+            quizSection.innerHTML = resultHtml;
+            document.getElementById('retake-quiz').onclick = renderQuiz;
+        };
+    }
+
+    renderQuiz();
+    </script>
+</body>
+</html> 

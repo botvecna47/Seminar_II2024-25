@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fork System Call Simulation - OS Practicals</title>
+    <link rel="icon" type="image/svg+xml"
+        href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg">
+    <link rel="stylesheet" href="../css/os.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sim-section {
+            background: var(--os-card);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px var(--os-shadow);
+            padding: 2em;
+            margin: 2em 0;
+        }
+
+        .sim-title {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-bottom: 0.7em;
+        }
+
+        .sim-desc {
+            color: var(--os-text);
+            margin-bottom: 1.2em;
+        }
+
+        .code-area {
+            background: #23272e;
+            color: #e0e0e0;
+            border-radius: 6px;
+            padding: 1.3em 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1.13em;
+            margin-bottom: 1em;
+            min-height: 220px;
+            width: 55vw;
+            max-width: 1000px;
+        }
+
+        .sim-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7em 2em;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1.2em;
+            transition: background 0.2s;
+        }
+
+        .sim-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .sim-output {
+            background: #181c1f;
+            color: #00e676;
+            border-radius: 6px;
+            padding: 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1em;
+            min-height: 80px;
+            margin-top: 1em;
+            white-space: pre-line;
+        }
+
+        .proc-label {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: #fff;
+            border-radius: 4px;
+            padding: 0.2em 0.7em;
+            font-size: 0.95em;
+            margin-right: 0.7em;
+        }
+
+        @media (max-width: 700px) {
+            .sim-section {
+                padding: 1em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="os.html" class="back-button"
+                style="font-size:1.08em; padding:0.6em 1.3em; background:var(--primary-color); color:#fff; border-radius:6px; font-weight:600; margin-right:1.2em;">&larr;
+                Back to OS Practicals</a>
+            <div class="logo" style="background: transparent; box-shadow: none; margin-right: 0.5rem;">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="OS"
+                    width="40" height="40">
+            </div>
+            <h1>Fork System Call Simulation</h1>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">
+                <i class="fas fa-moon" id="theme-icon"></i> <span id="theme-text">Toggle Theme</span>
+            </button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="sim-section">
+            <div class="sim-title">What is <code>fork()</code>?</div>
+            <div class="sim-desc">
+                <b>fork()</b> is a system call in Unix/Linux that creates a new process by duplicating the calling
+                (parent) process. The new process is called the <b>child</b> process. Both processes continue execution
+                from the point where <code>fork()</code> was called, but <code>fork()</code> returns a different value
+                in each: 0 in the child, and the child's PID in the parent.<br><br>
+                <b>Instructions:</b> You can edit the C code below or use the default. Click <b>Run Simulation</b> to see how parent and child processes behave. Use <b>Download C Code</b> to save the code for local compilation.
+            </div>
+            <div style="margin-bottom:0.5em; color:var(--text-color); font-size:1.05em; font-weight:500;">Reference C Implementation: <code>fork()</code> System Call</div>
+            <textarea id="fork-code" class="code-area" rows="15">#include<stdio.h>
+#include<unistd.h>
+
+int main() {
+    pid_t pid;
+    pid = fork();
+
+    if(pid < 0) {
+        printf("Error, Unable to create Child Process !!");
+    }else if ( pid == 0) {
+        printf("Child Process has successfully created !!\n");
+        printf("PID of Child : %d\n",getpid());
+        printf("PID of Parent : %d\n", getppid());
+    }else {
+        printf("Parent process created successfully !!\n");
+        printf("PID of Parent : %d\n",getpid());
+        printf("PID of Child created : %d\n",pid);
+    }
+    return 0;
+}</textarea>
+            <br>
+            <button class="sim-btn" onclick="runForkSim()">Run Simulation</button>
+            <button class="sim-btn" onclick="clearAll()" style="margin-left: 10px; background: #888;">Clear All</button>
+            <button class="sim-btn" onclick="downloadCode()" style="margin-left: 10px; background: #1976d2;">Download C Code</button>
+            <div id="fork-sim-output" class="sim-output"></div>
+            <div id="fork-result-table" style="margin-top:1.5em;"></div>
+        </div>
+    </div>
+    <script>
+        function updateThemeButton() {
+            const theme = document.body.getAttribute('data-theme');
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'dark') {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Light Mode';
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Dark Mode';
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton();
+        }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeButton();
+        });
+
+        function clearAll() {
+            document.getElementById('fork-sim-output').innerHTML = '';
+            document.getElementById('fork-result-table').innerHTML = '';
+        }
+
+        // Fork simulation logic
+        function runForkSim() {
+            const outputDiv = document.getElementById('fork-sim-output');
+            const tableDiv = document.getElementById('fork-result-table');
+            const parentPID = Math.floor(Math.random() * 1000) + 2000;
+            const childPID = parentPID + Math.floor(Math.random() * 10) + 1;
+            
+            const parentOutput = `<div class="output-block"><span class="proc-label">Parent (PID: ${parentPID})</span>Parent process created successfully !!<br>PID of Parent : ${parentPID}<br>PID of Child created : ${childPID}</div>`;
+            const childOutput = `<div class="output-block"><span class="proc-label">Child (PID: ${childPID})</span>Child Process has successfully created !!<br>PID of Child : ${childPID}<br>PID of Parent : ${parentPID}</div>`;
+
+            // Simulate non-deterministic execution order
+            if (Math.random() > 0.5) {
+                outputDiv.innerHTML = parentOutput + childOutput;
+            } else {
+                outputDiv.innerHTML = childOutput + parentOutput;
+            }
+            // Fill result table
+            tableDiv.innerHTML = `<table style="width:100%;border-collapse:collapse;margin-top:1em;">
+                <tr style="background:#1976d2;color:#fff;"><th>Process</th><th>PID</th><th>Role</th></tr>
+                <tr style="background:#f5f5f5;"><td>Parent</td><td>${parentPID}</td><td>Creates child, continues execution</td></tr>
+                <tr style="background:#e0e0e0;"><td>Child</td><td>${childPID}</td><td>New process, executes child code</td></tr>
+            </table>`;
+        }
+        // Download C code logic
+        function downloadCode() {
+            const code = document.getElementById('fork-code').value;
+            const blob = new Blob([code], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'fork_system_call.c';
+            a.click();
+        }
+    </script>
+</body>
+
+</html>

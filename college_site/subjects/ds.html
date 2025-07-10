@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures - Smart Study Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .topic-card {
+            background: var(--card-background);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .topic-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .code-example {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .resource-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .resource-list li {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+            transition: transform 0.2s ease;
+        }
+
+        .resource-list li:hover {
+            transform: translateX(5px);
+        }
+
+        .resource-list a {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resource-list a:hover {
+            color: var(--primary-dark);
+        }
+
+        .resource-category {
+            margin-bottom: 2rem;
+        }
+
+        .resource-category h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .resource-category h3 i {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Smart Study Portal</div>
+        <ul class="nav-links">
+            <li><a href="../index.html#subjects">Subjects</a></li>
+            <li><a href="../index.html#languages">Languages</a></li>
+            <li><a href="../index.html#about">About</a></li>
+        </ul>
+    </nav>
+
+    <div class="content-section">
+        <a href="../index.html" class="back-button">← Back to Home</a>
+        
+        <h1>Data Structures</h1>
+
+        <!-- Learning Resources Section -->
+        <div class="topic-card">
+            <h2>Learning Resources</h2>
+            
+            <div class="resource-category">
+                <h3><i class="fas fa-certificate"></i> Certification Courses</h3>
+                <ul class="resource-list">
+                    <li><a href="https://www.coursera.org/specializations/data-structures-algorithms" target="_blank"><i class="fas fa-external-link-alt"></i> Data Structures and Algorithms Specialization (Coursera)</a></li>
+                    <li><a href="https://www.edx.org/course/data-structures-fundamentals" target="_blank"><i class="fas fa-external-link-alt"></i> Data Structures Fundamentals (edX)</a></li>
+                    <li><a href="https://www.udemy.com/course/data-structures-and-algorithms-deep-dive-using-java/" target="_blank"><i class="fas fa-external-link-alt"></i> Data Structures and Algorithms Deep Dive (Udemy)</a></li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <h3><i class="fab fa-youtube"></i> YouTube Channels</h3>
+                <ul class="resource-list">
+                    <li><a href="https://www.youtube.com/c/WilliamFiset" target="_blank"><i class="fas fa-video"></i> William Fiset - Data Structures</a></li>
+                    <li><a href="https://www.youtube.com/c/BackToBackSWE" target="_blank"><i class="fas fa-video"></i> Back To Back SWE</a></li>
+                    <li><a href="https://www.youtube.com/c/MyCodeSchool" target="_blank"><i class="fas fa-video"></i> MyCodeSchool</a></li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <h3><i class="fas fa-globe"></i> Learning Websites</h3>
+                <ul class="resource-list">
+                    <li><a href="https://www.geeksforgeeks.org/data-structures/" target="_blank"><i class="fas fa-external-link-alt"></i> GeeksforGeeks Data Structures</a></li>
+                    <li><a href="https://www.tutorialspoint.com/data_structures_algorithms/index.htm" target="_blank"><i class="fas fa-external-link-alt"></i> TutorialsPoint Data Structures</a></li>
+                    <li><a href="https://www.programiz.com/dsa" target="_blank"><i class="fas fa-external-link-alt"></i> Programiz Data Structures</a></li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <h3><i class="fas fa-book"></i> Topic-wise Resources</h3>
+                <div class="topic-resources">
+                    <h4>GeeksforGeeks Topics</h4>
+                    <ul class="resource-list">
+                        <li><a href="https://www.geeksforgeeks.org/array-data-structure/" target="_blank"><i class="fas fa-code"></i> Arrays</a></li>
+                        <li><a href="https://www.geeksforgeeks.org/data-structures/linked-list/" target="_blank"><i class="fas fa-code"></i> Linked Lists</a></li>
+                        <li><a href="https://www.geeksforgeeks.org/stack-data-structure/" target="_blank"><i class="fas fa-code"></i> Stacks</a></li>
+                        <li><a href="https://www.geeksforgeeks.org/queue-data-structure/" target="_blank"><i class="fas fa-code"></i> Queues</a></li>
+                        <li><a href="https://www.geeksforgeeks.org/binary-tree-data-structure/" target="_blank"><i class="fas fa-code"></i> Binary Trees</a></li>
+                        <li><a href="https://www.geeksforgeeks.org/binary-search-tree-data-structure/" target="_blank"><i class="fas fa-code"></i> Binary Search Trees</a></li>
+                        <li><a href="https://www.geeksforgeeks.org/heap-data-structure/" target="_blank"><i class="fas fa-code"></i> Heaps</a></li>
+                        <li><a href="https://www.geeksforgeeks.org/hashing-data-structure/" target="_blank"><i class="fas fa-code"></i> Hashing</a></li>
+                    </ul>
+
+                    <h4>W3Schools Topics</h4>
+                    <ul class="resource-list">
+                        <li><a href="https://www.w3schools.com/dsa/dsa_intro.php" target="_blank"><i class="fas fa-code"></i> Data Structures Introduction</a></li>
+                        <li><a href="https://www.w3schools.com/dsa/dsa_array.php" target="_blank"><i class="fas fa-code"></i> Arrays</a></li>
+                        <li><a href="https://www.w3schools.com/dsa/dsa_linkedlist.php" target="_blank"><i class="fas fa-code"></i> Linked Lists</a></li>
+                        <li><a href="https://www.w3schools.com/dsa/dsa_stack.php" target="_blank"><i class="fas fa-code"></i> Stacks</a></li>
+                        <li><a href="https://www.w3schools.com/dsa/dsa_queue.php" target="_blank"><i class="fas fa-code"></i> Queues</a></li>
+                        <li><a href="https://www.w3schools.com/dsa/dsa_tree.php" target="_blank"><i class="fas fa-code"></i> Trees</a></li>
+                        <li><a href="https://www.w3schools.com/dsa/dsa_graph.php" target="_blank"><i class="fas fa-code"></i> Graphs</a></li>
+                        <li><a href="https://www.w3schools.com/dsa/dsa_hash.php" target="_blank"><i class="fas fa-code"></i> Hash Tables</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="resource-category">
+                <h3><i class="fas fa-graduation-cap"></i> Free Courses</h3>
+                <ul class="resource-list">
+                    <li><a href="https://www.freecodecamp.org/learn/coding-interview-prep/data-structures/" target="_blank"><i class="fas fa-external-link-alt"></i> freeCodeCamp Data Structures</a></li>
+                    <li><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/" target="_blank"><i class="fas fa-external-link-alt"></i> MIT Introduction to Algorithms</a></li>
+                    <li><a href="https://www.coursera.org/learn/data-structures" target="_blank"><i class="fas fa-external-link-alt"></i> Coursera Data Structures</a></li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <h3><i class="fab fa-github"></i> GitHub Repositories</h3>
+                <ul class="resource-list">
+                    <li><a href="https://github.com/TheAlgorithms/C-Plus-Plus" target="_blank"><i class="fas fa-code-branch"></i> The Algorithms - C++</a></li>
+                    <li><a href="https://github.com/trekhleb/javascript-algorithms" target="_blank"><i class="fas fa-code-branch"></i> JavaScript Algorithms</a></li>
+                    <li><a href="https://github.com/keon/algorithms" target="_blank"><i class="fas fa-code-branch"></i> Python Algorithms</a></li>
+                </ul>
+            </div>
+
+            <div class="resource-category">
+                <h3><i class="fas fa-tasks"></i> Practice Questions</h3>
+                <div class="practice-questions">
+                    <h4>Easy Level</h4>
+                    <ul class="resource-list">
+                        <li><a href="https://www.w3resource.com/c-programming-exercises/array/index.php" target="_blank"><i class="fas fa-code"></i> Write a program to find the sum of all elements in an array</a></li>
+                        <li><a href="https://www.w3resource.com/c-programming-exercises/array/c-array-exercise-2.php" target="_blank"><i class="fas fa-code"></i> Write a program to find the largest element in an array</a></li>
+                    </ul>
+
+                    <h4>Medium Level</h4>
+                    <ul class="resource-list">
+                        <li><a href="https://www.w3resource.com/c-programming-exercises/linked_list/index.php" target="_blank"><i class="fas fa-code"></i> Write a program to reverse a linked list</a></li>
+                        <li><a href="https://www.w3resource.com/c-programming-exercises/stack/index.php" target="_blank"><i class="fas fa-code"></i> Implement a stack using arrays and perform push/pop operations</a></li>
+                    </ul>
+
+                    <h4>Hard Level</h4>
+                    <ul class="resource-list">
+                        <li><a href="https://www.w3resource.com/c-programming-exercises/binary-search-tree/index.php" target="_blank"><i class="fas fa-code"></i> Implement a binary search tree with insertion, deletion, and traversal operations</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="topic-card">
+            <h3>Arrays</h3>
+            <p>Arrays are the most basic data structure that stores elements at contiguous memory locations.</p>
+            <div class="code-example">
+                <pre>
+// Array implementation in C++
+int arr[5] = {1, 2, 3, 4, 5};
+                </pre>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <h3>Linked Lists</h3>
+            <p>A linked list is a linear data structure where elements are stored in nodes, and each node points to the next node.</p>
+            <div class="code-example">
+                <pre>
+// Node structure for linked list
+struct Node {
+    int data;
+    Node* next;
+};
+                </pre>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <h3>Stacks</h3>
+            <p>A stack is a linear data structure that follows the Last In First Out (LIFO) principle.</p>
+            <div class="code-example">
+                <pre>
+// Stack implementation using array
+class Stack {
+    int top;
+    int arr[100];
+public:
+    Stack() { top = -1; }
+    void push(int x);
+    int pop();
+    bool isEmpty();
+};
+                </pre>
+            </div>
+        </div>
+
+        <div class="topic-card">
+            <h3>Queues</h3>
+            <p>A queue is a linear data structure that follows the First In First Out (FIFO) principle.</p>
+            <div class="code-example">
+                <pre>
+// Queue implementation using array
+class Queue {
+    int front, rear;
+    int arr[100];
+public:
+    Queue() { front = rear = -1; }
+    void enqueue(int x);
+    int dequeue();
+    bool isEmpty();
+};
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Smart Study Portal. All rights reserved.</p>
+    </footer>
+</body>
+</html> 

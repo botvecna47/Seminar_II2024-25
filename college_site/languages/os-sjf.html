@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SJF Scheduling Simulation - OS Practicals</title>
+    <link rel="icon" type="image/svg+xml"
+        href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg">
+    <link rel="stylesheet" href="../css/os.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sim-section {
+            background: var(--os-card);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px var(--os-shadow);
+            padding: 2em;
+            margin: 2em 0;
+        }
+
+        .sim-title {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-bottom: 0.7em;
+        }
+
+        .sim-desc {
+            color: var(--os-text);
+            margin-bottom: 1.2em;
+        }
+
+        .code-area {
+            background: #23272e;
+            color: #e0e0e0;
+            border-radius: 6px;
+            padding: 1.3em 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1.13em;
+            margin-bottom: 1em;
+            min-height: 220px;
+            width: 55vw;
+            max-width: 1000px;
+        }
+
+        .sim-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7em 2em;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1.2em;
+            transition: background 0.2s;
+        }
+
+        .sim-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .sim-output {
+            background: #181c1f;
+            color: #00e676;
+            border-radius: 6px;
+            padding: 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1em;
+            min-height: 80px;
+            margin-top: 1em;
+            white-space: pre-line;
+        }
+
+        .proc-label {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: #fff;
+            border-radius: 4px;
+            padding: 0.2em 0.7em;
+            font-size: 0.95em;
+            margin-right: 0.7em;
+        }
+
+        .input-table {
+            margin: 1em 0 2em 0;
+            border-collapse: collapse;
+            width: 55vw;
+            max-width: 1000px;
+        }
+
+        .input-table th,
+        .input-table td {
+            border: 1px solid #bbb;
+            padding: 0.5em 0.8em;
+            text-align: center;
+        }
+
+        .input-table th {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .input-table td {
+            background: var(--os-light);
+        }
+
+        .gantt-bar {
+            display: inline-block;
+            min-width: 60px;
+            padding: 0.4em 0.7em;
+            margin: 0 2px;
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .gantt-idle {
+            background: #888;
+            color: #fff;
+        }
+
+        @media (max-width: 700px) {
+            .sim-section {
+                padding: 1em;
+            }
+
+            .code-area,
+            .input-table {
+                width: 98vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="os.html" class="back-button"
+                style="font-size:1.08em; padding:0.6em 1.3em; background:var(--primary-color); color:#fff; border-radius:6px; font-weight:600; margin-right:1.2em;">&larr;
+                Back to OS Practicals</a>
+            <div class="logo" style="background: transparent; box-shadow: none; margin-right: 0.5rem;">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="OS"
+                    width="40" height="40">
+            </div>
+            <h1>SJF Scheduling Simulation</h1>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">
+                <i class="fas fa-moon" id="theme-icon"></i> <span id="theme-text">Toggle Theme</span>
+            </button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="sim-section">
+            <div class="sim-title">What is SJF Scheduling?</div>
+            <div class="sim-desc">
+                <b>Shortest Job First (SJF)</b> is a CPU scheduling algorithm that selects the process with the shortest
+                burst time from the set of processes that have arrived. It is non-preemptive and can minimize average
+                waiting time, but may cause starvation for longer jobs.<br><br>
+                <b>Instructions:</b> You can edit the C code below or use the default. Enter process data in the table, then click <b>Run Simulation</b> to see the Gantt chart, table, and average times. Use <b>Download C Code</b> to save the code for local compilation.
+            </div>
+            <div style="margin-bottom:0.5em; color:var(--text-color); font-size:1.05em; font-weight:500;">Reference C Implementation: SJF Scheduling</div>
+            <textarea id="sjf-code" class="code-area" rows="15">// C program to implement Non Preemptive Shortest Job First (SJF) CPU Scheduling Algorithm
+#include&lt;stdio.h&gt;
+#include&lt;stdbool.h&gt;
+
+// Structure to store all the parameters of a process
+struct Process {
+    int pid;
+    int arrival_time;
+    int burst_time;
+    int completion_time;
+    int turn_around_time;
+    int waiting_time;
+};
+
+// Function to calculate average waiting time
+float average_waiting_time(struct Process process[], int no_of_processes) {
+    int sum = 0;
+    for (int i = 0; i < no_of_processes; i++) {
+        sum += process[i].waiting_time;
+    }
+    return (float)sum / no_of_processes;
+}
+
+// Function to calculate average turn around time
+float average_turn_around_time(struct Process process[], int no_of_processes) {
+    int sum = 0;
+    for(int i = 0; i < no_of_processes; i++) {
+        sum += process[i].turn_around_time;
+    }
+    return (float)sum / no_of_processes;
+}
+
+// Function to schedule the process according to SJF Scheduling algorithm
+void shortest_job_first_algo(struct Process process[], int no_of_processes) {
+    // To start scheduling form 0ms time!
+    int current_time = 0;
+    int completed_process = 0;                  // To track of number of processes completed, and not to go out of bonds
+    bool is_Completed[no_of_processes];         // To check if the process is already executed, and not to reschedule despite the short burst time
+    
+    for(int i = 0; i < no_of_processes; i++) {
+        is_Completed[i] = false;
+    }
+
+    while(completed_process < no_of_processes) {
+        int shortest_burst = 1e9;               // Initialize shortest burst time to a large number, so that it will compare all the burst time, and not skip any
+        int shortest_burst_index = -1;          // Store the index value of shorter burst time, for scheduling
+        
+        // Find the shortest available job
+        for(int i = 0; i < no_of_processes; i++) {  
+            // Check for process is completed, has arrived and has shortest burst time form all the processes that are not executed
+            if(!is_Completed[i] && process[i].arrival_time <= current_time && process[i].burst_time < shortest_burst) {
+                shortest_burst = process[i].burst_time;
+                shortest_burst_index = i;
+            }
+        }
+
+        if(shortest_burst_index == -1) {
+            // If no process available, find the next arriving process
+            int next_arrival = 1e9;
+            for(int i = 0; i < no_of_processes; i++) {
+                if(!is_Completed[i] && process[i].arrival_time < next_arrival) {
+                    next_arrival = process[i].arrival_time;
+                }
+            }
+            current_time = next_arrival;
+        }
+        else {
+            // Scheduling The Process with shortest burst time
+            process[shortest_burst_index].completion_time = current_time + process[shortest_burst_index].burst_time;                  // Used it in place of Gantt Chart, for easy calculation, and beginner friendly          
+            process[shortest_burst_index].turn_around_time = process[shortest_burst_index].completion_time - process[shortest_burst_index].arrival_time; // TAT = CT  - AT
+            process[shortest_burst_index].waiting_time = process[shortest_burst_index].turn_around_time - process[shortest_burst_index].burst_time;      // WT  = TAT - BT
+            current_time = process[shortest_burst_index].completion_time;                                          // Updated to keep track of the arrival of next process
+            is_Completed[shortest_burst_index] = true;
+            completed_process++;
+        }
+    }
+}
+
+// Function to print Gantt Chart
+void print_gantt_chart(struct Process process[], int size) {
+    // First sort processes by completion time for Gantt chart
+    for(int i = 0; i < size-1; i++) {
+        for(int j = 0; j < size-i-1; j++) {
+            if(process[j].completion_time > process[j+1].completion_time) {
+                struct Process temp = process[j];
+                process[j] = process[j+1];
+                process[j+1] = temp;
+            }
+        }
+    }
+
+    printf("\nGantt Chart:\n");
+    
+    int current_time = 0;
+    int i = 0;
+    
+    // Print top process bars
+    printf("|");
+    while(i < size) {
+        if(current_time < process[i].arrival_time) {
+            printf(" -- |");
+            current_time = process[i].arrival_time;
+        }
+        else {
+            printf(" P%d |", process[i].pid);
+            current_time += process[i].burst_time;
+            i++;
+        }
+    }
+    
+    // Print timeline
+    printf("\n");
+    current_time = 0;
+    i = 0;
+    printf("%-5d", current_time);
+    
+    while(i < size) {
+        if(current_time < process[i].arrival_time) {
+            printf("%-5d", process[i].arrival_time);
+            current_time = process[i].arrival_time;
+        }
+        else {
+            printf("%-5d", current_time + process[i].burst_time);
+            current_time += process[i].burst_time;
+            i++;
+        }
+    }
+    printf("\n");
+}
+
+int main() {
+    int no_of_processes;
+    printf("Enter number of processes to schedule : ");
+    scanf("%d", &no_of_processes);
+    printf("Enter values of all processes : \n");
+    struct Process process[no_of_processes];
+    // Take Input for all processes form user:
+    for(int i = 0; i < no_of_processes; i++) {
+        process[i]. pid = i + 1;
+        printf("Arrival Time : ");
+        scanf("%d", &process[i].arrival_time);
+        printf("Burst Time   : ");
+        scanf("%d", &process[i].burst_time);
+    }
+    shortest_job_first_algo(process, no_of_processes);
+    // Print results in tabular form
+    printf("\nProcess   A.T.  B.T.  C.T.  T.A.T.  W.T.\n");
+    for (int i = 0; i < no_of_processes; i++) {
+        printf("P%-9d%-6d%-6d%-6d%-8d%d\n",
+                process[i].pid, 
+                process[i].arrival_time,
+                process[i].burst_time, 
+                process[i].completion_time,
+                process[i].turn_around_time, 
+                process[i].waiting_time);
+    }
+    print_gantt_chart(process, no_of_processes);
+    printf("Average Turnaround Time: %.2f ms\n", average_waiting_time(process, no_of_processes));
+    printf("Average Waiting Time: %.2f ms\n", average_turn_around_time(process, no_of_processes));
+    return 0;
+}</textarea>
+            <br>
+            <form id="sjf-form" style="margin-bottom:2em;">
+                <table class="input-table">
+                    <thead>
+                        <tr>
+                            <th>Process</th>
+                            <th>Arrival Time</th>
+                            <th>Burst Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sjf-input-rows"></tbody>
+                </table>
+                <div style="margin-top:1em;">
+                    <button type="button" class="sim-btn" onclick="addSJFRow()">+ Add Process</button>
+                    <button type="button" class="sim-btn" onclick="runSJFSim(false)" style="margin-left: 10px;">Run Non-Preemptive SJF</button>
+                    <button type="button" class="sim-btn" onclick="runSJFSim(true)" style="margin-left: 10px;">Run Preemptive SJF (SRTF)</button>
+                    <button type="button" class="sim-btn" onclick="clearAll()" style="margin-left: 10px; background: #888;">Clear All</button>
+                </div>
+            </form>
+            <div id="sjf-sim-output" class="sim-output" style="margin-top:2em;"></div>
+            <button class="sim-btn" onclick="downloadCode()" style="margin-top: 1.5em; background: #1976d2;">Download C Code</button>
+        </div>
+    </div>
+    <script>
+        // THEME: Use data-theme attribute for consistency
+        function updateThemeButton() {
+            const theme = document.body.getAttribute('data-theme');
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'dark') {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Light Mode';
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Dark Mode';
+            }
+        }
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton();
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeButton();
+            for (let i = 0; i < 3; i++) addSJFRow();
+        });
+        function addSJFRow() {
+            const tbody = document.getElementById('sjf-input-rows');
+            const idx = tbody.children.length + 1;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>P${idx}</td><td><input type='number' min='0' value='0' style='width:70px'></td><td><input type='number' min='1' value='1' style='width:70px'></td>`;
+            tbody.appendChild(tr);
+        }
+        function runSJFSim(isPreemptive) {
+            const tbody = document.getElementById('sjf-input-rows');
+            const rows = Array.from(tbody.children);
+            let processes = rows.map((tr, i) => ({
+                pid: i + 1,
+                arrival: parseInt(tr.children[1].children[0].value),
+                burst: parseInt(tr.children[2].children[0].value)
+            }));
+            let output = '', table = '', gantt = '', avgTAT = 0, avgWT = 0;
+            if (!isPreemptive) {
+                // Non-preemptive SJF
+                let time = 0, results = [], completed = 0, n = processes.length, isCompleted = Array(n).fill(false);
+                while (completed < n) {
+                    let idx = -1, shortest = 1e9;
+                    for (let i = 0; i < n; i++) {
+                        if (!isCompleted[i] && processes[i].arrival <= time && processes[i].burst < shortest) {
+                            shortest = processes[i].burst; idx = i;
+                        }
+                    }
+                    if (idx === -1) {
+                        let next = 1e9;
+                        for (let i = 0; i < n; i++) if (!isCompleted[i] && processes[i].arrival < next) next = processes[i].arrival;
+                        time = next;
+                    } else {
+                        let ct = time + processes[idx].burst;
+                        let tat = ct - processes[idx].arrival;
+                        let wt = tat - processes[idx].burst;
+                        results.push({ pid: processes[idx].pid, at: processes[idx].arrival, bt: processes[idx].burst, ct, tat, wt });
+                        time = ct; isCompleted[idx] = true; completed++;
+                    }
+                }
+                table += '<table class="input-table"><thead><tr><th>Process</th><th>Arrival</th><th>Burst</th><th>Completion</th><th>Turnaround</th><th>Waiting</th></tr></thead><tbody>';
+                results.forEach(r => {
+                    table += `<tr><td>P${r.pid}</td><td>${r.at}</td><td>${r.bt}</td><td>${r.ct}</td><td>${r.tat}</td><td>${r.wt}</td></tr>`;
+                    avgTAT += r.tat; avgWT += r.wt;
+                });
+                table += '</tbody></table>';
+                avgTAT = (avgTAT / results.length).toFixed(2);
+                avgWT = (avgWT / results.length).toFixed(2);
+                gantt += '<div style="margin:1em 0;width:55vw;max-width:1000px;overflow-x:auto;">';
+                let t = 0;
+                for (let i = 0; i < results.length; i++) {
+                    let r = results[i];
+                    let isIdle = t < r.at;
+                    let width = 60; // px per block
+                    if (isIdle) { gantt += `<span class='gantt-bar gantt-idle' style='width:${width}px'>IDLE</span>`; t = r.at; }
+                    gantt += `<span class='gantt-bar' style='width:${width}px'>P${r.pid}</span>`; t = r.ct;
+                }
+                gantt += '</div>';
+                gantt += '<div style="display:flex;width:55vw;max-width:1000px;overflow-x:auto;font-size:1.1em;color:#888;">';
+                t = 0;
+                for (let i = 0; i < results.length; i++) {
+                    let r = results[i];
+                    let isIdle = t < r.at;
+                    if (isIdle) { gantt += `<span style='width:60px;display:inline-block;text-align:center;'>${r.at}</span>`; t = r.at; }
+                    gantt += `<span style='width:60px;display:inline-block;text-align:center;'>${r.ct}</span>`; t = r.ct;
+                }
+                gantt += '</div>';
+                output = `<b>Gantt Chart (SJF):</b> ${gantt}<br><b>Results Table:</b> ${table}<br><b>Average Turnaround Time:</b> ${avgTAT} ms<br><b>Average Waiting Time:</b> ${avgWT} ms`;
+            } else {
+                // Preemptive SJF (SRTF)
+                let n = processes.length;
+                let time = 0, completed = 0, minm = 1e9, shortest = 0, finish_time, check = false;
+                let remaining = processes.map(p => p.burst);
+                let isCompleted = Array(n).fill(false);
+                let startTimes = Array(n).fill(-1);
+                let endTimes = Array(n).fill(0);
+                let results = Array(n).fill(null);
+                let ganttArr = [];
+                let prev = -1;
+                while (completed != n) {
+                    minm = 1e9;
+                    shortest = -1;
+                    for (let j = 0; j < n; j++) {
+                        if ((processes[j].arrival <= time) && (remaining[j] > 0) && (remaining[j] < minm)) {
+                            minm = remaining[j];
+                            shortest = j;
+                        }
+                    }
+                    if (shortest == -1) {
+                        time++;
+                        continue;
+                    }
+                    if (prev !== shortest) {
+                        ganttArr.push({pid: processes[shortest].pid, start: time});
+                        prev = shortest;
+                    }
+                    if (startTimes[shortest] === -1) startTimes[shortest] = time;
+                    remaining[shortest]--;
+                    time++;
+                    if (remaining[shortest] == 0) {
+                        completed++;
+                        finish_time = time;
+                        endTimes[shortest] = finish_time;
+                        let tat = finish_time - processes[shortest].arrival;
+                        let wt = tat - processes[shortest].burst;
+                        results[shortest] = {
+                            pid: processes[shortest].pid,
+                            at: processes[shortest].arrival,
+                            bt: processes[shortest].burst,
+                            ct: finish_time,
+                            tat: tat,
+                            wt: wt
+                        };
+                    }
+                }
+                // Build Gantt chart
+                gantt += '<div style="margin:1em 0;width:55vw;max-width:1000px;overflow-x:auto;">';
+                for (let i = 0; i < ganttArr.length; i++) {
+                    let width = 60;
+                    gantt += `<span class='gantt-bar' style='width:${width}px'>P${ganttArr[i].pid}</span>`;
+                }
+                gantt += '</div>';
+                // Time markers
+                gantt += '<div style="display:flex;width:55vw;max-width:1000px;overflow-x:auto;font-size:1.1em;color:#888;">';
+                let t = 0;
+                for (let i = 0; i < ganttArr.length; i++) {
+                    gantt += `<span style='width:60px;display:inline-block;text-align:center;'>${ganttArr[i].start}</span>`;
+                }
+                gantt += `<span style='width:60px;display:inline-block;text-align:center;'>${time}</span>`;
+                gantt += '</div>';
+                // Results table
+                table += '<table class="input-table"><thead><tr><th>Process</th><th>Arrival</th><th>Burst</th><th>Completion</th><th>Turnaround</th><th>Waiting</th></tr></thead><tbody>';
+                avgTAT = 0; avgWT = 0;
+                for (let i = 0; i < n; i++) {
+                    let r = results[i];
+                    table += `<tr><td>P${r.pid}</td><td>${r.at}</td><td>${r.bt}</td><td>${r.ct}</td><td>${r.tat}</td><td>${r.wt}</td></tr>`;
+                    avgTAT += r.tat; avgWT += r.wt;
+                }
+                table += '</tbody></table>';
+                avgTAT = (avgTAT / n).toFixed(2);
+                avgWT = (avgWT / n).toFixed(2);
+                output = `<b>Gantt Chart (SRTF):</b> ${gantt}<br><b>Results Table:</b> ${table}<br><b>Average Turnaround Time:</b> ${avgTAT} ms<br><b>Average Waiting Time:</b> ${avgWT} ms`;
+            }
+            document.getElementById('sjf-sim-output').innerHTML = output;
+        }
+        function clearAll() {
+            // Reset code area
+            document.getElementById('sjf-code').value = `// C program to implement Non Preemptive Shortest Job First (SJF) CPU Scheduling Algorithm\n#include<stdio.h>\n#include<stdbool.h>\n\n// Structure to store all the parameters of a process\nstruct Process {\n    int pid;\n    int arrival_time;\n    int burst_time;\n    int completion_time;\n    int turn_around_time;\n    int waiting_time;\n};\n\n// Function to calculate average waiting time\nfloat average_waiting_time(struct Process process[], int no_of_processes) {\n    int sum = 0;\n    for (int i = 0; i < no_of_processes; i++) {\n        sum += process[i].waiting_time;\n    }\n    return (float)sum / no_of_processes;\n}\n\n// Function to calculate average turn around time\nfloat average_turn_around_time(struct Process process[], int no_of_processes) {\n    int sum = 0;\n    for(int i = 0; i < no_of_processes; i++) {\n        sum += process[i].turn_around_time;\n    }\n    return (float)sum / no_of_processes;\n}\n\n// Function to schedule the process according to SJF Scheduling algorithm\nvoid shortest_job_first_algo(struct Process process[], int no_of_processes) {\n    // ...\n}\n\nint main() {\n    // ...\n    return 0;\n}`;
+            // Reset input table to 3 blank/default rows
+            const tbody = document.getElementById('sjf-input-rows');
+            tbody.innerHTML = '';
+            for (let i = 0; i < 3; i++) addSJFRow();
+            // Clear output
+            document.getElementById('sjf-sim-output').innerHTML = '';
+        }
+        // Download C code logic
+        function downloadCode() {
+            const code = document.getElementById('sjf-code').value;
+            const blob = new Blob([code], { type: 'text/plain' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'sjf_scheduling.c';
+            a.click();
+        }
+    </script>
+</body>
+
+</html>

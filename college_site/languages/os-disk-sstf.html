@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSTF Disk Scheduling Simulation - OS Practicals</title>
+    <link rel="icon" type="image/svg+xml"
+        href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg">
+    <link rel="stylesheet" href="../css/os.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sim-section {
+            background: var(--os-card);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px var(--os-shadow);
+            padding: 2em;
+            margin: 2em 0;
+        }
+
+        .sim-title {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-bottom: 0.7em;
+        }
+
+        .sim-desc {
+            color: var(--os-text);
+            margin-bottom: 1.2em;
+        }
+
+        .code-area {
+            background: #23272e;
+            color: #e0e0e0;
+            border-radius: 6px;
+            padding: 1.3em 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1.13em;
+            margin-bottom: 1em;
+            min-height: 220px;
+            width: 55vw;
+            max-width: 1000px;
+        }
+
+        .sim-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7em 2em;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1.2em;
+            transition: background 0.2s;
+        }
+
+        .sim-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .sim-btn.clear-btn {
+            background: #888;
+        }
+
+        .sim-btn.clear-btn:hover {
+            background: #666;
+        }
+
+        .sim-output {
+            background: #181c1f;
+            color: #00e676;
+            border-radius: 6px;
+            padding: 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1em;
+            min-height: 80px;
+            margin-top: 1em;
+            white-space: pre-line;
+        }
+
+        .input-section {
+            margin: 1.5em 0;
+        }
+
+        .input-section label {
+            color: var(--os-text);
+            font-weight: 500;
+            margin-bottom: 0.5em;
+            display: block;
+        }
+
+        .input-section input {
+            width: 100px;
+            padding: 0.5em;
+            border: 1px solid var(--os-border);
+            border-radius: 4px;
+            background: var(--os-light);
+            color: var(--os-text);
+            text-align: center;
+            margin-right: 1em;
+        }
+
+        .input-section input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .dark-theme .input-section input {
+            background: var(--os-card);
+            border-color: var(--os-border);
+        }
+
+        .dark-theme .input-section input:focus {
+            background: #333;
+        }
+
+        .request-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            margin: 1em 0;
+        }
+
+        .request-item {
+            background: var(--secondary-color);
+            color: #fff;
+            padding: 0.3em 0.8em;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .request-item:hover {
+            background: var(--primary-color);
+        }
+
+        .request-item.selected {
+            background: var(--primary-color);
+        }
+
+        .disk-visualization {
+            margin: 2em 0;
+            padding: 1em;
+            background: var(--os-light);
+            border-radius: 8px;
+            border: 2px solid var(--os-border);
+        }
+
+        .disk-track {
+            display: flex;
+            align-items: center;
+            margin: 0.5em 0;
+            padding: 0.5em;
+            background: var(--os-card);
+            border-radius: 4px;
+        }
+
+        .disk-track.current {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .disk-track.completed {
+            background: var(--success-color);
+            color: #fff;
+        }
+
+        .track-number {
+            font-weight: 600;
+            margin-right: 1em;
+            min-width: 60px;
+        }
+
+        .seek-arrow {
+            color: var(--secondary-color);
+            margin: 0 0.5em;
+        }
+
+        .dark-theme .disk-visualization {
+            background: var(--os-card);
+            border-color: var(--os-border);
+        }
+
+        @media (max-width: 700px) {
+            .sim-section {
+                padding: 1em;
+            }
+
+            .code-area {
+                width: 98vw;
+            }
+
+            .input-section input {
+                width: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="os.html" class="back-button"
+                style="font-size:1.08em; padding:0.6em 1.3em; background:var(--primary-color); color:#fff; border-radius:6px; font-weight:600; margin-right:1.2em;">&larr;
+                Back to OS Practicals</a>
+            <div class="logo" style="background: transparent; box-shadow: none; margin-right: 0.5rem;">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="OS"
+                    width="40" height="40">
+            </div>
+            <h1>SSTF Disk Scheduling Simulation</h1>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">
+                <i class="fas fa-moon" id="theme-icon"></i> <span id="theme-text">Toggle Theme</span>
+            </button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="sim-section">
+            <div class="sim-title">What is SSTF Disk Scheduling?</div>
+            <div class="sim-desc">
+                <b>Shortest Seek Time First (SSTF)</b> disk scheduling algorithm selects the request with the minimum 
+                seek time from the current head position. It provides better performance than FCFS but may cause 
+                starvation for requests far from the current head position.<br><br>
+                <b>Try the simulation below:</b> Set the initial head position and add track requests, then click 
+                <b>Run Simulation</b> to see the optimized seek sequence and total seek time!
+            </div>
+            <div style="margin-bottom:0.5em; color:var(--text-color); font-size:1.05em; font-weight:500;">Reference C Implementation: SSTF Disk Scheduling</div>
+            <textarea id="sstf-disk-code" class="code-area" rows="15">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdbool.h&gt;
+
+int main() {
+    int n, head, total_seek = 0;
+    
+    printf("Enter number of requests: ");
+    scanf("%d", &n);
+    
+    int requests[n];
+    bool visited[n];
+    printf("Enter the requests: ");
+    for(int i = 0; i < n; i++) {
+        scanf("%d", &requests[i]);
+        visited[i] = false;
+    }
+    
+    printf("Enter initial head position: ");
+    scanf("%d", &head);
+    
+    printf("\nSSTF Disk Scheduling:\n");
+    printf("Head movement: %d", head);
+    
+    for(int count = 0; count < n; count++) {
+        int min_seek = 9999;
+        int min_index = -1;
+        
+        // Find request with minimum seek time
+        for(int i = 0; i < n; i++) {
+            if(!visited[i]) {
+                int seek = abs(requests[i] - head);
+                if(seek < min_seek) {
+                    min_seek = seek;
+                    min_index = i;
+                }
+            }
+        }
+        
+        visited[min_index] = true;
+        total_seek += min_seek;
+        printf(" -> %d", requests[min_index]);
+        head = requests[min_index];
+    }
+    
+    printf("\nTotal seek time: %d\n", total_seek);
+    printf("Average seek time: %.2f\n", (float)total_seek / n);
+    
+    return 0;
+}</textarea>
+            
+            <div class="input-section">
+                <label for="initial-head">Initial Head Position:</label>
+                <input type="number" id="initial-head" value="50" min="0" max="199">
+                <button class="sim-btn" onclick="addRequest()">Add Request</button>
+                <button class="sim-btn" onclick="runSSTFDiskSim()">Run Simulation</button>
+                <button class="sim-btn clear-btn" onclick="clearAll()">Clear All</button>
+            </div>
+
+            <div class="input-section">
+                <label for="new-request">Add Track Request:</label>
+                <input type="number" id="new-request" placeholder="0-199" min="0" max="199">
+            </div>
+
+            <div id="requests-display" class="request-list">
+                <!-- Request items will be added here -->
+            </div>
+
+            <div id="disk-visualization" class="disk-visualization" style="display: none;">
+                <h4>Disk Head Movement:</h4>
+                <div id="disk-tracks"></div>
+            </div>
+
+            <div id="sstf-disk-output" class="sim-output"></div>
+        </div>
+    </div>
+    <script>
+        let requests = [];
+        let currentHead = 50;
+
+        function updateThemeButton() {
+            const isDark = document.body.classList.contains('dark-theme');
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            
+            if (isDark) {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Light Mode';
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Dark Mode';
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeButton();
+        }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            }
+            updateThemeButton();
+            
+            // Add some example requests
+            addRequest(98);
+            addRequest(183);
+            addRequest(37);
+            addRequest(122);
+            addRequest(14);
+            addRequest(124);
+            addRequest(65);
+            addRequest(67);
+        });
+
+        function addRequest(track = null) {
+            if (track === null) {
+                track = parseInt(document.getElementById('new-request').value);
+                if (isNaN(track) || track < 0 || track > 199) {
+                    alert('Please enter a valid track number (0-199)');
+                    return;
+                }
+                document.getElementById('new-request').value = '';
+            }
+            
+            if (!requests.includes(track)) {
+                requests.push(track);
+                updateRequestsDisplay();
+            }
+        }
+
+        function removeRequest(track) {
+            const index = requests.indexOf(track);
+            if (index > -1) {
+                requests.splice(index, 1);
+                updateRequestsDisplay();
+            }
+        }
+
+        function updateRequestsDisplay() {
+            const display = document.getElementById('requests-display');
+            display.innerHTML = '';
+            
+            requests.forEach(track => {
+                const item = document.createElement('div');
+                item.className = 'request-item';
+                item.textContent = track;
+                item.onclick = () => removeRequest(track);
+                display.appendChild(item);
+            });
+        }
+
+        function runSSTFDiskSim() {
+            if (requests.length === 0) {
+                alert('Please add some track requests first');
+                return;
+            }
+
+            currentHead = parseInt(document.getElementById('initial-head').value);
+            let totalSeek = 0;
+            let seekSequence = [currentHead];
+            let head = currentHead;
+            let remainingRequests = [...requests];
+
+            // SSTF: always choose the closest request
+            while (remainingRequests.length > 0) {
+                let minSeek = Infinity;
+                let minIndex = -1;
+
+                // Find the closest request
+                for (let i = 0; i < remainingRequests.length; i++) {
+                    const seek = Math.abs(remainingRequests[i] - head);
+                    if (seek < minSeek) {
+                        minSeek = seek;
+                        minIndex = i;
+                    }
+                }
+
+                // Move to the closest request
+                const nextTrack = remainingRequests[minIndex];
+                totalSeek += minSeek;
+                head = nextTrack;
+                seekSequence.push(head);
+                remainingRequests.splice(minIndex, 1);
+            }
+
+            // Display results
+            displayResults(seekSequence, totalSeek);
+            displayDiskVisualization(seekSequence);
+        }
+
+        function displayResults(seekSequence, totalSeek) {
+            const output = document.getElementById('sstf-disk-output');
+            const avgSeek = totalSeek / requests.length;
+            
+            let result = `SSTF Disk Scheduling Results:\n\n`;
+            result += `Initial Head Position: ${currentHead}\n`;
+            result += `Total Requests: ${requests.length}\n\n`;
+            result += `Seek Sequence: ${seekSequence.join(' → ')}\n\n`;
+            result += `Total Seek Time: ${totalSeek} units\n`;
+            result += `Average Seek Time: ${avgSeek.toFixed(2)} units\n`;
+            
+            output.innerHTML = result;
+        }
+
+        function displayDiskVisualization(seekSequence) {
+            const visualization = document.getElementById('disk-visualization');
+            const tracksDiv = document.getElementById('disk-tracks');
+            
+            visualization.style.display = 'block';
+            tracksDiv.innerHTML = '';
+            
+            for (let i = 0; i < seekSequence.length; i++) {
+                const trackDiv = document.createElement('div');
+                trackDiv.className = 'disk-track';
+                
+                if (i === 0) {
+                    trackDiv.classList.add('current');
+                    trackDiv.innerHTML = `<span class="track-number">${seekSequence[i]}</span> ← Initial Position`;
+                } else {
+                    trackDiv.classList.add('completed');
+                    const seek = Math.abs(seekSequence[i] - seekSequence[i-1]);
+                    trackDiv.innerHTML = `<span class="track-number">${seekSequence[i]}</span> <i class="fas fa-arrow-right seek-arrow"></i> Seek: ${seek} units`;
+                }
+                
+                tracksDiv.appendChild(trackDiv);
+            }
+        }
+
+        function clearAll() {
+            requests = [];
+            updateRequestsDisplay();
+            document.getElementById('sstf-disk-output').innerHTML = '';
+            document.getElementById('disk-visualization').style.display = 'none';
+            document.getElementById('initial-head').value = '50';
+            document.getElementById('new-request').value = '';
+        }
+
+        // Handle Enter key in input
+        document.getElementById('new-request').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addRequest();
+            }
+        });
+    </script>
+</body>
+
+</html> 

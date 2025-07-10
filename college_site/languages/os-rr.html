@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round Robin Scheduling Simulation - OS Practicals</title>
+    <link rel="icon" type="image/svg+xml"
+        href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg">
+    <link rel="stylesheet" href="../css/os.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sim-section {
+            background: var(--os-card);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px var(--os-shadow);
+            padding: 2em;
+            margin: 2em 0;
+        }
+
+        .sim-title {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-bottom: 0.7em;
+        }
+
+        .sim-desc {
+            color: var(--os-text);
+            margin-bottom: 1.2em;
+        }
+
+        .code-area {
+            background: #23272e;
+            color: #e0e0e0;
+            border-radius: 6px;
+            padding: 1.3em 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1.13em;
+            margin-bottom: 1em;
+            min-height: 220px;
+            width: 55vw;
+            max-width: 1000px;
+        }
+
+        .sim-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7em 2em;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1.2em;
+            transition: background 0.2s;
+        }
+
+        .sim-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .sim-output {
+            background: #181c1f;
+            color: #00e676;
+            border-radius: 6px;
+            padding: 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1em;
+            min-height: 80px;
+            margin-top: 1em;
+            white-space: pre-line;
+        }
+
+        .proc-label {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: #fff;
+            border-radius: 4px;
+            padding: 0.2em 0.7em;
+            font-size: 0.95em;
+            margin-right: 0.7em;
+        }
+
+        .input-table {
+            margin: 1em 0 2em 0;
+            border-collapse: collapse;
+            width: 55vw;
+            max-width: 1000px;
+        }
+
+        .input-table th,
+        .input-table td {
+            border: 1px solid #bbb;
+            padding: 0.5em 0.8em;
+            text-align: center;
+        }
+
+        .input-table th {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .input-table td {
+            background: var(--os-light);
+        }
+
+        .gantt-bar {
+            display: inline-block;
+            min-width: 60px;
+            padding: 0.4em 0.7em;
+            margin: 0 2px;
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .gantt-idle {
+            background: #888;
+            color: #fff;
+        }
+
+        @media (max-width: 700px) {
+            .sim-section {
+                padding: 1em;
+            }
+
+            .code-area,
+            .input-table {
+                width: 98vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="os.html" class="back-button"
+                style="font-size:1.08em; padding:0.6em 1.3em; background:var(--primary-color); color:#fff; border-radius:6px; font-weight:600; margin-right:1.2em;">&larr;
+                Back to OS Practicals</a>
+            <div class="logo" style="background: transparent; box-shadow: none; margin-right: 0.5rem;">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="OS"
+                    width="40" height="40">
+            </div>
+            <h1>Round Robin Scheduling Simulation</h1>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">
+                <i class="fas fa-moon" id="theme-icon"></i> <span id="theme-text">Toggle Theme</span>
+            </button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="sim-section">
+            <div class="sim-title">What is Round Robin Scheduling?</div>
+            <div class="sim-desc">
+                <b>Round Robin</b> is a preemptive CPU scheduling algorithm where each process is assigned a fixed time
+                quantum. Processes are scheduled in a circular queue, and if a process doesn't finish in its time
+                quantum, it is placed at the end of the queue. This ensures fairness and responsiveness.<br><br>
+                <b>Try the simulation below:</b> Edit the code, then enter process data and click <b>Run Simulation</b>
+                to see the Gantt chart, table, and average times!
+            </div>
+            <div style="margin-bottom:0.5em; color:var(--text-color); font-size:1.05em; font-weight:500;">Reference C Implementation: Round Robin Scheduling</div>
+            <textarea id="rr-code" class="code-area" rows="15">// C Program to implement Round Robin Scheduling Algorithm
+#include <stdio.h>
+#include <stdbool.h>
+
+struct Process {
+    int pid;            // Process ID
+    int arrivalTime;    // Arrival time
+    int burstTime;      // Total execution time needed
+    int remainingTime;  // Remaining execution time
+    int completionTime; // Time when process completes
+    int turnAroundTime; // Completion time - Arrival time
+    int waitingTime;    // Turnaround time - Burst time
+};
+
+float avgTAT(struct Process process[], int n) {
+    int totalTAT = 0;
+    for (int i = 0; i < n; i++) {
+        totalTAT += process[i].turnAroundTime;
+    }
+    return (float)totalTAT / n;
+}
+
+float avgWT(struct Process process[], int n) {
+    int totalWT = 0;
+    for (int i = 0; i < n; i++) {
+        totalWT += process[i].waitingTime;
+    }
+    return (float)totalWT / n;
+}
+
+void roundRobinScheduling(struct Process processes[], int n, int timeQuantum) {
+    int currentTime = 0;
+    int completed = 0;
+    int readyQueue[n * 10]; // Large enough queue to prevent overflow
+    int front = 0, rear = -1;
+    bool inQueue[n];
+    
+    // Initialize remaining time with burst time
+    for (int i = 0; i < n; i++) {
+        processes[i].remainingTime = processes[i].burstTime;
+        inQueue[i] = false;
+    }
+    
+    // Add processes that arrive at time 0 (or first)
+    for (int i = 0; i < n; i++) {
+        if (processes[i].arrivalTime <= currentTime) {
+            readyQueue[++rear] = i;
+            inQueue[i] = true;
+        }
+    }
+
+    while (completed < n) {
+        if (front > rear) { // Queue empty
+            currentTime++;
+            // Check for new arrivals
+            for (int i = 0; i < n; i++) {
+                if (!inQueue[i] && processes[i].arrivalTime <= currentTime && processes[i].remainingTime > 0) {
+                    readyQueue[++rear] = i;
+                    inQueue[i] = true;
+                }
+            }
+            continue;
+        }
+
+        int currentProcess = readyQueue[front++];
+        if (front > rear) { // Reset queue pointers if empty
+            front = 0;
+            rear = -1;
+        }
+        // Execute for time quantum or remaining time, whichever is smaller
+        int execTime = processes[currentProcess].remainingTime < timeQuantum ? 
+                      processes[currentProcess].remainingTime : timeQuantum;
+        
+        processes[currentProcess].remainingTime -= execTime;
+        currentTime += execTime;
+
+        // Check for new arrivals during execution, and add them for scheduling
+        for (int i = 0; i < n; i++) {
+            if (!inQueue[i] && processes[i].arrivalTime <= currentTime && processes[i].remainingTime > 0) {
+                readyQueue[++rear] = i;
+                inQueue[i] = true;
+            }
+        }
+
+        if (processes[currentProcess].remainingTime > 0) {
+            readyQueue[++rear] = currentProcess; // Re-add current process to queue
+        } else {
+            completed++;
+            inQueue[currentProcess] = false;
+            processes[currentProcess].completionTime = currentTime;
+            processes[currentProcess].turnAroundTime = currentTime - processes[currentProcess].arrivalTime;
+            processes[currentProcess].waitingTime = processes[currentProcess].turnAroundTime - processes[currentProcess].burstTime;
+        }
+    }
+}
+
+int main() {
+    int n, timeQuantum;
+    printf("Enter Number of Processes: ");
+    scanf("%d", &n);
+    printf("Enter Time Quantum: ");
+    scanf("%d", &timeQuantum);
+
+    struct Process processes[n];
+    for (int i = 0; i < n; i++) {
+        processes[i].pid = i + 1;
+        printf("Process %d:\n", processes[i].pid);
+        printf("Arrival Time: ");
+        scanf("%d", &processes[i].arrivalTime);
+        printf("Burst Time: ");
+        scanf("%d", &processes[i].burstTime);
+    }
+
+    roundRobinScheduling(processes, n, timeQuantum);
+
+    printf("\nProcess\tAT\tBT\tCT\tTAT\tWT\n");
+    for (int i = 0; i < n; i++) {
+        printf("P%d\t%d\t%d\t%d\t%d\t%d\n",
+               processes[i].pid,
+               processes[i].arrivalTime,
+               processes[i].burstTime,
+               processes[i].completionTime,
+               processes[i].turnAroundTime,
+               processes[i].waitingTime);
+    }
+
+    printf("\nAverage Turnaround Time: %.2f\n", avgTAT(processes, n));
+    printf("Average Waiting Time: %.2f\n", avgWT(processes, n));
+
+    return 0;
+}</textarea>
+            <form id="rr-form" style="margin-bottom:2em;">
+                <table class="input-table">
+                    <thead>
+                        <tr>
+                            <th>Process</th>
+                            <th>Arrival Time</th>
+                            <th>Burst Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rr-input-rows"></tbody>
+                </table>
+                <div style="margin-top:1em;">
+                    <button type="button" class="sim-btn" onclick="addRRRow()">+ Add Process</button>
+                    <button type="button" class="sim-btn" onclick="runRRSim()" style="margin-left: 10px;">Run Simulation</button>
+                    <button type="button" class="sim-btn" onclick="clearAll()" style="margin-left: 10px; background: #888;">Clear All</button>
+                </div>
+            </form>
+            <div id="rr-sim-output" class="sim-output" style="margin-top:2em;"></div>
+            <button class="sim-btn" onclick="downloadCode()" style="margin-top: 1.5em; background: #1976d2;">Download C Code</button>
+        </div>
+    </div>
+    <script>
+        function updateThemeButton() {
+            const theme = document.body.getAttribute('data-theme');
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'dark') {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Light Mode';
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Dark Mode';
+            }
+        }
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton();
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeButton();
+            for (let i = 0; i < 3; i++) addRRRow();
+        });
+        function addRRRow() {
+            const tbody = document.getElementById('rr-input-rows');
+            const idx = tbody.children.length + 1;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>P${idx}</td><td><input type='number' min='0' value='0' style='width:70px'></td><td><input type='number' min='1' value='1' style='width:70px'></td>`;
+            tbody.appendChild(tr);
+        }
+        function runRRSim() {
+            const tbody = document.getElementById('rr-input-rows');
+            const rows = Array.from(tbody.children);
+            let tq = parseInt(document.getElementById('time-quantum').value);
+            let processes = rows.map((tr, i) => ({
+                pid: i + 1,
+                arrival: parseInt(tr.children[1].children[0].value),
+                burst: parseInt(tr.children[2].children[0].value),
+                remaining: parseInt(tr.children[2].children[0].value)
+            }));
+            let time = 0, output = '', table = '', gantt = '', avgTAT = 0, avgWT = 0;
+            let results = [], completed = 0, n = processes.length, queue = [], inQueue = Array(n).fill(false);
+            for (let i = 0; i < n; i++) if (processes[i].arrival <= time) { queue.push(i); inQueue[i] = true; }
+            while (completed < n) {
+                if (queue.length === 0) {
+                    time++;
+                    for (let i = 0; i < n; i++) if (!inQueue[i] && processes[i].arrival <= time && processes[i].remaining > 0) { queue.push(i); inQueue[i] = true; }
+                    continue;
+                }
+                let idx = queue.shift();
+                let exec = Math.min(processes[idx].remaining, tq);
+                processes[idx].remaining -= exec;
+                time += exec;
+                for (let i = 0; i < n; i++) if (!inQueue[i] && processes[i].arrival <= time && processes[i].remaining > 0) { queue.push(i); inQueue[i] = true; }
+                if (processes[idx].remaining > 0) queue.push(idx);
+                else {
+                    completed++; inQueue[idx] = false;
+                    let ct = time, tat = ct - processes[idx].arrival, wt = tat - processes[idx].burst;
+                    results.push({ pid: processes[idx].pid, at: processes[idx].arrival, bt: processes[idx].burst, ct, tat, wt });
+                }
+            }
+            table += '<table class="input-table"><thead><tr><th>Process</th><th>Arrival</th><th>Burst</th><th>Completion</th><th>Turnaround</th><th>Waiting</th></tr></thead><tbody>';
+            results.forEach(r => {
+                table += `<tr><td>P${r.pid}</td><td>${r.at}</td><td>${r.bt}</td><td>${r.ct}</td><td>${r.tat}</td><td>${r.wt}</td></tr>`;
+                avgTAT += r.tat; avgWT += r.wt;
+            });
+            table += '</tbody></table>';
+            avgTAT = (avgTAT / results.length).toFixed(2);
+            avgWT = (avgWT / results.length).toFixed(2);
+            gantt += '<div style="margin:1em 0;width:55vw;max-width:1000px;overflow-x:auto;">';
+            let t=0, blockWidths=[];
+            for(let i=0;i<results.length;i++){
+                let r = results[i];
+                let isIdle = t < r.at;
+                let width = 60; // px per block
+                if(isIdle) { gantt += `<span class='gantt-bar gantt-idle' style='width:${width}px'>IDLE</span>`; blockWidths.push(width); t = r.at; }
+                gantt += `<span class='gantt-bar' style='width:${width}px'>P${r.pid}</span>`; blockWidths.push(width); t = r.ct;
+            }
+            gantt += '</div>';
+            gantt += '<div style="display:flex;width:55vw;max-width:1000px;overflow-x:auto;font-size:1.1em;color:#888;">';
+            t=0;
+            for(let i=0;i<results.length;i++){
+                let r = results[i];
+                let isIdle = t < r.at;
+                if(isIdle) { gantt += `<span style='width:60px;display:inline-block;text-align:center;'>${r.at}</span>`; t = r.at; }
+                gantt += `<span style='width:60px;display:inline-block;text-align:center;'>${r.ct}</span>`; t = r.ct;
+            }
+            gantt += '</div>';
+            output = `<b>Gantt Chart:</b> ${gantt}<br><b>Results Table:</b> ${table}<br><b>Average Turnaround Time:</b> ${avgTAT} ms<br><b>Average Waiting Time:</b> ${avgWT} ms`;
+            document.getElementById('rr-sim-output').innerHTML = output;
+        }
+        function clearAll() {
+            // Reset code area
+            document.getElementById('rr-code').value = `// C Program to implement Round Robin Scheduling Algorithm\n#include <stdio.h>\n#include <stdbool.h>\n\nstruct Process {\n    int pid;            // Process ID\n    int arrivalTime;    // Arrival time\n    int burstTime;      // Total execution time needed\n    int remainingTime;  // Remaining execution time\n    int completionTime; // Time when process completes\n    int turnAroundTime; // Completion time - Arrival time\n    int waitingTime;    // Turnaround time - Burst time\n};\n\nfloat avgTAT(struct Process process[], int n) {\n    int totalTAT = 0;\n    for (int i = 0; i < n; i++) {\n        totalTAT += process[i].turnAroundTime;\n    }\n    return (float)totalTAT / n;\n}\n\nfloat avgWT(struct Process process[], int n) {\n    int totalWT = 0;\n    for (int i = 0; i < n; i++) {\n        totalWT += process[i].waitingTime;\n    }\n    return (float)totalWT / n;\n}\n\nvoid roundRobinScheduling(struct Process processes[], int n, int timeQuantum) {\n    // ...\n}\n\nint main() {\n    // ...\n    return 0;\n}`;
+            // Reset input table to 3 blank/default rows
+            const tbody = document.getElementById('rr-input-rows');
+            tbody.innerHTML = '';
+            for (let i = 0; i < 3; i++) addRRRow();
+            // Reset time quantum to default value
+            document.getElementById('time-quantum').value = '4';
+            // Clear output
+            document.getElementById('rr-sim-output').innerHTML = '';
+        }
+    </script>
+</body>
+
+</html>

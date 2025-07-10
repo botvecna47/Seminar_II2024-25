@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priority Scheduling Simulation - OS Practicals</title>
+    <link rel="icon" type="image/svg+xml"
+        href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg">
+    <link rel="stylesheet" href="../css/os.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sim-section {
+            background: var(--os-card);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px var(--os-shadow);
+            padding: 2em;
+            margin: 2em 0;
+        }
+
+        .sim-title {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-bottom: 0.7em;
+        }
+
+        .sim-desc {
+            color: var(--os-text);
+            margin-bottom: 1.2em;
+        }
+
+        .code-area {
+            background: #23272e;
+            color: #e0e0e0;
+            border-radius: 6px;
+            padding: 1.3em 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1.13em;
+            margin-bottom: 1em;
+            min-height: 220px;
+            width: 55vw;
+            max-width: 1000px;
+        }
+
+        .sim-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7em 2em;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1.2em;
+            transition: background 0.2s;
+        }
+
+        .sim-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .sim-output {
+            background: #181c1f;
+            color: #00e676;
+            border-radius: 6px;
+            padding: 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1em;
+            min-height: 80px;
+            margin-top: 1em;
+            white-space: pre-line;
+        }
+
+        .proc-label {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: #fff;
+            border-radius: 4px;
+            padding: 0.2em 0.7em;
+            font-size: 0.95em;
+            margin-right: 0.7em;
+        }
+
+        .input-table {
+            margin: 1em 0 2em 0;
+            border-collapse: collapse;
+            width: 55vw;
+            max-width: 1000px;
+        }
+
+        .input-table th,
+        .input-table td {
+            border: 1px solid #bbb;
+            padding: 0.5em 0.8em;
+            text-align: center;
+        }
+
+        .input-table th {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .input-table td {
+            background: var(--os-light);
+        }
+
+        .gantt-bar {
+            display: inline-block;
+            min-width: 60px;
+            padding: 0.4em 0.7em;
+            margin: 0 2px;
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .gantt-idle {
+            background: #888;
+            color: #fff;
+        }
+
+        @media (max-width: 700px) {
+            .sim-section {
+                padding: 1em;
+            }
+
+            .code-area,
+            .input-table {
+                width: 98vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="os.html" class="back-button"
+                style="font-size:1.08em; padding:0.6em 1.3em; background:var(--primary-color); color:#fff; border-radius:6px; font-weight:600; margin-right:1.2em;">&larr;
+                Back to OS Practicals</a>
+            <div class="logo" style="background: transparent; box-shadow: none; margin-right: 0.5rem;">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="OS"
+                    width="40" height="40">
+            </div>
+            <h1>Priority Scheduling Simulation</h1>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">
+                <i class="fas fa-moon" id="theme-icon"></i> <span id="theme-text">Toggle Theme</span>
+            </button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="sim-section">
+            <div class="sim-title">What is Priority Scheduling?</div>
+            <div class="sim-desc">
+                <b>Priority Scheduling</b> is a CPU scheduling algorithm where each process is assigned a priority, and
+                the process with the highest priority (lowest number) is executed first. It can be preemptive or
+                non-preemptive. This simulation uses non-preemptive scheduling.<br><br>
+                <b>Try the simulation below:</b> Edit the code, then enter process data and click <b>Run Simulation</b>
+                to see the Gantt chart, table, and average times!
+            </div>
+            <div style="margin-bottom:0.5em; color:var(--text-color); font-size:1.05em; font-weight:500;">Reference C Implementation: Priority Scheduling</div>
+            <textarea id="priority-code" class="code-area" rows="15">// C program to implement Priority Scheduling Algorithm 
+#include <stdio.h>
+#include <stdbool.h>
+
+struct Process {
+    int process;
+    int arrivalTime;
+    int burstTime;
+    int completionTime;
+    int turnAroundTime;
+    int waitingTime;
+    int priority;
+};
+
+// Function to calculate average Turnaround Time
+float avgTAT(struct Process process[], int n) {
+    int totalTAT = 0;
+    for (int i = 0; i < n; i++) {
+        totalTAT += process[i].turnAroundTime;
+    }
+    return (float)totalTAT / n;
+}
+
+// Function to calculate average Waiting Time
+float avgWT(struct Process process[], int n) {
+    int totalWT = 0;
+    for (int i = 0; i < n; i++) {
+        totalWT += process[i].waitingTime;
+    }
+    return (float)totalWT / n;
+}
+
+// Priority Scheduling Function
+void priorityScheduling(struct Process process[], int n) {
+    int currentTime = 0, completed = 0;
+    bool isCompleted[n];
+    for (int i = 0; i < n; i++) {
+        isCompleted[i] = false;
+    }
+    // Sort and calculate based on both Arrival Time and Priority
+    while (completed < n) {
+        int highestPriorityIndex = -1;
+        int highestPriority = 1e9; // Initialize with a large number (lower number = higher priority)
+
+        // Find the process with highest priority (lowest priority number) that has arrived
+        for (int i = 0; i < n; i++) {
+            if (!isCompleted[i] && process[i].arrivalTime <= currentTime && 
+                process[i].priority < highestPriority) {
+                highestPriority = process[i].priority;
+                highestPriorityIndex = i;
+            }
+        }
+
+        if (highestPriorityIndex == -1) {
+            currentTime++; // No process available, increment time i.e. Idle CPU
+        } else {
+            // Execute the process and calculate the parameters!!
+            process[highestPriorityIndex].completionTime = currentTime + process[highestPriorityIndex].burstTime;
+            process[highestPriorityIndex].turnAroundTime = process[highestPriorityIndex].completionTime - process[highestPriorityIndex].arrivalTime;
+            process[highestPriorityIndex].waitingTime = process[highestPriorityIndex].turnAroundTime - process[highestPriorityIndex].burstTime;
+
+            currentTime = process[highestPriorityIndex].completionTime;
+            isCompleted[highestPriorityIndex] = true;
+            completed++;
+        }
+    }   
+}
+int main() {
+    int n;
+    printf("Enter Number of Processes: ");
+    scanf("%d", &n);
+
+    struct Process process[n];
+
+    for (int i = 0; i < n; i++) {
+        process[i].process = i + 1;
+        printf("Enter values for Process %d\n", process[i].process);
+        printf("Arrival Time: ");
+        scanf("%d", &process[i].arrivalTime);
+        printf("Burst Time: ");
+        scanf("%d", &process[i].burstTime);
+        printf("Priority(Highest Number, lowest priority): ");
+        scanf("%d", &process[i].priority);
+    }
+
+    // Perform Priority scheduling
+    priorityScheduling(process, n);
+
+    // Print results
+    printf("\nProcess   A.T.  B.T.  Priority  C.T.  T.A.T.  W.T.\n");
+    for (int i = 0; i < n; i++) {
+        printf("%-10d%-6d%-6d%-10d%-6d%-8d%d\n", process[i].process, process[i].arrivalTime, process[i].burstTime,process[i].priority, process[i].completionTime, process[i].turnAroundTime, process[i].waitingTime);
+    }
+
+    printf("Average Turnaround Time: %.2f ms\n", avgTAT(process, n));
+    printf("Average Waiting Time: %.2f ms\n", avgWT(process, n));
+
+    return 0;
+}</textarea>
+            <form id="priority-form" style="margin-bottom:2em;">
+                <table class="input-table">
+                    <thead>
+                        <tr>
+                            <th>Process</th>
+                            <th>Arrival Time</th>
+                            <th>Burst Time</th>
+                            <th>Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody id="priority-input-rows"></tbody>
+                </table>
+                <div style="margin-top:1em;">
+                    <button type="button" class="sim-btn" onclick="addPriorityRow()">+ Add Process</button>
+                    <button type="button" class="sim-btn" onclick="runPrioritySim()" style="margin-left: 10px;">Run Simulation</button>
+                    <button type="button" class="sim-btn" onclick="clearAll()" style="margin-left: 10px; background: #888;">Clear All</button>
+                </div>
+            </form>
+            <div id="priority-sim-output" class="sim-output" style="margin-top:2em;"></div>
+            <button class="sim-btn" onclick="downloadCode()" style="margin-top: 1.5em; background: #1976d2;">Download C Code</button>
+        </div>
+    </div>
+    <script>
+        function updateThemeButton() {
+            const theme = document.body.getAttribute('data-theme');
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (theme === 'dark') {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Light Mode';
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Dark Mode';
+            }
+        }
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton();
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeButton();
+            for (let i = 0; i < 3; i++) addPriorityRow();
+        });
+        function addPriorityRow() {
+            const tbody = document.getElementById('priority-input-rows');
+            const idx = tbody.children.length + 1;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>P${idx}</td><td><input type='number' min='0' value='0' style='width:70px'></td><td><input type='number' min='1' value='1' style='width:70px'></td><td><input type='number' min='1' value='1' style='width:70px'></td>`;
+            tbody.appendChild(tr);
+        }
+        function runPrioritySim() {
+            const tbody = document.getElementById('priority-input-rows');
+            const rows = Array.from(tbody.children);
+            let processes = rows.map((tr, i) => ({
+                pid: i + 1,
+                arrival: parseInt(tr.children[1].children[0].value),
+                burst: parseInt(tr.children[2].children[0].value),
+                priority: parseInt(tr.children[3].children[0].value)
+            }));
+            let time = 0, output = '', table = '', gantt = '', avgTAT = 0, avgWT = 0;
+            let results = [], completed = 0, n = processes.length, isCompleted = Array(n).fill(false);
+            while (completed < n) {
+                let idx = -1, highest = 1e9;
+                for (let i = 0; i < n; i++) {
+                    if (!isCompleted[i] && processes[i].arrival <= time && processes[i].priority < highest) {
+                        highest = processes[i].priority; idx = i;
+                    }
+                }
+                if (idx === -1) {
+                    time++;
+                } else {
+                    let ct = time + processes[idx].burst;
+                    let tat = ct - processes[idx].arrival;
+                    let wt = tat - processes[idx].burst;
+                    results.push({ pid: processes[idx].pid, at: processes[idx].arrival, bt: processes[idx].burst, priority: processes[idx].priority, ct, tat, wt });
+                    time = ct; isCompleted[idx] = true; completed++;
+                }
+            }
+            table += '<table class="input-table"><thead><tr><th>Process</th><th>Arrival</th><th>Burst</th><th>Priority</th><th>Completion</th><th>Turnaround</th><th>Waiting</th></tr></thead><tbody>';
+            results.forEach(r => {
+                table += `<tr><td>P${r.pid}</td><td>${r.at}</td><td>${r.bt}</td><td>${r.priority}</td><td>${r.ct}</td><td>${r.tat}</td><td>${r.wt}</td></tr>`;
+                avgTAT += r.tat; avgWT += r.wt;
+            });
+            table += '</tbody></table>';
+            avgTAT = (avgTAT / results.length).toFixed(2);
+            avgWT = (avgWT / results.length).toFixed(2);
+            gantt += '<div style="margin:1em 0;width:55vw;max-width:1000px;overflow-x:auto;">';
+            let t=0, blockWidths=[];
+            for(let i=0;i<results.length;i++){
+                let r = results[i];
+                let isIdle = t < r.at;
+                let width = 60; // px per block
+                if(isIdle) { gantt += `<span class='gantt-bar gantt-idle' style='width:${width}px'>IDLE</span>`; blockWidths.push(width); t = r.at; }
+                gantt += `<span class='gantt-bar' style='width:${width}px'>P${r.pid}</span>`; blockWidths.push(width); t = r.ct;
+            }
+            gantt += '</div>';
+            gantt += '<div style="display:flex;width:55vw;max-width:1000px;overflow-x:auto;font-size:1.1em;color:#888;">';
+            t=0;
+            for(let i=0;i<results.length;i++){
+                let r = results[i];
+                let isIdle = t < r.at;
+                if(isIdle) { gantt += `<span style='width:60px;display:inline-block;text-align:center;'>${r.at}</span>`; t = r.at; }
+                gantt += `<span style='width:60px;display:inline-block;text-align:center;'>${r.ct}</span>`; t = r.ct;
+            }
+            gantt += '</div>';
+            output = `<b>Gantt Chart:</b> ${gantt}<br><b>Results Table:</b> ${table}<br><b>Average Turnaround Time:</b> ${avgTAT} ms<br><b>Average Waiting Time:</b> ${avgWT} ms`;
+            document.getElementById('priority-sim-output').innerHTML = output;
+        }
+        function clearAll() {
+            // Reset code area
+            document.getElementById('priority-code').value = `// C program to implement Priority Scheduling Algorithm \n#include <stdio.h>\n#include <stdbool.h>\n\nstruct Process {\n    int process;\n    int arrivalTime;\n    int burstTime;\n    int completionTime;\n    int turnAroundTime;\n    int waitingTime;\n    int priority;\n};\n\n// Function to calculate average Turnaround Time\nfloat avgTAT(struct Process process[], int n) {\n    int totalTAT = 0;\n    for (int i = 0; i < n; i++) {\n        totalTAT += process[i].turnAroundTime;\n    }\n    return (float)totalTAT / n;\n}\n\n// Function to calculate average Waiting Time\nfloat avgWT(struct Process process[], int n) {\n    int totalWT = 0;\n    for (int i = 0; i < n; i++) {\n        totalWT += process[i].waitingTime;\n    }\n    return (float)totalWT / n;\n}\n\n// Priority Scheduling Function\nvoid priorityScheduling(struct Process process[], int n) {\n    // ...\n}\n\nint main() {\n    // ...\n    return 0;\n}`;
+            // Reset input table to 3 blank/default rows
+            const tbody = document.getElementById('priority-input-rows');
+            tbody.innerHTML = '';
+            for (let i = 0; i < 3; i++) addPriorityRow();
+            // Clear output
+            document.getElementById('priority-sim-output').innerHTML = '';
+        }
+        function downloadCode() {
+            const code = document.getElementById('priority-code').value;
+            const blob = new Blob([code], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'priority_scheduling.c';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+
+</html>

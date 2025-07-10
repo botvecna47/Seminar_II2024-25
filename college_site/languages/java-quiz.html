@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Quiz</title>
+    <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/java.css">
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(120deg, #b07219 0%, #f7dfb6 100%);
+        }
+        .container {
+            width: 100vw;
+            max-width: 100vw;
+            margin: 0;
+            background: rgba(255,255,255,0.97);
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 2px 16px rgba(176,114,25,0.10);
+            padding: 2.5em 0 3em 0;
+        }
+        h1 {
+            text-align: center;
+            color: #b07219;
+            font-size: 2.7em;
+            letter-spacing: 1px;
+            margin-bottom: 0.2em;
+        }
+        .home-btn {
+            display: block;
+            position:absolute; left:1.5em; top:1.5em;
+            padding:0.4em 1.2em; font-size:1em; border-radius:6px; margin:0; min-width:unset; max-width:unset; box-shadow:none;
+            background:#b07219; color:#fff; font-weight:600; text-decoration:none; text-align:center; transition: background 0.2s;
+        }
+        .home-btn:hover { background: #d89a3c; }
+        .instructions {
+            background: #fff3e0;
+            color: #b07219;
+            border-left: 6px solid #b07219;
+            padding: 1.2em 2em;
+            border-radius: 10px;
+            margin: 0 auto 2.5em auto;
+            max-width: 700px;
+            font-size: 1.25em;
+        }
+        .quiz-question {
+            margin-bottom: 2.2em;
+            font-size: 1.25em;
+        }
+        .quiz-question .qtext {
+            font-weight: 600;
+            margin-bottom: 0.7em;
+            color: #b07219;
+            font-size: 1.18em;
+        }
+        .quiz-option {
+            display: block;
+            margin-bottom: 0.35em;
+            font-size: 1.08em;
+            padding-left: 0.5em;
+        }
+        .quiz-option.correct {
+            color: #388e3c;
+            font-weight: 700;
+        }
+        .quiz-option.incorrect {
+            color: #d32f2f;
+        }
+        .score-box {
+            text-align: center;
+            margin-top: 2.5em;
+        }
+        .score-box h2 {
+            color: #b07219;
+            font-size: 2.2em;
+        }
+        .quiz-btn {
+            padding:1em 2.5em;
+            background:#b07219;
+            color:white;
+            border:none;
+            border-radius:10px;
+            font-weight:700;
+            font-size:1.15em;
+            cursor:pointer;
+            margin-top:1.5em;
+            box-shadow: 0 2px 8px rgba(176,114,25,0.10);
+            transition: background 0.2s;
+        }
+        .quiz-btn.secondary {
+            background: #fff3e0;
+            color: #b07219;
+        }
+        .quiz-btn:hover {
+            background: #d89a3c;
+        }
+        .quiz-btn.secondary:hover {
+            background: #ffe0b2;
+        }
+        @media (max-width: 700px) {
+            .container { padding: 1em 0 2em 0; }
+            .instructions { padding: 1em 1em; font-size: 1.08em; }
+            h1 { font-size: 2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="home-btn">&larr; Home</a>
+        <h1>Java Quiz</h1>
+        <div class="instructions">
+            Answer the following 10 random Java questions. Your score and correct answers will be shown after you submit. Good luck!
+        </div>
+        <div id="quiz-section" style="max-width: 700px; margin: 0 auto;"></div>
+    </div>
+    <script>
+    const quizQuestions = [
+        { q: 'Which keyword is used to define a class in Java?', options: ['class', 'Class', 'define', 'object'], answer: 'class' },
+        { q: 'What is the size of int in Java?', options: ['2 bytes', '4 bytes', '8 bytes', 'Depends on system'], answer: '4 bytes' },
+        { q: 'Which method is the entry point of a Java program?', options: ['start()', 'main()', 'run()', 'init()'], answer: 'main()' },
+        { q: 'Which of these is not a Java primitive type?', options: ['int', 'float', 'String', 'char'], answer: 'String' },
+        { q: 'Which symbol is used to inherit a class in Java?', options: [':', 'extends', 'implements', 'inherits'], answer: 'extends' },
+        { q: 'Which collection does not allow duplicate elements?', options: ['List', 'Set', 'Map', 'ArrayList'], answer: 'Set' },
+        { q: 'What is the default value of a boolean variable in Java?', options: ['true', 'false', '0', 'null'], answer: 'false' },
+        { q: 'Which exception is thrown when dividing by zero in Java?', options: ['NullPointerException', 'ArithmeticException', 'IOException', 'IndexOutOfBoundsException'], answer: 'ArithmeticException' },
+        { q: 'Which method is used to read a line of text from the console?', options: ['System.read()', 'Scanner.nextLine()', 'Console.readLine()', 'Input.read()'], answer: 'Scanner.nextLine()' },
+        { q: 'Which keyword is used to create an object in Java?', options: ['new', 'create', 'make', 'object'], answer: 'new' },
+        { q: 'Which of these is a valid array declaration?', options: ['int arr[];', 'arr int[];', 'int[] arr;', 'Both 1 and 3'], answer: 'Both 1 and 3' },
+        { q: 'Which access modifier makes a member visible only within its own class?', options: ['public', 'private', 'protected', 'default'], answer: 'private' },
+        { q: 'Which interface must be implemented for sorting objects?', options: ['Serializable', 'Comparable', 'Cloneable', 'Iterable'], answer: 'Comparable' },
+        { q: 'Which method is used to start a thread in Java?', options: ['run()', 'start()', 'execute()', 'begin()'], answer: 'start()' },
+        { q: 'Which package contains the Scanner class?', options: ['java.util', 'java.io', 'java.lang', 'java.awt'], answer: 'java.util' },
+        { q: 'Which of these is not a loop structure in Java?', options: ['for', 'while', 'repeat', 'do-while'], answer: 'repeat' },
+        { q: 'Which keyword is used to prevent inheritance?', options: ['final', 'static', 'private', 'const'], answer: 'final' },
+        { q: 'Which method is used to write to a file in Java?', options: ['write()', 'print()', 'println()', 'writeFile()'], answer: 'write()' },
+        { q: 'Which of these is not a valid identifier in Java?', options: ['_myVar', '2ndVar', '$value', 'myVar2'], answer: '2ndVar' },
+        { q: 'Which operator is used for logical AND in Java?', options: ['&', '&&', '|', '||'], answer: '&&' },
+        { q: 'Which class is the superclass of all classes in Java?', options: ['Object', 'Class', 'Main', 'Base'], answer: 'Object' },
+        { q: 'Which keyword is used to handle exceptions?', options: ['try', 'catch', 'throw', 'All of these'], answer: 'All of these' },
+        { q: 'Which method is used to get the length of a string?', options: ['length()', 'size()', 'getLength()', 'count()'], answer: 'length()' },
+        { q: 'Which of these is not a valid access modifier?', options: ['public', 'private', 'protected', 'package'], answer: 'package' },
+        { q: 'Which keyword is used to refer to the current object?', options: ['this', 'self', 'current', 'me'], answer: 'this' },
+        { q: 'Which of these is not a Java keyword?', options: ['volatile', 'synchronized', 'interface', 'include'], answer: 'include' },
+        { q: 'Which method is used to compare two strings?', options: ['equals()', 'compare()', '==', 'compareTo()'], answer: 'equals()' },
+        { q: 'Which of these is not a wrapper class?', options: ['Integer', 'Float', 'Character', 'String'], answer: 'String' },
+        { q: 'Which keyword is used to implement an interface?', options: ['extends', 'implements', 'interface', 'inherits'], answer: 'implements' },
+        { q: 'Which method is used to remove the last element from an ArrayList?', options: ['remove()', 'delete()', 'pop()', 'removeLast()'], answer: 'remove()' },
+        { q: 'Which of these is not a type of constructor?', options: ['Default', 'Parameterized', 'Copy', 'Static'], answer: 'Static' },
+        { q: 'Which method is used to check if a file exists?', options: ['exists()', 'isFile()', 'fileExists()', 'canRead()'], answer: 'exists()' },
+        { q: 'Which keyword is used to define a constant?', options: ['const', 'final', 'static', 'constant'], answer: 'final' },
+        { q: 'Which of these is not a valid loop control statement?', options: ['break', 'continue', 'exit', 'return'], answer: 'exit' },
+        { q: 'Which method is used to read a byte from a file?', options: ['read()', 'get()', 'input()', 'fetch()'], answer: 'read()' },
+        { q: 'Which of these is not a valid string method?', options: ['substring()', 'toUpperCase()', 'reverse()', 'charAt()'], answer: 'reverse' },
+        { q: 'Which keyword is used to inherit a class?', options: ['extends', 'implements', 'inherits', 'super'], answer: 'extends' },
+        { q: 'Which method is used to stop a thread?', options: ['stop()', 'end()', 'terminate()', 'kill()'], answer: 'stop()' },
+        { q: 'Which of these is not a valid array declaration?', options: ['int[] arr;', 'arr int[];', 'int arr[];', 'String[] arr;'], answer: 'arr int[];' },
+        { q: 'Which of these is not a valid exception type?', options: ['IOException', 'FileNotFoundException', 'NullPointerException', 'FileException'], answer: 'FileException' }
+    ];
+
+    function shuffle(array) {
+        let arr = array.slice();
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function renderQuiz() {
+        const quizSection = document.getElementById('quiz-section');
+        const selected = shuffle(quizQuestions).slice(0, 10);
+        let html = '<form id="quiz-form">';
+        selected.forEach((q, idx) => {
+            html += `<div class="quiz-question">
+                <div class="qtext">${idx+1}. ${q.q}</div>`;
+            q.options.forEach(opt => {
+                html += `<label class="quiz-option">
+                    <input type="radio" name="q${idx}" value="${opt}"> ${opt}
+                </label>`;
+            });
+            html += '</div>';
+        });
+        html += '<div style="text-align:center;"><button type="submit" class="quiz-btn">Submit Quiz</button></div></form>';
+        quizSection.innerHTML = html;
+
+        document.getElementById('quiz-form').onsubmit = function(e) {
+            e.preventDefault();
+            let score = 0;
+            let results = [];
+            selected.forEach((q, idx) => {
+                const chosen = (quizSection.querySelector(`input[name='q${idx}']:checked`)||{}).value;
+                const correct = chosen === q.answer;
+                if (correct) score++;
+                results.push({
+                    question: q.q,
+                    chosen,
+                    answer: q.answer,
+                    options: q.options
+                });
+            });
+            let resultHtml = `<div class='score-box'><h2>Your Score: ${score} / 10</h2></div>`;
+            resultHtml += '<div>';
+            results.forEach((res, idx) => {
+                resultHtml += `<div class="quiz-question">
+                    <div class="qtext">${idx+1}. ${res.question}</div>`;
+                res.options.forEach(opt => {
+                    let cls = '';
+                    if (opt === res.answer) cls = 'correct';
+                    else if (opt === res.chosen && opt !== res.answer) cls = 'incorrect';
+                    resultHtml += `<span class="quiz-option ${cls}">${opt}`;
+                    if (opt === res.answer) resultHtml += ' &#10003;';
+                    if (opt === res.chosen && opt !== res.answer) resultHtml += ' &#10007;';
+                    resultHtml += '</span>';
+                });
+                resultHtml += '</div>';
+            });
+            resultHtml += '</div>';
+            resultHtml += `<div style='text-align:center;'><button id='retake-quiz' class='quiz-btn secondary'>Retake Quiz</button></div>`;
+            quizSection.innerHTML = resultHtml;
+            document.getElementById('retake-quiz').onclick = renderQuiz;
+        };
+    }
+
+    renderQuiz();
+    </script>
+</body>
+</html> 

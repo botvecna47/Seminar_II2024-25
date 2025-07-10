@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banker's Algorithm Simulation - OS Practicals</title>
+    <link rel="icon" type="image/svg+xml"
+        href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg">
+    <link rel="stylesheet" href="../css/os.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sim-section {
+            background: var(--os-card);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px var(--os-shadow);
+            padding: 2em;
+            margin: 2em 0;
+        }
+
+        .sim-title {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            margin-bottom: 0.7em;
+        }
+
+        .sim-desc {
+            color: var(--os-text);
+            margin-bottom: 1.2em;
+        }
+
+        .code-area {
+            background: #23272e;
+            color: #e0e0e0;
+            border-radius: 6px;
+            padding: 1.3em 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1.13em;
+            margin-bottom: 1em;
+            min-height: 220px;
+            width: 55vw;
+            max-width: 1000px;
+        }
+
+        .sim-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7em 2em;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1.2em;
+            transition: background 0.2s;
+        }
+
+        .sim-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .sim-output {
+            background: #181c1f;
+            color: #00e676;
+            border-radius: 6px;
+            padding: 1em;
+            font-family: 'Fira Mono', 'Consolas', monospace;
+            font-size: 1em;
+            min-height: 80px;
+            margin-top: 1em;
+            white-space: pre-line;
+        }
+
+        .matrix-input-area { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 2em; 
+            margin-bottom:1.5em; 
+        }
+        .matrix-input-area label { 
+            font-weight: 600; 
+            margin-bottom: 0.5em; 
+            display: block; 
+            color: var(--os-text);
+        }
+        .input-table {
+            border-collapse: collapse; 
+            width: 100%; 
+            margin-top: 0.5em;
+        }
+        .input-table th, .input-table td { 
+            border: 1px solid #bbb; 
+            padding: 4px; 
+            text-align: center; 
+        }
+        .dark-theme .input-table th,
+        .dark-theme .input-table td {
+            border-color: var(--os-border);
+        }
+        .input-table th { 
+            background: var(--primary-color);
+            color: #fff;
+        }
+        .input-table td {
+             background: var(--os-light);
+        }
+        .input-table input { 
+            width: 100%; 
+            border: 1px solid transparent; 
+            background: transparent; 
+            text-align: center; 
+            padding: 8px 4px; 
+            box-sizing: border-box;
+            font-size: 1em;
+            color: var(--os-text);
+            border-radius: 8px;
+            transition: all 0.2s ease-in-out;
+        }
+        .input-table input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            background: #fff;
+        }
+        .dark-theme .input-table input:focus {
+             background: #333;
+        }
+        .request-area { 
+            margin-top: 2em; 
+            padding-top: 1.5em; 
+            border-top: 1px solid #ccc; 
+        }
+        .dark-theme .request-area {
+             border-top-color: var(--os-border);
+        }
+        .request-inputs { 
+            display: flex; 
+            gap: 1.5em; 
+            align-items: flex-end; 
+        }
+
+        .matrix-setup {
+            display: flex;
+            gap: 2em;
+            align-items: center;
+            margin-bottom: 1.5em;
+            margin-top: 1.5em;
+        }
+
+        .matrix-setup label {
+            color: var(--os-text);
+            font-weight: 500;
+            margin-bottom: 0.5em;
+            display: block;
+        }
+
+        .matrix-setup input {
+            width: 60px;
+            padding: 0.5em;
+            border: 1px solid var(--os-border);
+            border-radius: 4px;
+            background: var(--os-light);
+            color: var(--os-text);
+            text-align: center;
+        }
+
+        .matrix-setup input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .dark-theme .matrix-setup input {
+            background: var(--os-card);
+            border-color: var(--os-border);
+        }
+
+        .dark-theme .matrix-setup input:focus {
+            background: #333;
+        }
+
+        .request-inputs input[type="number"] {
+            width: 70px;
+            padding: 0.5em;
+            border: 1px solid var(--os-border);
+            border-radius: 4px;
+            background: var(--os-light);
+            color: var(--os-text);
+            text-align: center;
+        }
+
+        .request-inputs input[type="number"]:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .dark-theme .request-inputs input[type="number"] {
+            background: var(--os-card);
+            border-color: var(--os-border);
+        }
+
+        .dark-theme .request-inputs input[type="number"]:focus {
+            background: #333;
+        }
+
+        .request-inputs label {
+            color: var(--os-text);
+            font-weight: 500;
+            margin-bottom: 0.5em;
+            display: block;
+        }
+
+        .sim-btn.clear-btn {
+            background: #888;
+        }
+
+        .sim-btn.clear-btn:hover {
+            background: #666;
+        }
+
+        .sim-btn.reset-btn {
+            background: var(--secondary-color);
+        }
+
+        .sim-btn.reset-btn:hover {
+            background: var(--primary-color);
+        }
+
+        .avail-resources-table {
+            max-width: 300px;
+        }
+
+        .request-vector-table {
+            max-width: 300px;
+        }
+         @media (max-width: 700px) { 
+            .code-area, .matrix-input-area { width: 98vw; grid-template-columns: 1fr;} 
+            .request-inputs { flex-direction: column; align-items: stretch; }
+            .matrix-setup { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="os.html" class="back-button"
+                style="font-size:1.08em; padding:0.6em 1.3em; background:var(--primary-color); color:#fff; border-radius:6px; font-weight:600; margin-right:1.2em;">&larr;
+                Back to OS Practicals</a>
+            <div class="logo" style="background: transparent; box-shadow: none; margin-right: 0.5rem;">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="OS"
+                    width="40" height="40">
+            </div>
+            <h1>Banker's Algorithm Simulation</h1>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">
+                <i class="fas fa-moon" id="theme-icon"></i> <span id="theme-text">Toggle Theme</span>
+            </button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="sim-section">
+             <div class="sim-title">What is the Banker's Algorithm?</div>
+             <div class="sim-desc">
+                The Banker's Algorithm is a resource allocation and deadlock avoidance algorithm. It tests for safety by simulating the allocation of predetermined maximum possible amounts of all resources, then makes a "safe-state" check to test for possible deadlock conditions for all other pending activities, before deciding whether allocation should be allowed to continue.
+            </div>
+            <div style="margin-bottom:0.5em; color:var(--text-color); font-size:1.05em; font-weight:500;">Reference C Implementation: Banker's Algorithm</div>
+            <textarea id="banker-code" class="code-area" rows="15">
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    // P_ denotes number of processes and R_ denotes number of resources
+    int P_ = 5; 
+    int R_ = 3; 
+    int alloc[5][3] = {{0, 1, 0}, {2, 0, 0}, {3, 0, 2}, {2, 1, 1}, {0, 0, 2}}; 
+    int max[5][3] = {{7, 5, 3}, {3, 2, 2}, {9, 0, 2}, {2, 2, 2}, {4, 3, 3}};
+    int avail[3] = {3, 3, 2}; 
+    int f[P_], ans[P_], ind = 0;
+    for (int k = 0; k < P_; k++) { f[k] = 0; }
+    int need[P_][R_];
+    for (int i = 0; i < P_; i++) {
+        for (int j = 0; j < R_; j++)
+            need[i][j] = max[i][j] - alloc[i][j];
+    }
+    int y = 0;
+    for (int k = 0; k < 5; k++) {
+        for (int i = 0; i < P_; i++) {
+            if (f[i] == 0) {
+                int flag = 0;
+                for (int j = 0; j < R_; j++) {
+                    if (need[i][j] > avail[j]){
+                        flag = 1;
+                        break;
+                    }
+                }
+                if (flag == 0) {
+                    ans[ind++] = i;
+                    for (y = 0; y < R_; y++)
+                        avail[y] += alloc[i][y];
+                    f[i] = 1;
+                }
+            }
+        }
+    }
+    int flag = 1;
+    for(int i=0;i<P_;i++) {
+        if(f[i]==0) {
+            flag=0;
+            printf("The following system is not safe");
+            break;
+        }
+    }
+    if(flag==1) {
+        printf("Following is the SAFE Sequence\n");
+        for (int i = 0; i < P_ - 1; i++)
+            printf(" P%d ->", ans[i]);
+        printf(" P%d", ans[P_ - 1]);
+    }
+    return (0);
+}
+            </textarea>
+            
+            <div class="matrix-setup">
+                <div><label for="num-processes">Processes</label><input type="number" id="num-processes" value="5" min="1"></div>
+                <div><label for="num-resources">Resources</label><input type="number" id="num-resources" value="3" min="1"></div>
+                <button class="sim-btn" onclick="setupMatrices()">Setup Inputs</button>
+            </div>
+            <div class="matrix-input-area">
+                <div>
+                    <label>Allocation Matrix</label>
+                    <table id="alloc-matrix-table" class="input-table">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div>
+                    <label>Max Matrix</label>
+                    <table id="max-matrix-table" class="input-table">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <label>Available Resources</label>
+                <table id="avail-vector-table" class="input-table avail-resources-table">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <button class="sim-btn" onclick="runBankerSim()">Check Safe State</button>
+            <button class="sim-btn clear-btn" onclick="clearInputs()">Clear All</button>
+            <button class="sim-btn reset-btn" onclick="resetToExample()">Reset to Example</button>
+            <div id="banker-sim-output" class="sim-output"></div>
+
+            <div id="request-section" class="request-area" style="display:none;">
+                <div class="sim-title">Make a Resource Request</div>
+                <div class="request-inputs">
+                    <div>
+                        <label for="req-proc">Process ID</label>
+                        <input type="number" id="req-proc" min="0">
+                    </div>
+                    <div>
+                        <label for="req-vector-table">Request Vector</label>
+                        <table id="req-vector-table" class="input-table request-vector-table">
+                            <thead></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <button class="sim-btn" onclick="handleResourceRequest()">Submit Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    let P, R; 
+    
+    function updateThemeButton() {
+        const theme = document.body.getAttribute('data-theme');
+        const icon = document.getElementById('theme-icon');
+        const text = document.getElementById('theme-text');
+        if (theme === 'dark') {
+            icon.className = 'fas fa-sun';
+            text.textContent = 'Light Mode';
+        } else {
+            icon.className = 'fas fa-moon';
+            text.textContent = 'Dark Mode';
+        }
+    }
+    function toggleTheme() {
+        const currentTheme = document.body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeButton();
+    }
+
+    function clearInputs() {
+        // Reset process/resource count to default
+        document.getElementById('num-processes').value = 5;
+        document.getElementById('num-resources').value = 3;
+        // Reset code area to default
+        document.getElementById('banker-code').value = `#include <stdio.h>\n\nint main()\n{\n    // P_ denotes number of processes and R_ denotes number of resources\n    int P_ = 5; \n    int R_ = 3; \n    int alloc[5][3] = {{0, 1, 0}, {2, 0, 0}, {3, 0, 2}, {2, 1, 1}, {0, 0, 2}}; \n    int max[5][3] = {{7, 5, 3}, {3, 2, 2}, {9, 0, 2}, {2, 2, 2}, {4, 3, 3}};\n    int avail[3] = {3, 3, 2}; \n    int f[P_], ans[P_], ind = 0;\n    for (int k = 0; k < P_; k++) { f[k] = 0; }\n    int need[P_][R_];\n    for (int i = 0; i < P_; i++) {\n        for (int j = 0; j < R_; j++)\n            need[i][j] = max[i][j] - alloc[i][j];\n    }\n    int y = 0;\n    for (int k = 0; k < 5; k++) {\n        for (int i = 0; i < P_; i++) {\n            if (f[i] == 0) {\n                int flag = 0;\n                for (int j = 0; j < R_; j++) {\n                    if (need[i][j] > avail[j]){\n                        flag = 1;\n                        break;\n                    }\n                }\n                if (flag == 0) {\n                    ans[ind++] = i;\n                    for (y = 0; y < R_; y++)\n                        avail[y] += alloc[i][y];\n                    f[i] = 1;\n                }\n            }\n        }\n    }\n    int flag = 1;\n    for(int i=0;i<P_;i++) {\n        if(f[i]==0) {\n            flag=0;\n            printf("The following system is not safe");\n            break;\n        }\n    }\n    if(flag==1) {\n        printf("Following is the SAFE Sequence\n");\n        for (int i = 0; i < P_ - 1; i++)\n            printf(" P%d ->", ans[i]);\n        printf(" P%d", ans[P_ - 1]);\n    }\n    return (0);\n}`;
+        // Reinitialize tables to zero values
+        setupMatrices();
+        // Set all matrix/table inputs to zero
+        const allInputs = document.querySelectorAll('.input-table input');
+        allInputs.forEach(input => input.value = '0');
+        // Clear output and hide request section
+        document.getElementById('banker-sim-output').innerHTML = '';
+        document.getElementById('request-section').style.display = 'none';
+        document.getElementById('req-proc').value = '';
+        // Reset global variables
+        P = 0;
+        R = 0;
+        currentAlloc = null;
+        currentMax = null;
+        currentAvail = null;
+        currentNeed = null;
+    }
+
+    function resetToExample() {
+        // Set to example values
+        document.getElementById('num-processes').value = 5;
+        document.getElementById('num-resources').value = 3;
+        setupMatrices();
+        
+        // Clear output and hide request section
+        document.getElementById('banker-sim-output').innerHTML = '';
+        document.getElementById('request-section').style.display = 'none';
+        document.getElementById('req-proc').value = '';
+    }
+
+    function setupMatrices() {
+        P = parseInt(document.getElementById('num-processes').value);
+        R = parseInt(document.getElementById('num-resources').value);
+        
+        const allocTable = document.getElementById('alloc-matrix-table');
+        const maxTable = document.getElementById('max-matrix-table');
+        const availTable = document.getElementById('avail-vector-table');
+        const reqTable = document.getElementById('req-vector-table');
+        const exampleAlloc = [[0,1,0],[2,0,0],[3,0,2],[2,1,1],[0,0,2]];
+        const exampleMax =   [[7,5,3],[3,2,2],[9,0,2],[2,2,2],[4,3,3]];
+        const exampleAvail = [3,3,2];
+
+        const isExample = (P === 5 && R === 3);
+        [allocTable, maxTable].forEach((table, tableIndex) => {
+            let theadHTML = '<tr><th></th>';
+            for (let j = 0; j < R; j++) theadHTML += `<th>R${j}</th>`;
+            theadHTML += '</tr>';
+            
+            let tbodyHTML = '';
+            for (let i = 0; i < P; i++) {
+                tbodyHTML += `<tr><td>P${i}</td>`;
+                for (let j = 0; j < R; j++) {
+                    let value = 0;
+                    if (isExample) {
+                        value = tableIndex === 0 ? exampleAlloc[i][j] : exampleMax[i][j];
+                    }
+                    tbodyHTML += `<td><input type="number" value="${value}" min="0"></td>`;
+                }
+                tbodyHTML += '</tr>';
+            }
+            table.querySelector('thead').innerHTML = theadHTML;
+            table.querySelector('tbody').innerHTML = tbodyHTML;
+        });
+        [availTable, reqTable].forEach((table, tableIndex) => {
+            let theadHTML = '<tr>';
+            for (let j = 0; j < R; j++) theadHTML += `<th>R${j}</th>`;
+            theadHTML += '</tr>';
+            
+            let tbodyHTML = '<tr>';
+            for (let j = 0; j < R; j++) {
+                let value = 0;
+                if (isExample && tableIndex === 0) { 
+                    value = exampleAvail[j];
+                }
+                tbodyHTML += `<td><input type="number" value="${value}" min="0"></td>`;
+            }
+            tbodyHTML += '</tr>';
+            table.querySelector('thead').innerHTML = theadHTML;
+            table.querySelector('tbody').innerHTML = tbodyHTML;
+        });
+    }
+
+    function getMatrixValues(tableId) {
+        const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+        return Array.from(rows).map(row => {
+            const inputs = row.querySelectorAll('input');
+            return Array.from(inputs).map(input => parseInt(input.value) || 0);
+        });
+    }
+    function getVectorValues(tableId) {
+        const inputs = document.querySelectorAll(`#${tableId} tbody input`);
+        return Array.from(inputs).map(input => parseInt(input.value) || 0);
+    }
+
+    let currentAlloc, currentMax, currentAvail, currentNeed;
+
+    function runBankerSim() {
+        currentAlloc = getMatrixValues('alloc-matrix-table');
+        currentMax = getMatrixValues('max-matrix-table');
+        currentAvail = getVectorValues('avail-vector-table');
+        
+        currentNeed = Array(P).fill(0).map(() => Array(R).fill(0));
+        for (let i = 0; i < P; i++) for (let j = 0; j < R; j++) currentNeed[i][j] = currentMax[i][j] - currentAlloc[i][j];
+        
+        const result = checkSafety(currentAlloc, currentNeed, currentAvail);
+
+        let output = '<b>Need Matrix:</b>\n' + currentNeed.map((row, i) => `P${i}:\t${row.join('\t')}`).join('\n') + '\n\n';
+        if(result.isSafe) {
+            output += `<b>System is in a SAFE state.</b>\nSafe Sequence: ${result.safeSeq.map(p => 'P'+p).join(' -> ')}`;
+            document.getElementById('request-section').style.display = 'block'; 
+        } else {
+            output += '<b>System is in an UNSAFE state.</b> No safe sequence found.';
+            document.getElementById('request-section').style.display = 'none';
+        }
+        document.getElementById('banker-sim-output').innerHTML = output;
+    }
+    
+    function checkSafety(alloc, need, avail) {
+        let work = [...avail], finish = Array(P).fill(false), safeSeq = [], count = 0;
+        while(count < P) {
+            let found = false;
+            for(let i=0; i<P; i++){
+                if(!finish[i]){
+                    let canAlloc = true;
+                    for(let j=0; j<R; j++) if(need[i][j] > work[j]) { canAlloc=false; break; }
+                    if(canAlloc){
+                        for(let j=0;j<R;j++) work[j] += alloc[i][j];
+                        safeSeq.push(i); finish[i] = true; count++; found = true;
+                    }
+                }
+            }
+            if(!found) break;
+        }
+        return { isSafe: count === P, safeSeq };
+    }
+    
+    function handleResourceRequest() {
+        const procId = parseInt(document.getElementById('req-proc').value);
+        const request = getVectorValues('req-vector-table');
+
+        if(isNaN(procId) || procId < 0 || procId >= P) { alert('Invalid Process ID.'); return; }
+
+        for(let j=0; j<R; j++) {
+            if(request[j] > currentNeed[procId][j]) {
+                alert(`Error: Request for resource ${j} exceeds process P${procId}'s need.`);
+                return;
+            }
+            if(request[j] > currentAvail[j]) {
+                alert(`Error: Not enough available resources for request.`);
+                return;
+            }
+        }
+        
+        let tempAvail = [...currentAvail];
+        let tempAlloc = JSON.parse(JSON.stringify(currentAlloc));
+        let tempNeed = JSON.parse(JSON.stringify(currentNeed));
+        for(let j=0; j<R; j++) {
+            tempAvail[j] -= request[j];
+            tempAlloc[procId][j] += request[j];
+            tempNeed[procId][j] -= request[j];
+        }
+
+        const result = checkSafety(tempAlloc, tempNeed, tempAvail);
+        let output = document.getElementById('banker-sim-output').innerHTML.split('\n\n')[0]; 
+        
+        if (result.isSafe) {
+            output += `\n\n<b style='color:var(--success-color);'>Request by P${procId} for [${request.join(', ')}] is GRANTED.</b>\nSystem remains in a safe state.\nNew Safe Sequence: ${result.safeSeq.map(p => 'P'+p).join(' -> ')}`;
+            currentAvail = tempAvail;
+            currentAlloc = tempAlloc;
+            currentNeed = tempNeed;
+            updateTableInputs('alloc-matrix-table', currentAlloc);
+            updateTableInputs('avail-vector-table', [currentAvail]);
+            document.getElementById('req-proc').value = '';
+            Array.from(document.querySelectorAll('#req-vector-table input')).forEach(input => input.value = 0);
+        } else {
+            output += `\n\n<b style='color:var(--error-color);'>Request by P${procId} for [${request.join(', ')}] is DENIED as it would lead to an unsafe state.</b>`;
+        }
+        document.getElementById('banker-sim-output').innerHTML = output;
+    }
+    
+    function updateTableInputs(tableId, matrix) {
+        const inputs = document.querySelectorAll(`#${tableId} tbody input`);
+        let flatMatrix = matrix.flat();
+        for(let i=0; i<inputs.length; i++) {
+            inputs[i].value = flatMatrix[i];
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        updateThemeButton();
+        setupMatrices();
+        
+        const code = document.getElementById('banker-code').value;
+        document.getElementById('banker-code').value = code.trim();
+    });
+    </script>
+</body>
+
+</html> 

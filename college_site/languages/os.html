@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operating System Practicals - Smart Study Portal</title>
+    <link rel="icon" type="image/svg+xml" href="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg">
+    <link rel="stylesheet" href="../css/os.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .os-section {
+            background: #fff;
+            border-radius: 10px;
+            margin: 1.5em 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            overflow: hidden;
+        }
+        .os-section h2 {
+            margin: 0;
+            padding: 1.2em 1.5em;
+            background: #1976d2;
+            color: #fff;
+            font-size: 1.15em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s;
+        }
+        .os-section h2:hover {
+            background: #1251a3;
+        }
+        .os-section .os-content {
+            display: none;
+            padding: 1.5em 2em;
+            background: #f8f9fa;
+        }
+        .os-section.active .os-content {
+            display: block;
+        }
+        .os-section .fa-chevron-down {
+            transition: transform 0.2s;
+        }
+        .os-section.active .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+        @media (max-width: 700px) {
+            .os-section .os-content { padding: 1em 0.5em; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="../index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="logo" style="background: transparent; box-shadow: none; margin-right: 0.5rem;">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="OS" width="40" height="40">
+            </div>
+            <h1>Operating System Practicals</h1>
+        </div>
+        <div class="nav-controls">
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i> Toggle Theme
+            </button>
+        </div>
+    </nav>
+    <div class="container" style="max-width: 1000px; margin: 3em auto 2em auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); padding: 2em;">
+        <h2 style="text-align:center; color:#1976d2; margin-bottom:2em;">Operating System Practicals (Simulations)</h2>
+        <div id="os-practicals-list">
+            <div class="os-section" id="os1">
+                <h2 onclick="toggleOSSection(this)">1. Fork System Call <i class="fas fa-chevron-down"></i></h2>
+                <div class="os-content">
+                    <a href="os-fork.html" style="display:inline-block; margin-bottom:1.2em; background:var(--primary-color); color:#fff; font-weight:600; border-radius:6px; padding:0.6em 1.5em; text-decoration:none; font-size:1.08em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Open Simulation &rarr;</a>
+                </div>
+            </div>
+            <div class="os-section" id="os2">
+                <h2 onclick="toggleOSSection(this)">2. FCFS Scheduling <i class="fas fa-chevron-down"></i></h2>
+                <div class="os-content">
+                    <a href="os-fcfs.html" style="display:inline-block; margin-bottom:1.2em; background:var(--primary-color); color:#fff; font-weight:600; border-radius:6px; padding:0.6em 1.5em; text-decoration:none; font-size:1.08em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Open Simulation &rarr;</a>
+                </div>
+            </div>
+            <div class="os-section" id="os3">
+                <h2 onclick="toggleOSSection(this)">3. SJF Scheduling <i class="fas fa-chevron-down"></i></h2>
+                <div class="os-content">
+                    <a href="os-sjf.html" style="display:inline-block; margin-bottom:1.2em; background:var(--primary-color); color:#fff; font-weight:600; border-radius:6px; padding:0.6em 1.5em; text-decoration:none; font-size:1.08em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Open Simulation &rarr;</a>
+                </div>
+            </div>
+            <div class="os-section" id="os4">
+                <h2 onclick="toggleOSSection(this)">4. Priority Scheduling <i class="fas fa-chevron-down"></i></h2>
+                <div class="os-content">
+                    <a href="os-priority.html" style="display:inline-block; margin-bottom:1.2em; background:var(--primary-color); color:#fff; font-weight:600; border-radius:6px; padding:0.6em 1.5em; text-decoration:none; font-size:1.08em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Open Simulation &rarr;</a>
+                </div>
+            </div>
+            <div class="os-section" id="os5">
+                <h2 onclick="toggleOSSection(this)">5. Round Robin <i class="fas fa-chevron-down"></i></h2>
+                <div class="os-content">
+                    <a href="os-rr.html" style="display:inline-block; margin-bottom:1.2em; background:var(--primary-color); color:#fff; font-weight:600; border-radius:6px; padding:0.6em 1.5em; text-decoration:none; font-size:1.08em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Open Simulation &rarr;</a>
+                </div>
+            </div>
+            <div class="os-section" id="os6">
+                <h2 onclick="toggleOSSection(this)">6. Producer Consumer <i class="fas fa-chevron-down"></i></h2>
+                <div class="os-content">
+                    <a href="os-producer-consumer.html" style="display:inline-block; margin-bottom:1.2em; background:var(--primary-color); color:#fff; font-weight:600; border-radius:6px; padding:0.6em 1.5em; text-decoration:none; font-size:1.08em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Open Simulation &rarr;</a>
+                </div>
+            </div>
+            <div class="os-section" id="os7">
+                <h2 onclick="toggleOSSection(this)">7. Banker's Algorithm <i class="fas fa-chevron-down"></i></h2>
+                <div class="os-content">
+                    <a href="os-bankers.html" style="display:inline-block; margin-bottom:1.2em; background:var(--primary-color); color:#fff; font-weight:600; border-radius:6px; padding:0.6em 1.5em; text-decoration:none; font-size:1.08em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Open Simulation &rarr;</a>
+                </div>
+            </div>
+            <div class="os-section" id="os8">
+                <h2 onclick="toggleOSSection(this)">8. FIFO Page Replacement <i class="fas fa-chevron-down"></i></h2>
+                <div class="os-content">
+                    <a href="os-fifo.html" style="display:inline-block; margin-bottom:1.2em; background:var(--primary-color); color:#fff; font-weight:600; border-radius:6px; padding:0.6em 1.5em; text-decoration:none; font-size:1.08em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Open Simulation &rarr;</a>
+                </div>
+            </div>
+            <div class="os-section" id="os9">
+                <h2 onclick="toggleOSSection(this)">9. LRU Page Replacement <i class="fas fa-chevron-down"></i></h2>
+                <div class="os-content">
+                    <a href="os-lru.html" style="display:inline-block; margin-bottom:1.2em; background:var(--primary-color); color:#fff; font-weight:600; border-radius:6px; padding:0.6em 1.5em; text-decoration:none; font-size:1.08em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Open Simulation &rarr;</a>
+                </div>
+            </div>
+            <div class="os-section" id="os10">
+                <h2 onclick="toggleOSSection(this)">10. FCFS Disk Scheduling <i class="fas fa-chevron-down"></i></h2>
+                <div class="os-content">
+                    <a href="os-disk-fcfs.html" style="display:inline-block; margin-bottom:1.2em; background:var(--primary-color); color:#fff; font-weight:600; border-radius:6px; padding:0.6em 1.5em; text-decoration:none; font-size:1.08em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Open Simulation &rarr;</a>
+                </div>
+            </div>
+            <div class="os-section" id="os11">
+                <h2 onclick="toggleOSSection(this)">11. SSTF Disk Scheduling <i class="fas fa-chevron-down"></i></h2>
+                <div class="os-content">
+                    <a href="os-disk-sstf.html" style="display:inline-block; margin-bottom:1.2em; background:var(--primary-color); color:#fff; font-weight:600; border-radius:6px; padding:0.6em 1.5em; text-decoration:none; font-size:1.08em; box-shadow:0 2px 8px rgba(0,0,0,0.08);">Open Simulation &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    function toggleTheme() {
+        const body = document.body;
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    }
+    // Collapsible logic
+    function toggleOSSection(header) {
+        const section = header.parentElement;
+        section.classList.toggle('active');
+    }
+    // Set theme on load
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+    });
+    </script>
+</body>
+</html> 
