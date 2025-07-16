@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Calculator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      background: #1e1e1e;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .calculator {
+      background: #2e2e2e;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .display {
+      background: #111;
+      color: #0f0;
+      font-size: 2rem;
+      text-align: right;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      overflow-x: auto;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 70px);
+      gap: 10px;
+    }
+    button {
+      font-size: 1.5rem;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #444;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    button:hover {
+      background: #555;
+    }
+    .operator {
+      background: #f57c00;
+    }
+    .operator:hover {
+      background: #fb8c00;
+    }
+    .equals {
+      background: #43a047;
+    }
+    .equals:hover {
+      background: #4caf50;
+    }
+    .clear {
+      background: #e53935;
+    }
+    .clear:hover {
+      background: #ef5350;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button onclick="deleteLast()">⌫</button>
+      <button onclick="appendOperator('%')">%</button>
+      <button class="operator" onclick="appendOperator('/')">÷</button>
+
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button class="operator" onclick="appendOperator('*')">×</button>
+
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button class="operator" onclick="appendOperator('-')">−</button>
+
+      <button onclick="appendNumber('1')">1</button>
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button class="operator" onclick="appendOperator('+')">+</button>
+
+      <button onclick="appendNumber('0')">0</button>
+      <button onclick="appendDot()">.</button>
+      <button class="equals" colspan="2" onclick="calculate()">=</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    let input = '';
+
+    function updateDisplay() {
+      display.textContent = input || '0';
+    }
+
+    function appendNumber(num) {
+      input += num;
+      updateDisplay();
+    }
+
+    function appendOperator(op) {
+      if (input === '') return;
+      const lastChar = input.slice(-1);
+      if ("+-*/%".includes(lastChar)) {
+        input = input.slice(0, -1) + op;
+      } else {
+        input += op;
+      }
+      updateDisplay();
+    }
+
+    function appendDot() {
+      const parts = input.split(/[\+\-\*\/]/);
+      const last = parts[parts.length - 1];
+      if (!last.includes('.')) {
+        input += '.';
+        updateDisplay();
+      }
+    }
+
+    function clearDisplay() {
+      input = '';
+      updateDisplay();
+    }
+
+    function deleteLast() {
+      input = input.slice(0, -1);
+      updateDisplay();
+    }
+
+    function calculate() {
+      try {
+        input = eval(input).toString();
+      } catch (e) {
+        input = 'Error';
+      }
+      updateDisplay();
+    }
+
+    // Keyboard support
+    window.addEventListener('keydown', (e) => {
+      if (e.key >= '0' && e.key <= '9') appendNumber(e.key);
+      if ("+-*/%".includes(e.key)) appendOperator(e.key);
+      if (e.key === 'Enter' || e.key === '=') calculate();
+      if (e.key === 'Backspace') deleteLast();
+      if (e.key === 'Escape') clearDisplay();
+      if (e.key === '.') appendDot();
+    });
+
+    updateDisplay();
+  </script>
+</body>
+</html>

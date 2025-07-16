@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP MySQL Data Flow</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0;
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 2.2em;
+            font-weight: 300;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .flow-step {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 100%;
+            position: relative;
+        }
+        
+        .flow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .html-icon { background: linear-gradient(135deg, #ff6b35, #ff8e53); }
+        .php-icon { background: linear-gradient(135deg, #8e44ad, #a569bd); }
+        .mysql-icon { background: linear-gradient(135deg, #3498db, #5dade2); }
+        .table-icon { background: linear-gradient(135deg, #27ae60, #58d68d); }
+        .admin-icon { background: linear-gradient(135deg, #e74c3c, #ec7063); }
+        
+        .step-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .step-description {
+            font-size: 1em;
+            line-height: 1.4;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+        
+        .code-preview {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            color: #66d9ef;
+            overflow-x: auto;
+            border-left: 4px solid #66d9ef;
+        }
+        
+        .arrow {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid rgba(255, 255, 255, 0.6);
+            margin: 5px 0;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        .data-flow {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 0.8em;
+            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: linear-gradient(135deg, #ff6b35, #ff8e53);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .flow-step {
+                max-width: 100%;
+                padding: 20px;
+            }
+            
+            .step-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .data-flow {
+                position: static;
+                transform: none;
+                margin-top: 15px;
+                text-align: center;
+            }
+            
+            .title {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">HTML Form to MySQL Database Flow</h1>
+        
+        <div class="flow-container">
+            <div class="flow-step">
+                <div class="step-number">1</div>
+                <div class="step-header">
+                    <div class="step-icon html-icon">🌐</div>
+                    <h2 class="step-title">HTML Form</h2>
+                </div>
+                <div class="step-description">
+                    User fills out a web form with feedback data (name, email, message, rating, etc.)
+                </div>
+                <div class="code-preview">
+&lt;form action="process_feedback.php" method="POST"&gt;
+  &lt;input type="text" name="name" required&gt;
+  &lt;input type="email" name="email" required&gt;
+  &lt;textarea name="message" required&gt;&lt;/textarea&gt;
+  &lt;select name="rating"&gt;...&lt;/select&gt;
+  &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;
+                </div>
+                <div class="data-flow">POST Data →</div>
+            </div>
+            
+            <div class="arrow"></div>
+            
+            <div class="flow-step">
+                <div class="step-number">2</div>
+                <div class="step-header">
+                    <div class="step-icon php-icon">🐘</div>
+                    <h2 class="step-title">PHP Script</h2>
+                </div>
+                <div class="step-description">
+                    Server-side PHP script processes form data, validates input, and prepares for database insertion
+                </div>
+                <div class="code-preview">
+&lt;?php
+$name = $_POST['name'];
+$email = $_POST['email'];
+$message = $_POST['message'];
+$rating = $_POST['rating'];
+
+// Validate and sanitize data
+$name = mysqli_real_escape_string($conn, $name);
+// ... more validation
+?&gt;
+                </div>
+                <div class="data-flow">Processed Data →</div>
+            </div>
+            
+            <div class="arrow"></div>
+            
+            <div class="flow-step">
+                <div class="step-number">3</div>
+                <div class="step-header">
+                    <div class="step-icon mysql-icon">🗄️</div>
+                    <h2 class="step-title">MySQL INSERT</h2>
+                </div>
+                <div class="step-description">
+                    PHP executes SQL INSERT statement to add the feedback data to the MySQL database
+                </div>
+                <div class="code-preview">
+$sql = "INSERT INTO feedback (name, email, message, rating, created_at) 
+        VALUES ('$name', '$email', '$message', '$rating', NOW())";
+
+$result = mysqli_query($conn, $sql);
+                </div>
+                <div class="data-flow">SQL Query →</div>
+            </div>
+            
+            <div class="arrow"></div>
+            
+            <div class="flow-step">
+                <div class="step-number">4</div>
+                <div class="step-header">
+                    <div class="step-icon table-icon">📊</div>
+                    <h2 class="step-title">Feedback Table</h2>
+                </div>
+                <div class="step-description">
+                    Data is stored in the MySQL feedback table with proper structure and relationships
+                </div>
+                <div class="code-preview">
+CREATE TABLE feedback (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    rating INT(1) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+                </div>
+                <div class="data-flow">Stored Data →</div>
+            </div>
+            
+            <div class="arrow"></div>
+            
+            <div class="flow-step">
+                <div class="step-number">5</div>
+                <div class="step-header">
+                    <div class="step-icon admin-icon">⚙️</div>
+                    <h2 class="step-title">phpMyAdmin View</h2>
+                </div>
+                <div class="step-description">
+                    Database administrators can view, edit, and manage the feedback data through phpMyAdmin interface
+                </div>
+                <div class="code-preview">
+SELECT * FROM feedback 
+ORDER BY created_at DESC;
+
+// Results displayed in phpMyAdmin:
+// ID | Name | Email | Message | Rating | Created At
+// 1  | John | john@email.com | Great service! | 5 | 2024-01-15 10:30:00
+                </div>
+                <div class="data-flow">Visual Interface</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

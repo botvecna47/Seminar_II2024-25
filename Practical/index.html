@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury SUV Comparison & Purchase</title>
+    <style>
+        body {
+            font-family: "Comic Sans MS", "Comic Sans", cursive;
+            margin: 20px;
+            background-color: #f5f9ff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        caption {
+            font-size: 1.5em;
+            font-weight: bold;
+            padding: 15px;
+            background-color: #1a4b8c;
+            color: white;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #d9e6ff;
+            width: 33.33%;
+        }
+
+        th {
+            background-color: #2a75d1;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f0f7ff;
+        }
+
+        .subFeatures {
+            background-color: #1a4b8c;
+            color: white;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        img {
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .images {
+            text-align: center;
+        }
+        header {
+            background-color: #1a4b8c;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        footer {
+            background-color: #1a4b8c;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+            margin-top: 30px;
+            font-size: 0.9em;
+        }
+
+        footer a {
+            color: #f8f8f8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .purchase-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .purchase-form h2 {
+            color: #1a4b8c;
+            border-bottom: 2px solid #2a75d1;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #1a4b8c;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d9e6ff;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #2a75d1;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .car-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .car-option input {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Premium SUV Comparison</h1>
+        <p>Find your perfect luxury vehicle</p>
+    </header>
+    <main>
+        <table>
+            <caption>Luxury SUV Cars Comparison</caption>
+            <thead>
+                <tr>
+                    <th>Audi RS Q8</th>
+                    <th>BMW X7</th>
+                    <th>Jaguar F-Pace</th>
+                </tr>
+            </thead>
+            <tr>
+                <td class="images"><img
+                        src="https://spn-sta.spinny.com/blog/20220228142841/ezgif.com-gif-maker-2021-11-06T173627.635.jpg?compress=true&quality=80&w=800&dpr=2.6"
+                        alt="Audi SUV" height="200px"></td>
+
+                <td class="images"><img
+                        src="https://spn-sta.spinny.com/blog/20220228142843/2019-BMW-X7-Launched-In-India-Price-Specs-Interior-Features.jpg?compress=true&quality=80&w=800&dpr=1"
+                        alt="BMW X7" height="200px"></td>
+
+                <td class="images"><img
+                        src="https://spn-sta.spinny.com/blog/20220228142845/ezgif.com-gif-maker-2021-11-06T172914.504.jpg?compress=true&quality=80&w=800&dpr=1"
+                        alt="Jaguar F-Pace" height="200px"></td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="subFeatures"><strong>Off Roading Features</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>Quattro permanent all-wheel drive</li>
+                        <li>Optional quattro sport differential</li>
+                        <li>All-wheel steering</li>
+                        <li>Optional electromechanical roll stabilisation</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Air suspension with damper control</li>
+                        <li>Adaptive Drive Mode</li>
+                        <li>Launch Control Function</li>
+                        <li>Adaptive 2-axle Air Suspension</li>
+                        <li>Automatic Differential Brake (ADB-X)</li>
+                        <li>Intelligent 4WD with variable torque distribution</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>AWD</li>
+                        <li>525 mm water wading capacity</li>
+                        <li>4 Drive Modes</li>
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="subFeatures"><strong>Performance</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>4.0-litre V8 TFSI engine</li>
+                        <li>(600 hp) Power</li>
+                        <li>800 Nm Torque</li>
+                        <li>8-speed Automatic Tiptronic Transmission</li>
+                        <li>Mild-hybrid system</li>
+                        <li>Cylinder on demand technology</li>
+                        <li>0 to 100 km/h in 3.8 seconds</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>X7 xDrive30d DPE Signature - 195kW (265 hp) Power | 620Nm @ 1500-2500</li>
+                        <li>X7 xDrive40i M Sport - 250kW (340 hp) | 450 Nm</li>
+                        <li>8-Speed Steptronic Sport Transmission</li>
+                        <li>BMW Driving Experience Switch (Modes: ECO PRO, COMFORT, SPORT, and ADAPTIVE)</li>
+                        <li>Cornering Brake Control (CBC) and Dynamic Brake Control (DBC)</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>2.0 Litre Dynamic S Petrol – 246.74bhp power | Torque 365nm</li>
+                        <li>2.0 Litre Dynamic S Diesel – 201.15 bhp power | Torque 430 nm</li>
+                        <li>5.0 Litre Petrol SVR – 543.11 bhp power | Torque 700 nm</li>
+                        <li>5-speed Automatic Transmission</li>
+                        <li>Low Traction Launch Mode</li>
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="subFeatures"><strong>Luxury Features</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>Valcona/Alcantara Leather Seats</li>
+                        <li>Seat Ventilation and Massage Feature</li>
+                        <li>Power seats with memory feature</li>
+                        <li>Ambient Lighting</li>
+                        <li>Heated Mirrors</li>
+                        <li>4-Zone Climate control system</li>
+                        <li>Bang & Olufsen premium sound system with 3D sound</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Automatic air conditioning with 5-zone control</li>
+                        <li>Comfort seats front, fully electrically adjustable with lumbar support</li>
+                        <li>Temperature-controlled cup holders</li>
+                        <li>Comfort cushion made of alcantara</li>
+                        <li>Electrically operated roller sunblind</li>
+                        <li>Active seat ventilation</li>
+                        <li>Seat heating</li>
+                        <li>Six-colour ambient lighting</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>4 Zone Climate Control</li>
+                        <li>Power Boot 650 Litres</li>
+                        <li>Air Purifier</li>
+                        <li>Active Noise Cancellation Cabin</li>
+                        <li>Ambient Lighting</li>
+                        <li>Cruise control</li>
+                        <li>Electric Seats</li>
+                        <li>Ventilated Seats</li>
+                        <li>Panoramic Sunroof</li>
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3" class="subFeatures"><strong>Price (Ex-Showroom)</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>₹2.17 Crore</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>xDrive30d DPE Signature - ₹1.18 Crore</li>
+                        <li>xDrive 40i - ₹1.19 Crore</li>
+                        <li>M50d - ₹1.78 Crore</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>F-Pace 2.0 R-Dynamic S - ₹74.88 Lakh</li>
+                        <li>F-Pace 2.0 R-Dynamic S Diesel - ₹74.88 Lakh</li>
+                        <li>F-Pace 5.0 SVR - ₹1.51 Crore</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+
+        <div class="purchase-form">
+            <h2>Purchase Your Luxury SUV</h2>
+            <form>
+                <div class="form-group">
+                    <label>Select Your SUV:</label>
+                    <div class="car-option">
+                        <input type="radio" id="audi" name="car" value="Audi RS Q8">
+                        <label for="audi">Audi RS Q8 (₹2.17 Crore)</label>
+                    </div>
+                    <div class="car-option">
+                        <input type="radio" id="bmw" name="car" value="BMW X7">
+                        <label for="bmw">BMW X7 (Starting from ₹1.18 Crore)</label>
+                    </div>
+                    <div class="car-option">
+                        <input type="radio" id="jaguar" name="car" value="Jaguar F-Pace">
+                        <label for="jaguar">Jaguar F-Pace (Starting from ₹74.88 Lakh)</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="variant">Select Variant:</label>
+                    <select id="variant" name="variant">
+                        <option value="base">Base Model</option>
+                        <option value="mid">Mid Variant</option>
+                        <option value="top">Top-End Variant</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="color">Preferred Color:</label>
+                    <select id="color" name="color">
+                        <option value="black">Onyx Black</option>
+                        <option value="white">Glacier White</option>
+                        <option value="silver">Titanium Silver</option>
+                        <option value="blue">Navarra Blue</option>
+                        <option value="red">Carmine Red</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="payment">Payment Method:</label>
+                    <select id="payment" name="payment">
+                        <option value="cash">Full Cash Payment</option>
+                        <option value="loan">Bank Loan</option>
+                        <option value="finance">Dealer Finance</option>
+                    </select>
+                </div>
+
+                <button type="submit">Request Purchase Details</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>Data sourced from <a href="https://www.spinny.com/" target="_blank">Spinny Automotive Research</a></p>
+        <p>&copy; 2023 Luxury Auto Comparisons</p>
+    </footer>
+</body>
+
+</html>

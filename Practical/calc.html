@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 10px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .calculator {
+      background-color: #4a90e2;
+      padding: 2vh;
+      border-radius: 1.5vh;
+      width: 100vw;
+      max-width: 350px;
+      height: 85vh;
+      box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 2vh;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.2rem;
+      color: white;
+      margin: 0;
+    }
+
+    #display {
+      width: 100%;
+      padding: 1.5vh;
+      font-size: 2rem;
+      text-align: right;
+      background-color: #fff;
+      border-radius: 2vh;
+      border: none;
+      box-sizing: border-box;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5vh;
+      flex-grow: 1;
+      align-items: center;
+    }
+
+    button {
+      font-size: 1.8rem;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .number {
+      background-color: #f1c40f;
+    }
+
+    .number:hover {
+      background-color: #d4ac0d;
+    }
+
+    .operator {
+      background-color: #306998;
+      color: white;
+    }
+
+    .operator:hover {
+      background-color: #265880;
+    }
+
+    button[value="="] {
+      background-color: #28a745;
+      color: white;
+    }
+
+    button[value="="]:hover {
+      background-color: #218838;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 1rem;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h1>Calculator</h1>
+    <input type="text" id="display" readonly />
+    <div class="buttons">
+      <button value="7" class="number">7</button>
+      <button value="8" class="number">8</button>
+      <button value="9" class="number">9</button>
+      <button value="/" class="operator">/</button>
+      <button value="4" class="number">4</button>
+      <button value="5" class="number">5</button>
+      <button value="6" class="number">6</button>
+      <button value="*" class="operator">*</button>
+      <button value="1" class="number">1</button>
+      <button value="2" class="number">2</button>
+      <button value="3" class="number">3</button>
+      <button value="-" class="operator">-</button>
+      <button value="0" class="number">0</button>
+      <button value="." class="number">.</button>
+      <button value="=">=</button>
+      <button value="+" class="operator">+</button>
+    </div>
+    <footer>© Darshdeep Singh</footer>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    const buttons = document.querySelectorAll('button');
+    let expression = '';
+
+    function updateDisplay(value) {
+      display.value = value || '0';
+    }
+
+    function calculate() {
+      try {
+        expression = eval(expression).toString();
+        updateDisplay(expression);
+      } catch {
+        alert('Invalid Expression');
+        expression = '';
+        updateDisplay('');
+      }
+    }
+
+    function handleInput(value) {
+      if (value === '=') {
+        calculate();
+      } else {
+        expression += value;
+        updateDisplay(expression);
+      }
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => handleInput(button.value));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      const key = event.key;
+      if (!isNaN(key) || ['+', '-', '*', '/', '.'].includes(key)) {
+        expression += key;
+        updateDisplay(expression);
+      } else if (key === 'Enter' || key === '=') {
+        calculate();
+      } else if (key === 'Escape' || key === 'Backspace' ||key ==='Delete' ||key ==='c') {
+        expression = '';
+        updateDisplay('');
+      }
+    });
+
+    updateDisplay('');
+  </script>
+</body>
+</html>

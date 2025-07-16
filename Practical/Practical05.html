@@ -1,0 +1,109 @@
+<!-- Design a webpage using HTML, CSS and JavaScript to perform following 
+operations: 
+a. Read a string from a textbox and calculate the length 
+b. Read a number from textbox and display digits in reverse order -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>String & Number Operations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f5f0ff;
+            padding: 40px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            margin: auto;
+            box-shadow: 0 0 15px rgba(128, 0, 128, 0.1);
+        }
+
+        h2 {
+            color: #6a0dad;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #800080;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #660066;
+        }
+
+        .result {
+            margin-top: 15px;
+            font-weight: 600;
+            color: #4b0082;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>String Length Calculator</h2>
+        <input type="text" id="stringInput" placeholder="Enter a string">
+        <button onclick="calculateLength()">Calculate Length</button>
+        <div class="result" id="lengthResult"></div>
+
+        <hr>
+
+        <h2>Reverse Number Digits</h2>
+        <input type="number" id="numberInput" placeholder="Enter a number">
+        <button onclick="reverseDigits()">Reverse Digits</button>
+        <div class="result" id="reverseResult"></div>
+    </div>
+
+    <script>
+        function calculateLength() {
+            const str = document.getElementById('stringInput').value;
+            const length = str.length;
+            document.getElementById('lengthResult').innerText = "Length of string: " + length;
+        }
+
+        function reverseDigits() {
+            const num = document.getElementById('numberInput').value;
+            const reversed = num.toString().split('').reverse().join('');
+            document.getElementById('reverseResult').innerText = "Reversed digits: " + reversed;
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Search (AJAX + PHP)</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7f7f7; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        .search-container { background: #fff; padding: 2rem 3rem; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); text-align: center; }
+        input[type="text"] { padding: 0.5rem; font-size: 1rem; border-radius: 6px; border: 1px solid #ccc; width: 250px; }
+        #results { margin-top: 1.5rem; font-size: 1.1rem; color: #333; min-height: 2em; }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <h2>Search Student Records</h2>
+        <input type="text" id="search" placeholder="Enter student name..." onkeyup="searchStudent()" autocomplete="off">
+        <div id="results"></div>
+    </div>
+    <script>
+        function searchStudent() {
+            var query = document.getElementById('search').value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'Practical11.php?q=' + encodeURIComponent(query), true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById('results').innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html> 

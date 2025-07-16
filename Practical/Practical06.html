@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Printing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 3rem;
+        }
+
+        button {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.15rem;
+            border: solid rgb(179, 179, 179) 3px;
+            border-radius: 18px;
+            padding: 3px;
+            margin: 4px;
+        }
+
+        button:hover {
+            background-color: rgb(204, 204, 204);
+        }
+
+        #display {
+            font-size: 2rem;
+            background-color: #fff;
+            border-radius: 2vh;  
+            border: none;
+            padding: 16px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        input[type="number"] {
+            border-radius: 16px;
+            font-size: 1.5rem;
+            padding-left: 4px;
+            max-width: 256px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-box">
+        <h2>Prime Printing</h2>
+        <form id="prime">
+            <label for="num1">Start Number: </label>
+            <input style="padding-left: 10px;" type="number" name="num1" id="num1" required>
+            <label for="num2">Ending Number: </label>
+            <input style="padding-left: 10px;" type="number" name="num2" id="num2" required>
+            <button type="submit">Calculate</button>
+        </form>
+        <br>
+        <textarea id="display" rows="12" cols="56" readonly></textarea>
+    </div>
+
+    <script>
+        const form = document.getElementById('prime');
+        const display = document.getElementById('display');
+
+        function isPrime(num) {
+            if (num < 2) return false;
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) return false;
+            }
+            return true;
+        }
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();  // Prevent form from refreshing the page
+
+            const start = Number(document.getElementById('num1').value);
+            const end = Number(document.getElementById('num2').value);
+
+            if (start > end) {
+                display.value = "Start number should be less than or equal to end number.";
+                return;
+            }
+
+            let listOfPrime = [];
+
+            for (let num = start; num <= end; num++) {
+                if (isPrime(num)) {
+                    listOfPrime.push(num);
+                }
+            }
+
+            if (listOfPrime.length === 0) {
+                display.value = "No prime numbers found in this range.";
+            } else {
+                display.value = listOfPrime.join(', '); //Joining arrays to string to display output!!
+            }
+        });
+    </script>
+</body>
+
+<!--
+    START
+    Input x, y    // Starting and ending numbers of the range
+
+    FOR number FROM x TO y DO
+        IF number < 2 THEN
+            CONTINUE to next number  // Numbers less than 2 are not prime
+        ENDIF
+
+        isPrime = TRUE
+
+        // Check if number is divisible by any integer from 2 to sqrt(number)
+        FOR i FROM 2 TO floor(sqrt(number)) DO 
+        -- Floor value in JS :: Math.floor(number)
+        -- Sqrtt value in JS :: Math.sqrt(number)
+            IF number MOD i == 0 THEN
+                isPrime = FALSE
+                BREAK the inner loop
+            ENDIF
+        ENDFOR
+
+        IF isPrime == TRUE THEN
+            PRINT number
+        ENDIF
+    ENDFOR
+    END
+
+    -->
+
+</html>
